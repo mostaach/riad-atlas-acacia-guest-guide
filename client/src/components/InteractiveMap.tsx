@@ -285,7 +285,6 @@ export default function InteractiveMap({
       });
 
       marker.on("click", () => {
-        onPlaceSelect(place);
         marker.openPopup();
       });
 

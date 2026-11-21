@@ -433,6 +433,7 @@ export default function Home() {
   const openTab = (tab: Tab) => {
     setShowHero(false);
     setCurrentTab(tab);
+    setSelectedPlace(null);
   };
 
   const handleFeedbackRating = (rating: number) => {
@@ -1326,7 +1327,10 @@ export default function Home() {
               return (
                 <button
                   key={item.id}
-                  onClick={() => setCurrentTab(item.id as Tab)}
+                  onClick={() => {
+                    setCurrentTab(item.id as Tab);
+                    setSelectedPlace(null);
+                  }}
                   className={`flex flex-1 flex-col items-center gap-1 border-t-2 py-4 transition-all ${
                     isActive
                       ? "border-[#B85C3C] text-[#B85C3C]"

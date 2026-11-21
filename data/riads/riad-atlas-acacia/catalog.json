@@ -12,7 +12,7 @@
         "en": "Authentic Moroccan home dining by Hannane",
         "fr": "Cuisine marocaine authentique préparée par Hannane"
       },
-      "image": "/riad-atlas-acacia/cover_dining.png"
+      "image": "/riad-atlas-acacia/dinner_table.jpg"
     },
     {
       "id": "excursions",
@@ -60,7 +60,7 @@
         "en": "Beldi black soap scrubs, ghassoul wraps & argan massages",
         "fr": "Gommage au savon noir, ghassoul et massages à l'huile d'argan"
       },
-      "image": "/riad-atlas-acacia/cover_spa.png"
+      "image": "/riad-atlas-acacia/spa_massage.jpg"
     }
   ],
   "items": [
@@ -79,7 +79,7 @@
         "en": "Make your choice from our traditional menu and Hannane will be delighted to prepare it for you with fresh Medina market ingredients.",
         "fr": "Faites votre choix parmi notre carte marocaine et Hannane se fera un plaisir de vous le concocter avec des produits frais du marché."
       },
-      "image": "/riad-atlas-acacia/cover_dining.png",
+      "image": "/riad-atlas-acacia/dinner_tajine.jpg",
       "pricing_model": "per_person",
       "price": {
         "mad": 220,
@@ -766,7 +766,7 @@
         "en": "Your licensed guide meets you directly at the Riad to guide you through labyrinthine souks, historical palaces, and hidden heritage sites.",
         "fr": "Votre guide vient vous chercher au Riad et vous fait découvrir l'histoire, les souks et les trésors de Marrakech en toute sérénité."
       },
-      "image": "/riad-atlas-acacia/cover_home.png",
+      "image": "/local-favorites/bahia-palace.webp",
       "pricing_model": "base_plus_extra_options",
       "payment": {
         "method": "pay_at_riad"
@@ -819,7 +819,7 @@
         "en": "Purifying steam bath with organic olive black soap and kessa glove exfoliation.",
         "fr": "Bain de vapeur purifiant avec savon noir beldi et gommage revigorant au gant kessa."
       },
-      "image": "/riad-atlas-acacia/cover_spa.png",
+      "image": "/riad-atlas-acacia/spa_room.png",
       "pricing_model": "per_person",
       "price": {
         "mad": 275,
@@ -842,7 +842,7 @@
         "en": "Traditional scrub followed by mineral-rich Atlas clay body wrap.",
         "fr": "Gommage traditionnel suivi d'un enveloppement purifiant à l'argile ghassoul de l'Atlas."
       },
-      "image": "/riad-atlas-acacia/cover_spa.png",
+      "image": "/riad-atlas-acacia/spa_room.png",
       "pricing_model": "per_person",
       "price": {
         "mad": 319,
@@ -865,7 +865,7 @@
         "en": "60-minute therapeutic body massage with pure scented argan oil.",
         "fr": "Soin du corps complet de 60 minutes aux huiles essentielles et argan pure."
       },
-      "image": "/riad-atlas-acacia/cover_spa.png",
+      "image": "/riad-atlas-acacia/spa_massage.jpg",
       "pricing_model": "per_person",
       "price": {
         "mad": 429,
@@ -888,7 +888,7 @@
         "en": "Targeted muscle release and rejuvenation with argan oil.",
         "fr": "Détente musculaire ciblée et bienfaisante à l'huile d'argan."
       },
-      "image": "/riad-atlas-acacia/cover_spa.png",
+      "image": "/riad-atlas-acacia/spa_massage.jpg",
       "pricing_model": "per_person",
       "price": {
         "mad": 319,
@@ -911,7 +911,7 @@
         "en": "Deep cranial relaxation and soothing facial treatment with argan oil.",
         "fr": "Apaisement profond des tensions crâniennes et éclat du visage."
       },
-      "image": "/riad-atlas-acacia/cover_spa.png",
+      "image": "/riad-atlas-acacia/spa_massage.jpg",
       "pricing_model": "per_person",
       "price": {
         "mad": 319,
@@ -934,7 +934,7 @@
         "en": "Perfect relief for tired legs after a day of wandering the Medina souks.",
         "fr": "Idéal pour délasser les jambes lourdes après une journée de marche dans les souks."
       },
-      "image": "/riad-atlas-acacia/cover_spa.png",
+      "image": "/riad-atlas-acacia/spa_massage.jpg",
       "pricing_model": "per_person",
       "price": {
         "mad": 319,
@@ -957,7 +957,7 @@
         "en": "Deep relief focusing on shoulder, lumbar and spinal tension.",
         "fr": "Dénouement ciblé des tensions dorsales, trapèzes et lombaires."
       },
-      "image": "/riad-atlas-acacia/cover_spa.png",
+      "image": "/riad-atlas-acacia/spa_massage.jpg",
       "pricing_model": "per_person",
       "price": {
         "mad": 319,
@@ -980,7 +980,7 @@
         "en": "45 min traditional hammam and black soap scrub with ghassoul wrap + 30 min argan massage.",
         "fr": "45 min hammam & gommage au savon noir + enveloppement ghassoul + 30 min de massage."
       },
-      "image": "/riad-atlas-acacia/cover_spa.png",
+      "image": "/riad-atlas-acacia/spa_room.png",
       "pricing_model": "per_person",
       "price": {
         "mad": 539,
@@ -1003,7 +1003,7 @@
         "en": "45 min traditional hammam and black soap scrub with ghassoul wrap + 60 min argan massage.",
         "fr": "45 min hammam & gommage au savon noir + enveloppement ghassoul + 1h de massage."
       },
-      "image": "/riad-atlas-acacia/cover_spa.png",
+      "image": "/riad-atlas-acacia/spa_room.png",
       "pricing_model": "per_person",
       "price": {
         "mad": 649,

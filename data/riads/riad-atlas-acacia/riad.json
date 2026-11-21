@@ -19,15 +19,17 @@
   "email": "contact@riadatlasacacia.com",
   "website": "https://riadatlasacacia.com/",
   "google_maps": "https://maps.google.com/?q=31.62214,-7.98336",
-  "image": "/riad-atlas-acacia/cover_home.png",
+  "image": "/riad-atlas-acacia/hero_courtyard.jpg",
   "logo": "/riad-atlas-acacia/logo.png",
   "gallery": [
-    "/riad-atlas-acacia/cover_home.png",
-    "/riad-atlas-acacia/cover_dining.png",
-    "/riad-atlas-acacia/cover_spa.png",
-    "/riad-atlas-acacia/agafay.png",
-    "/riad-atlas-acacia/hot_air_balloon.png",
-    "/riad-atlas-acacia/cooking_class.png"
+    "/riad-atlas-acacia/hero_courtyard.jpg",
+    "/riad-atlas-acacia/pool_atmosphere.jpg",
+    "/riad-atlas-acacia/dinner_tajine.jpg",
+    "/riad-atlas-acacia/dinner_table.jpg",
+    "/riad-atlas-acacia/spa_massage.jpg",
+    "/riad-atlas-acacia/terrasse_night.jpg",
+    "/riad-atlas-acacia/salon.png",
+    "/riad-atlas-acacia/suite_mimosa.jpg"
   ],
   "amenities": [
     "Traditional Hammam & Spa",

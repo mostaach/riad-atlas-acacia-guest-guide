@@ -1,34 +1,33 @@
 # PROJECT BRIEF
-> Fill this before writing a single line of code or content.
+> Riad Guest Guide — Phase 1 Pilot (Riad Atlas Acacia)
 
 ---
 
 ## Project Name: Degitize Riad Acacia
-<!-- What is this project called? -->
+Digital guest guide & concierge web app for Riad Atlas Acacia in Marrakech.
 
 ## Problem It Solves
-<!-- What specific pain or gap does this address? Be precise. -->
+Riad Atlas Acacia sells meals, excursions, spa treatments, and workshops through a static bilingual PDF. Guests struggle to browse on mobile devices, prices are hard to compute, dining order rules and cutoffs are overlooked, and every request requires lengthy back-and-forth communication.
 
 ## Who It Is For
-<!-- Target person: role, situation, behavior, frustration -->
+- **Guests**: Travelers staying at Riad Atlas Acacia, browsing on mobile devices (often weak Wi-Fi), seeking transparent pricing in MAD / EUR and quick service bookings.
+- **Riad Team & Owner**: Non-technical staff receiving structured, ready-to-confirm booking requests directly on WhatsApp (+212 663-715754).
 
 ## Why It Matters
-<!-- Why does this problem need solving NOW? What happens if it isn't? -->
+Eliminates ordering friction, increases in-house revenue across dining, day trips, and wellness hammam, and delivers a modern guest experience from room QR scan to confirmation.
 
 ## Expected Result
-<!-- What does success look like? Be specific and measurable. -->
+- Complete 5-category digital catalog (Dining, Excursions, Desert Experiences, Activities, Spa & Hammam).
+- Pure pricing engine matching all 11 test scenarios with live MAD / EUR conversion.
+- 1-click WhatsApp request generation with room number, meal formula selections, and customer notes.
+- Interactive Medina map centered on Riad Atlas Acacia coordinates [31.62214, -7.98336].
 
 ---
 
 ## Context & Background
-<!-- Any relevant history, inspiration, or constraints -->
+Cloned and adapted from the Marrakech Guest Guide template with custom multi-riad data architecture.
 
 ## Constraints
-- Budget:
-- Timeline:
-- Tools available:
-- Team size:
-
-## Related Projects
-<!-- Links or references to similar/connected work -->
-
+- Mobile-first (optimized for 360px–390px screens).
+- Pure client-side static deployment (Vercel / static CDN ready).
+- No external authentication or database dependencies in Phase 1.

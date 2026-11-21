@@ -1348,12 +1348,14 @@ export default function Home() {
           href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="fixed bottom-20 right-4 z-40 flex items-center gap-2 rounded-full bg-[#25D366] hover:bg-[#20BD5A] pl-3 pr-4 py-2.5 text-white shadow-xl border border-white/20 transition-all duration-300 hover:scale-105 active:scale-95 md:bottom-8 md:right-8"
+          aria-label={t.needHelp}
+          className="fixed bottom-20 right-4 z-40 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110 active:scale-95 shadow-xl hover:shadow-2xl md:bottom-8 md:right-8"
         >
-          <WhatsAppIcon className="h-6 w-6" />
-          <span className="text-sm font-semibold">
-            {t.needHelp}
-          </span>
+          <img
+            src="/whatsapp.png"
+            alt="WhatsApp"
+            className="h-13 w-13 sm:h-14 sm:w-14 rounded-full drop-shadow-md"
+          />
         </a>
       )}
 

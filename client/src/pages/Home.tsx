@@ -28,6 +28,7 @@ import {
 import catalogData from "../../../data/riads/riad-atlas-acacia/catalog.json";
 import CatalogSection from "@/components/CatalogSection";
 import BookingModal from "@/components/BookingModal";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { CatalogItem } from "@/lib/pricing";
 import { Sparkles } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -583,7 +584,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8]">
+    <div className={`min-h-screen bg-[#F5F1E8]${!showHero && currentTab === "map" ? " overflow-hidden h-dvh" : ""}`}>
       {showHero && (
         <section
           className="relative flex min-h-screen items-center justify-center overflow-hidden bg-cover bg-center px-4"
@@ -738,7 +739,7 @@ export default function Home() {
       )}
 
       {!showHero && (
-        <div className="pb-28">
+        <div className={currentTab === "map" ? "" : "pb-28"}>
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTab}
@@ -788,7 +789,7 @@ export default function Home() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#E0D5C7] bg-white px-4 py-3 text-sm font-semibold text-[#2C2C2C] hover:bg-[#F5F1E8]"
                       >
-                        <MessageCircle className="h-4 w-4 text-[#1FA463]" />
+                        <WhatsAppIcon className="h-5 w-5" />
                         {t.whatsappConcierge}
                       </a>
                     ) : (
@@ -1050,11 +1051,11 @@ export default function Home() {
           )}
 
           {currentTab === "map" && (
-            /* Fixed-height column: fills exactly the space between top of page and bottom nav.
-               Bottom nav is ~72px. This layout never scrolls and never overlaps either bar. */
+            /* Fixed-height column: fills exactly the viewport between sticky header (46px) and bottom nav (72px).
+               Must NOT be inside the pb-28 scroll wrapper — it escapes it via the outer render. */
             <div
               className="flex flex-col"
-              style={{ height: "calc(100dvh - 72px)" }}
+              style={{ height: "calc(100dvh - 118px)" }}
             >
               {/* Compact filter strip — shrinks to its content, never pushed by map */}
               <div className="shrink-0 bg-white/90 px-4 pt-3 pb-2 shadow-md backdrop-blur-sm border-b border-[#E0D5C7]">
@@ -1306,16 +1307,7 @@ export default function Home() {
     </div>
   )}
 
-  {!showHero && (
-        <button
-          onClick={() => setLanguage(language === "en" ? "fr" : "en")}
-          className="fixed right-4 top-4 z-40 rounded-full border border-[#E0D5C7] bg-white/90 px-4 py-2 text-sm font-semibold text-[#2C2C2C] shadow-sm backdrop-blur-sm hover:bg-[#F5F1E8]"
-          type="button"
-          aria-label={`Switch language to ${language === "en" ? "French" : "English"}`}
-        >
-          {t.switchLabel}
-        </button>
-      )}
+  {/* Language toggle lives only in the sticky header — no duplicate fixed button */}
 
       {!showHero && (
         <nav className="fixed bottom-0 left-0 right-0 z-30 border-t border-[#E0D5C7] bg-white/85 shadow-2xl backdrop-blur-md">
@@ -1356,9 +1348,9 @@ export default function Home() {
           href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="fixed bottom-20 right-4 z-40 flex items-center gap-2 rounded-full bg-[#25D366] hover:bg-[#20BD5A] px-4 py-3 text-white shadow-xl border border-white/20 transition-all duration-300 hover:scale-105 active:scale-95 md:bottom-8 md:right-8"
+          className="fixed bottom-20 right-4 z-40 flex items-center gap-2 rounded-full bg-[#25D366] hover:bg-[#20BD5A] pl-3 pr-4 py-2.5 text-white shadow-xl border border-white/20 transition-all duration-300 hover:scale-105 active:scale-95 md:bottom-8 md:right-8"
         >
-          <MessageCircle className="h-6 w-6" />
+          <WhatsAppIcon className="h-6 w-6" />
           <span className="text-sm font-semibold">
             {t.needHelp}
           </span>

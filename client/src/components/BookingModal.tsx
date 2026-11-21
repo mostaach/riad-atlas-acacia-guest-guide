@@ -28,6 +28,7 @@ import {
 } from '@/lib/pricing';
 import { buildWhatsAppMessage, createWhatsAppLink } from '@/lib/whatsapp';
 import { validateDiningOrder } from '@/lib/diningRules';
+import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 
 interface BookingModalProps {
   item: CatalogItem | null;
@@ -577,7 +578,7 @@ export default function BookingModal({
               size="lg"
               className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-lg flex items-center gap-2 font-semibold px-5"
             >
-              <MessageCircle className="w-4 h-4 fill-white" />
+              <WhatsAppIcon className="w-5 h-5 rounded-full" />
               <span>{isFr ? 'Envoyer via WhatsApp' : 'Request via WhatsApp'}</span>
             </Button>
           </div>

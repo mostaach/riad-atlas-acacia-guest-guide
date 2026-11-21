@@ -258,4 +258,9 @@
   .animate-scale-in {
     animation: scaleIn 300ms cubic-bezier(0.23, 1, 0.32, 1);
   }
+
+  /* Warm OSM tile tint — softens the default blue-grey palette */
+  .leaflet-tile {
+    filter: saturate(0.88) contrast(1.02) brightness(1.01);
+  }
 }

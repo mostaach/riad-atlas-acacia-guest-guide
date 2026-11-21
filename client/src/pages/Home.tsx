@@ -190,7 +190,7 @@ const ui = {
       "Dress modestly when visiting religious sites.",
       "Bargaining is expected in souks.",
       "The best time to visit is October to April.",
-      "Learn a few Arabic or French phrases.",
+      "Learn a few Arabic or English phrases.",
       "Carry small cash for tips, taxis, and markets.",
     ],
     nav: {
@@ -314,7 +314,7 @@ const ui = {
       "Habillez-vous sobrement pour visiter les sites religieux.",
       "La negociation est habituelle dans les souks.",
       "La meilleure periode est d'octobre a avril.",
-      "Quelques mots d'arabe ou de francais sont utiles.",
+      "Quelques mots d'arabe ou d'anglais sont utiles.",
       "Gardez de la petite monnaie pour les pourboires, taxis et marches.",
     ],
     nav: {
@@ -1351,15 +1351,15 @@ export default function Home() {
         </nav>
       )}
 
-      {hasWhatsapp && (
+      {hasWhatsapp && currentTab !== "map" && (
         <a
           href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="fixed bottom-32 right-4 z-40 flex items-center gap-2 rounded-full bg-[#1FA463] p-4 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[#188654] md:bottom-8 md:right-8"
+          className="fixed bottom-20 right-4 z-40 flex items-center gap-2 rounded-full bg-[#25D366] hover:bg-[#20BD5A] px-4 py-3 text-white shadow-xl border border-white/20 transition-all duration-300 hover:scale-105 active:scale-95 md:bottom-8 md:right-8"
         >
           <MessageCircle className="h-6 w-6" />
-          <span className="hidden text-sm font-semibold md:inline">
+          <span className="text-sm font-semibold">
             {t.needHelp}
           </span>
         </a>

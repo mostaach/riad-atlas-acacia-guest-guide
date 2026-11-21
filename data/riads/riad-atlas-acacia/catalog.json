@@ -1,0 +1,1029 @@
+{
+  "version": "1.0.0",
+  "riad_id": "riad-atlas-acacia",
+  "categories": [
+    {
+      "id": "dining",
+      "title": {
+        "en": "Dining",
+        "fr": "Restauration"
+      },
+      "subtitle": {
+        "en": "Authentic Moroccan home dining by Hannane",
+        "fr": "Cuisine marocaine authentique préparée par Hannane"
+      },
+      "image": "/riad-atlas-acacia/cover_dining.png"
+    },
+    {
+      "id": "excursions",
+      "title": {
+        "en": "Day Trips & Excursions",
+        "fr": "Excursions à la journée"
+      },
+      "subtitle": {
+        "en": "Discover Atlas valleys, coastal ramparts, and cascading falls",
+        "fr": "Vallées de l'Atlas, côte atlantique et cascades majestueuses"
+      },
+      "image": "/riad-atlas-acacia/cover_activities.jpg"
+    },
+    {
+      "id": "desert",
+      "title": {
+        "en": "Desert Experiences",
+        "fr": "Expériences Désert"
+      },
+      "subtitle": {
+        "en": "Agafay stone desert, Zagora & Merzouga dune expeditions",
+        "fr": "Désert d'Agafay, dunes dorées de Zagora et Merzouga"
+      },
+      "image": "/riad-atlas-acacia/agafay.png"
+    },
+    {
+      "id": "activities",
+      "title": {
+        "en": "Activities & Workshops",
+        "fr": "Activités & Ateliers"
+      },
+      "subtitle": {
+        "en": "Hot-air ballooning, market cooking classes, Medina guide",
+        "fr": "Montgolfière, cours de cuisine traditionnelle, guide officiel"
+      },
+      "image": "/riad-atlas-acacia/hot_air_balloon.png"
+    },
+    {
+      "id": "spa",
+      "title": {
+        "en": "Spa & Hammam",
+        "fr": "Spa & Soins"
+      },
+      "subtitle": {
+        "en": "Beldi black soap scrubs, ghassoul wraps & argan massages",
+        "fr": "Gommage au savon noir, ghassoul et massages à l'huile d'argan"
+      },
+      "image": "/riad-atlas-acacia/cover_spa.png"
+    }
+  ],
+  "items": [
+    {
+      "id": "meal-formula",
+      "category_id": "dining",
+      "title": {
+        "en": "Traditional Moroccan Meal Formula",
+        "fr": "Formule Repas Traditionnel Marocain"
+      },
+      "short_description": {
+        "en": "3-course home-cooked Moroccan meal: 1 starter, 1 main course, 1 dessert & mineral water.",
+        "fr": "Menu 3 services préparé maison : 1 entrée, 1 plat au choix, 1 dessert & eau minérale."
+      },
+      "description": {
+        "en": "Make your choice from our traditional menu and Hannane will be delighted to prepare it for you with fresh Medina market ingredients.",
+        "fr": "Faites votre choix parmi notre carte marocaine et Hannane se fera un plaisir de vous le concocter avec des produits frais du marché."
+      },
+      "image": "/riad-atlas-acacia/cover_dining.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 220,
+        "eur": 20
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true,
+      "rules": {
+        "service_hours": "12:00 - 23:00",
+        "min_lead_hours": 4,
+        "dinner_cutoff": "16:00",
+        "dinner_start": "18:00",
+        "timezone": "Africa/Casablanca"
+      },
+      "meal_selection": {
+        "starters": [
+          {
+            "id": "harira",
+            "title": {
+              "en": "Moroccan Soup (Harira)",
+              "fr": "Soupe marocaine (Harira)"
+            },
+            "vegetarian": false
+          },
+          {
+            "id": "salads",
+            "title": {
+              "en": "Selection of Moroccan Salads",
+              "fr": "Assortiment de salades marocaines"
+            },
+            "vegetarian": true
+          },
+          {
+            "id": "briouates",
+            "title": {
+              "en": "Cheese Briouates",
+              "fr": "Briouates au fromage"
+            },
+            "vegetarian": true
+          }
+        ],
+        "mains": [
+          {
+            "id": "tajine-poulet-fruits",
+            "title": {
+              "en": "Chicken Tajine with Fruits (Apple & Pear)",
+              "fr": "Tajine poulet aux fruits (pomme & poire)"
+            },
+            "vegetarian": false
+          },
+          {
+            "id": "tajine-poulet-citrons",
+            "title": {
+              "en": "Chicken Tajine with Preserved Lemons & Olives",
+              "fr": "Tajine poulet aux citrons confits et olives"
+            },
+            "vegetarian": false
+          },
+          {
+            "id": "tajine-agneau-pruneaux",
+            "title": {
+              "en": "Lamb or Beef Tajine with Prunes/Apricots & Toasted Almonds",
+              "fr": "Tajine agneau ou bœuf aux pruneaux ou abricots, amandes grillées"
+            },
+            "vegetarian": false
+          },
+          {
+            "id": "tajine-legumes",
+            "title": {
+              "en": "Chicken, Lamb or Beef Tajine with Seasonal Vegetables",
+              "fr": "Tajine poulet ou agneau ou bœuf aux légumes de saison"
+            },
+            "vegetarian": false
+          },
+          {
+            "id": "tajine-veggie",
+            "title": {
+              "en": "Vegetarian Tajine",
+              "fr": "Tajine végétarien"
+            },
+            "vegetarian": true
+          },
+          {
+            "id": "tajine-kofta",
+            "title": {
+              "en": "Kofta Tajine with Eggs",
+              "fr": "Tajine Kofta"
+            },
+            "vegetarian": false
+          },
+          {
+            "id": "couscous-viande",
+            "title": {
+              "en": "Royal Couscous with Meat & 7 Vegetables, Caramelized Onions & Raisins",
+              "fr": "Couscous traditionnel marocain viande et 7 légumes, raisin et oignons caramélisés"
+            },
+            "vegetarian": false
+          },
+          {
+            "id": "couscous-veggie",
+            "title": {
+              "en": "Vegetarian Couscous with 7 Vegetables",
+              "fr": "Couscous végétarien"
+            },
+            "vegetarian": true
+          },
+          {
+            "id": "pastilla-poulet",
+            "title": {
+              "en": "Traditional Chicken & Almond Pastilla",
+              "fr": "Pastilla traditionnelle au poulet et amandes"
+            },
+            "vegetarian": false
+          }
+        ],
+        "desserts": [
+          {
+            "id": "dessert-du-jour",
+            "title": {
+              "en": "Dessert of the Day & Mineral Water",
+              "fr": "Dessert du jour & Eau minérale"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ourika-valley",
+      "category_id": "excursions",
+      "title": {
+        "en": "Ourika Valley Day Trip",
+        "fr": "Vallée de l'Ourika"
+      },
+      "short_description": {
+        "en": "Just 60 km from Marrakech, plunging into the High Atlas with river-side Berber gardens.",
+        "fr": "À 60 km de Marrakech, vallée verdoyante au pied du Haut Atlas, idéale pour la marche et la détente."
+      },
+      "description": {
+        "en": "Just 60 km from Marrakech, this valley plunges into the High Atlas Mountains and reveals a small river lined with green beaches: the ideal setting for a day out combining walking and relaxation.",
+        "fr": "À seulement 60 km de Marrakech, cette vallée s'enfonce dans le Haut Atlas et dévoile une rivière bordée de berges verdoyantes : le cadre idéal pour combiner balade et détente."
+      },
+      "image": "/riad-atlas-acacia/ourika.png",
+      "pricing_model": "base_plus_extra",
+      "base_pax": 2,
+      "base_price": {
+        "mad": 1100,
+        "eur": 99
+      },
+      "extra_person": {
+        "mad": 77,
+        "eur": 7
+      },
+      "shared_minibus": {
+        "mad": 275,
+        "eur": 25
+      },
+      "payment": {
+        "method": "cash_mad_to_driver"
+      },
+      "cash_discount_applies": false
+    },
+    {
+      "id": "imlil-toubkal",
+      "category_id": "excursions",
+      "title": {
+        "en": "Imlil & Mount Toubkal",
+        "fr": "Imlil & Massif du Toubkal"
+      },
+      "short_description": {
+        "en": "Authentic mountain village at the base of Mount Toubkal (4,167m) for scenic hiking.",
+        "fr": "Village montagnard authentique au pied du mont Toubkal (4167m), départ de magnifiques randonnées."
+      },
+      "description": {
+        "en": "Imlil is an authentic village in the High Atlas mountains: a good starting point for sporting days out. You can trek, hike or climb Mount Toubkal - North Africa's highest peak (4167m).",
+        "fr": "Imlil est un village authentique du Haut Atlas, point de départ privilégié pour la randonnée et la découverte du toit de l'Afrique du Nord."
+      },
+      "image": "/riad-atlas-acacia/imlil.png",
+      "pricing_model": "base_plus_extra",
+      "base_pax": 2,
+      "base_price": {
+        "mad": 1100,
+        "eur": 99
+      },
+      "extra_person": {
+        "mad": 77,
+        "eur": 7
+      },
+      "payment": {
+        "method": "cash_mad_to_driver"
+      },
+      "cash_discount_applies": false
+    },
+    {
+      "id": "essaouira-coast",
+      "category_id": "excursions",
+      "title": {
+        "en": "Essaouira Mogador",
+        "fr": "Essaouira Mogador"
+      },
+      "short_description": {
+        "en": "UNESCO fortified coastal town, Atlantic port, fresh fish market and historic ramparts.",
+        "fr": "Cité côtière classée UNESCO, remparts historiques battus par les vagues et port de pêche pittoresque."
+      },
+      "description": {
+        "en": "Essaouira is a small coastal town with a Medina declared a World Heritage Site by UNESCO. The Medina is surrounded by ramparts that protect it from the wind and sea.",
+        "fr": "Petite ville côtière fortifiée au charme envoûtant. Sa médina piétonne et ses remparts face à l'Atlantique offrent une atmosphère unique et dépaysante."
+      },
+      "image": "/riad-atlas-acacia/essaouira.png",
+      "pricing_model": "base_plus_extra",
+      "base_pax": 2,
+      "base_price": {
+        "mad": 1650,
+        "eur": 150
+      },
+      "extra_person": {
+        "mad": 77,
+        "eur": 7
+      },
+      "shared_minibus": {
+        "mad": 275,
+        "eur": 25
+      },
+      "payment": {
+        "method": "cash_mad_to_driver"
+      },
+      "cash_discount_applies": false
+    },
+    {
+      "id": "ouzoud-waterfalls",
+      "category_id": "excursions",
+      "title": {
+        "en": "Ouzoud Waterfalls",
+        "fr": "Cascades d'Ouzoud"
+      },
+      "short_description": {
+        "en": "110m towering waterfalls through olive groves, barbary macaques, and boat rides.",
+        "fr": "Chutes d'eau spectaculaires de 110m à travers les oliveraies, singes magots et balades en barque."
+      },
+      "description": {
+        "en": "This splendid waterfall, over 100 meters high, is one of the most remarkable natural attractions in the Moroccan Atlas mountains. Drive through olive groves to the foot of the waterfalls.",
+        "fr": "L'une des attractions naturelles les plus remarquables du Maroc : plus de 100 mètres de chutes au milieu d'une végétation luxuriante."
+      },
+      "image": "/riad-atlas-acacia/ouzoud.png",
+      "pricing_model": "base_plus_extra",
+      "base_pax": 2,
+      "base_price": {
+        "mad": 1650,
+        "eur": 150
+      },
+      "extra_person": {
+        "mad": 77,
+        "eur": 7
+      },
+      "shared_minibus": {
+        "mad": 275,
+        "eur": 25
+      },
+      "payment": {
+        "method": "cash_mad_to_driver"
+      },
+      "cash_discount_applies": false
+    },
+    {
+      "id": "ouarzazate-kasbahs",
+      "category_id": "excursions",
+      "title": {
+        "en": "Ouarzazate & Kasbahs",
+        "fr": "Ouarzazate & Kasbahs"
+      },
+      "short_description": {
+        "en": "Crossing Tizi n'Tichka pass to cinema studios, Ait Ben Haddou and fortified valleys.",
+        "fr": "Passage du col du Tichka, studios de cinéma et la légendaire Kasbah d'Aït Ben Haddou."
+      },
+      "description": {
+        "en": "On the threshold of the deep south rises majestic Ouarzazate, a striking mix of oases, kasbahs and flourishing valleys.",
+        "fr": "Aux portes du grand sud, Ouarzazate dévoile un mélange saisissant d'oasis, de kasbahs en pisé et de vallées cinématographiques."
+      },
+      "image": "/riad-atlas-acacia/ouarzazate.png",
+      "pricing_model": "base_plus_extra",
+      "base_pax": 2,
+      "base_price": {
+        "mad": 1950,
+        "eur": 178
+      },
+      "extra_person": {
+        "mad": 77,
+        "eur": 7
+      },
+      "shared_minibus": {
+        "mad": 275,
+        "eur": 25
+      },
+      "payment": {
+        "method": "cash_mad_to_driver"
+      },
+      "cash_discount_applies": false
+    },
+    {
+      "id": "agafay-desert",
+      "category_id": "desert",
+      "title": {
+        "en": "Agafay Desert Experience",
+        "fr": "Désert d'Agafay"
+      },
+      "short_description": {
+        "en": "40 mins from Marrakech: panoramic rocky dunes, quad, camel rides, dinners & luxury camp.",
+        "fr": "À 40 min de Marrakech : dunes rocheuses avec vue sur l'Atlas, quad, dromadaire, dîner spectacle & nuitée."
+      },
+      "description": {
+        "en": "Just 40 minutes from Marrakech, enjoy a unique experience in the heart of the rocky Agafay desert. Outward and return transfers included.",
+        "fr": "À seulement 40 minutes de Marrakech, vivez une expérience unique au cœur du désert d'Agafay. Transferts aller-retour inclus."
+      },
+      "image": "/riad-atlas-acacia/agafay.png",
+      "pricing_model": "options",
+      "payment": {
+        "method": "cash_mad_to_driver"
+      },
+      "cash_discount_applies": false,
+      "options": [
+        {
+          "id": "lunch",
+          "group": "lunch",
+          "title": {
+            "en": "Lunch",
+            "fr": "Déjeuner"
+          },
+          "price": {
+            "mad": 450,
+            "eur": 41
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "lunch-camel",
+          "group": "lunch",
+          "title": {
+            "en": "Lunch + 1h Camel Ride",
+            "fr": "Déjeuner + 1h dromadaire"
+          },
+          "price": {
+            "mad": 650,
+            "eur": 59
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "lunch-quad",
+          "group": "lunch",
+          "title": {
+            "en": "Lunch + 2h Quad Biking",
+            "fr": "Déjeuner + 2h Quad"
+          },
+          "price": {
+            "mad": 800,
+            "eur": 73
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "lunch-quad-camel",
+          "group": "lunch",
+          "title": {
+            "en": "Lunch + 2h Quad + 1h Camel Ride",
+            "fr": "Déjeuner + 2h Quad + 1h dromadaire"
+          },
+          "price": {
+            "mad": 1000,
+            "eur": 91
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "dinner-show",
+          "group": "dinner",
+          "title": {
+            "en": "Dinner Show",
+            "fr": "Dîner spectacle"
+          },
+          "price": {
+            "mad": 550,
+            "eur": 50
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "dinner-show-camel",
+          "group": "dinner",
+          "title": {
+            "en": "Dinner Show + 1h Camel Ride",
+            "fr": "Dîner spectacle + 1h dromadaire"
+          },
+          "price": {
+            "mad": 650,
+            "eur": 59
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "dinner-show-quad",
+          "group": "dinner",
+          "title": {
+            "en": "Dinner Show + 2h Quad",
+            "fr": "Dîner spectacle + 2h Quad"
+          },
+          "price": {
+            "mad": 800,
+            "eur": 73
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "dinner-show-quad-camel",
+          "group": "dinner",
+          "title": {
+            "en": "Dinner Show + 2h Quad + 1h Camel Ride",
+            "fr": "Dîner spectacle + 2h Quad + 1h dromadaire"
+          },
+          "price": {
+            "mad": 1000,
+            "eur": 91
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "pool-pass",
+          "group": "extras",
+          "title": {
+            "en": "Pool Pass",
+            "fr": "Accès piscine"
+          },
+          "price": {
+            "mad": 150,
+            "eur": 14
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "camel-only",
+          "group": "activities",
+          "title": {
+            "en": "Camel Ride (1h)",
+            "fr": "Balade en dromadaire (1h)"
+          },
+          "price": {
+            "mad": 330,
+            "eur": 30
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "quad-2h",
+          "group": "activities",
+          "title": {
+            "en": "Quad Biking (2h, 1 person)",
+            "fr": "Quad 2h (1 pilote)"
+          },
+          "price": {
+            "mad": 550,
+            "eur": 50
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "quad-2pax-2h",
+          "group": "activities",
+          "title": {
+            "en": "Quad 2 persons (Driver + Passenger, 2h)",
+            "fr": "Quad pilote + passager (2h)"
+          },
+          "price": {
+            "mad": 770,
+            "eur": 70
+          },
+          "unit": "per_group"
+        },
+        {
+          "id": "buggy-1pax-1h",
+          "group": "activities",
+          "title": {
+            "en": "Buggy 1 person (1h)",
+            "fr": "Buggy 1 personne (1h)"
+          },
+          "price": {
+            "mad": 1350,
+            "eur": 123
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "buggy-2pax-1h",
+          "group": "activities",
+          "title": {
+            "en": "Buggy 2 persons (Driver + Passenger, 1h)",
+            "fr": "Buggy 2 personnes pilote + passager (1h)"
+          },
+          "price": {
+            "mad": 1500,
+            "eur": 136
+          },
+          "unit": "per_group"
+        },
+        {
+          "id": "tent-night",
+          "group": "overnight",
+          "title": {
+            "en": "Agafay Tent Night (breakfast included)",
+            "fr": "Nuitée sous tente Agafay (petit-déjeuner inclus)"
+          },
+          "price": {
+            "mad": 2200,
+            "eur": 200
+          },
+          "unit": "per_person"
+        }
+      ]
+    },
+    {
+      "id": "zagora-desert-tour",
+      "category_id": "desert",
+      "title": {
+        "en": "Zagora Desert Safari (2 Days / 1 Night)",
+        "fr": "Safari Désert Zagora (2 Jours / 1 Nuit)"
+      },
+      "short_description": {
+        "en": "Draa Valley, camel trek, sunset, nomadic dinner & night under desert stars.",
+        "fr": "Vallée du Draa, caravane de dromadaires, coucher de soleil et nuit sous les étoiles."
+      },
+      "description": {
+        "en": "2 days / 1 night shared expedition in small group (max 17 pax). Includes transport, camel ride, dinner & breakfast. Lunch and drinks not included.",
+        "fr": "Excursion partagée 2 jours / 1 nuit en petit groupe (max 17 personnes). Comprend transport, balade à dos de dromadaire, dîner nomade et petit-déjeuner."
+      },
+      "image": "/riad-atlas-acacia/zagora_camp.jpg",
+      "pricing_model": "options",
+      "payment": {
+        "method": "cash_mad_to_driver"
+      },
+      "cash_discount_applies": false,
+      "options": [
+        {
+          "id": "standard-tent",
+          "title": {
+            "en": "Standard Tent (outside bathroom/toilet)",
+            "fr": "Tente standard (sanitaires extérieurs)"
+          },
+          "price": {
+            "mad": 800,
+            "eur": 73
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "luxury-tent",
+          "title": {
+            "en": "Luxury Tent (private indoor bathroom/toilet)",
+            "fr": "Tente de luxe (sanitaires privés intérieurs)"
+          },
+          "price": {
+            "mad": 1200,
+            "eur": 109
+          },
+          "unit": "per_person"
+        }
+      ]
+    },
+    {
+      "id": "merzouga-desert-tour",
+      "category_id": "desert",
+      "title": {
+        "en": "Merzouga Erg Chebbi (3 Days / 2 Nights)",
+        "fr": "Grand Tour Merzouga Erg Chebbi (3 Jours / 2 Nuits)"
+      },
+      "short_description": {
+        "en": "High Atlas, Dades Gorges, Todra Gorges, towering Erg Chebbi golden dunes.",
+        "fr": "Gorges du Dadès, Gorges du Todra et les majestueuses dunes dorées de l'Erg Chebbi."
+      },
+      "description": {
+        "en": "3 days / 2 nights shared expedition in small group (max 17 pax). Includes transport, camel caravan, dinners and breakfasts.",
+        "fr": "Expédition partagée 3 jours / 2 nuits en petit groupe (max 17 personnes). Comprend transport, caravane de dromadaires, dîners et petits-déjeuners."
+      },
+      "image": "/riad-atlas-acacia/merzouga_dunes.jpg",
+      "pricing_model": "options",
+      "payment": {
+        "method": "cash_mad_to_driver"
+      },
+      "cash_discount_applies": false,
+      "options": [
+        {
+          "id": "standard-tent",
+          "title": {
+            "en": "Standard Tent (outside bathroom/toilet)",
+            "fr": "Tente standard (sanitaires extérieurs)"
+          },
+          "price": {
+            "mad": 980,
+            "eur": 89
+          },
+          "unit": "per_person"
+        },
+        {
+          "id": "luxury-tent",
+          "title": {
+            "en": "Luxury Tent (private indoor bathroom/toilet)",
+            "fr": "Tente de luxe (sanitaires privés intérieurs)"
+          },
+          "price": {
+            "mad": 1390,
+            "eur": 127
+          },
+          "unit": "per_person"
+        }
+      ]
+    },
+    {
+      "id": "hot-air-balloon",
+      "category_id": "activities",
+      "title": {
+        "en": "Sunrise Hot-Air Balloon Flight",
+        "fr": "Vol en Montgolfière au Lever du Soleil"
+      },
+      "short_description": {
+        "en": "Sunrise flight over Marrakech and Atlas, Berber breakfast in nomad tent & flight certificate.",
+        "fr": "Survol féérique au lever du soleil face à l'Atlas, petit-déjeuner berbère sous tente et certificat de vol."
+      },
+      "description": {
+        "en": "Early morning hotel pickup. ~1 hour flight touching Moroccan skies with professional pilot. Hearty breakfast in a nomad tent and flight certificate in Arabic calligraphy.",
+        "fr": "Prise en charge matinale au riad. Vol d'environ 1h dans le ciel marocain. Petit-déjeuner royal sous tente nomade et remise de certificat calligraphié."
+      },
+      "image": "/riad-atlas-acacia/hot_air_balloon.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 1800,
+        "eur": 164
+      },
+      "payment": {
+        "method": "cash_mad_to_driver"
+      },
+      "cash_discount_applies": false
+    },
+    {
+      "id": "cooking-class",
+      "category_id": "activities",
+      "title": {
+        "en": "Traditional Cooking Class & Market Tour",
+        "fr": "Atelier Cours de Cuisine & Visite du Marché"
+      },
+      "short_description": {
+        "en": "Medina spice shopping, hands-on cooking with our chef, and convivial lunch tasting.",
+        "fr": "Achat des épices au marché avec le chef, atelier pratique et dégustation conviviale de vos plats."
+      },
+      "description": {
+        "en": "Visit the local market to select fresh produce and spices, prepare traditional starters, tajine, and dessert with our chef, then savor your dishes together.",
+        "fr": "Visite du souk et marché pour découvrir épices et saveurs, réalisation d'entrées, d'un plat et d'un dessert sous la houlette de la cuisinière, suivie du déjeuner."
+      },
+      "image": "/riad-atlas-acacia/cooking_class.png",
+      "pricing_model": "base_plus_extra",
+      "base_pax": 2,
+      "base_price": {
+        "mad": 880,
+        "eur": 80
+      },
+      "extra_person": {
+        "mad": 330,
+        "eur": 30
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true
+    },
+    {
+      "id": "medina-guided-tour",
+      "category_id": "activities",
+      "title": {
+        "en": "Official Medina Walking Guide",
+        "fr": "Guide Officiel Médina & Souks"
+      },
+      "short_description": {
+        "en": "Private official certified guide picking you up at the riad to explore souks and historic monuments.",
+        "fr": "Visitez la médina accompagné d'un guide officiel pour percer tous les secrets de la ville rouge."
+      },
+      "description": {
+        "en": "Your licensed guide meets you directly at the Riad to guide you through labyrinthine souks, historical palaces, and hidden heritage sites.",
+        "fr": "Votre guide vient vous chercher au Riad et vous fait découvrir l'histoire, les souks et les trésors de Marrakech en toute sérénité."
+      },
+      "image": "/riad-atlas-acacia/cover_home.png",
+      "pricing_model": "base_plus_extra_options",
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true,
+      "options": [
+        {
+          "id": "half-day",
+          "title": {
+            "en": "Half Day Guide (Demie-Journée)",
+            "fr": "Guide Demi-Journée"
+          },
+          "base_pax": 2,
+          "base_price": {
+            "mad": 660,
+            "eur": 60
+          },
+          "extra_person": {
+            "mad": 110,
+            "eur": 10
+          }
+        },
+        {
+          "id": "full-day",
+          "title": {
+            "en": "Full Day Guide (Journée Complète)",
+            "fr": "Guide Journée Complète"
+          },
+          "base_pax": 2,
+          "base_price": {
+            "mad": 1210,
+            "eur": 110
+          },
+          "extra_person": {
+            "mad": 165,
+            "eur": 15
+          }
+        }
+      ]
+    },
+    {
+      "id": "spa-hammam-traditional",
+      "category_id": "spa",
+      "group": "hammam",
+      "title": {
+        "en": "Traditional Black Soap Hammam & Scrub (45 min)",
+        "fr": "Hammam & Gommage traditionnel au savon noir (45 min)"
+      },
+      "short_description": {
+        "en": "Purifying steam bath with organic olive black soap and kessa glove exfoliation.",
+        "fr": "Bain de vapeur purifiant avec savon noir beldi et gommage revigorant au gant kessa."
+      },
+      "image": "/riad-atlas-acacia/cover_spa.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 275,
+        "eur": 25
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true
+    },
+    {
+      "id": "spa-hammam-ghassoul",
+      "category_id": "spa",
+      "group": "hammam",
+      "title": {
+        "en": "Hammam Scrub & Ghassoul Body Wrap (45 min)",
+        "fr": "Hammam, Gommage au savon noir & Enveloppement Ghassoul (45 min)"
+      },
+      "short_description": {
+        "en": "Traditional scrub followed by mineral-rich Atlas clay body wrap.",
+        "fr": "Gommage traditionnel suivi d'un enveloppement purifiant à l'argile ghassoul de l'Atlas."
+      },
+      "image": "/riad-atlas-acacia/cover_spa.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 319,
+        "eur": 29
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true
+    },
+    {
+      "id": "spa-massage-relaxing-1h",
+      "category_id": "spa",
+      "group": "massage",
+      "title": {
+        "en": "Full Body Relaxing or Tonic Massage (1h)",
+        "fr": "Massage relaxant ou tonifiant à l'huile d'argan (1h)"
+      },
+      "short_description": {
+        "en": "60-minute therapeutic body massage with pure scented argan oil.",
+        "fr": "Soin du corps complet de 60 minutes aux huiles essentielles et argan pure."
+      },
+      "image": "/riad-atlas-acacia/cover_spa.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 429,
+        "eur": 39
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true
+    },
+    {
+      "id": "spa-massage-relaxing-30m",
+      "category_id": "spa",
+      "group": "massage",
+      "title": {
+        "en": "Express Relaxing or Tonic Massage (30 min)",
+        "fr": "Massage relaxant ou tonifiant à l'huile d'argan (30 min)"
+      },
+      "short_description": {
+        "en": "Targeted muscle release and rejuvenation with argan oil.",
+        "fr": "Détente musculaire ciblée et bienfaisante à l'huile d'argan."
+      },
+      "image": "/riad-atlas-acacia/cover_spa.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 319,
+        "eur": 29
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true
+    },
+    {
+      "id": "spa-massage-face-scalp",
+      "category_id": "spa",
+      "group": "massage",
+      "title": {
+        "en": "Facial Treatment & Scalp Massage (30 min)",
+        "fr": "Massage visage & cuir chevelu (30 min)"
+      },
+      "short_description": {
+        "en": "Deep cranial relaxation and soothing facial treatment with argan oil.",
+        "fr": "Apaisement profond des tensions crâniennes et éclat du visage."
+      },
+      "image": "/riad-atlas-acacia/cover_spa.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 319,
+        "eur": 29
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true
+    },
+    {
+      "id": "spa-massage-feet-legs",
+      "category_id": "spa",
+      "group": "massage",
+      "title": {
+        "en": "Foot & Leg Revival Massage (30 min)",
+        "fr": "Massage des pieds et jambes (30 min)"
+      },
+      "short_description": {
+        "en": "Perfect relief for tired legs after a day of wandering the Medina souks.",
+        "fr": "Idéal pour délasser les jambes lourdes après une journée de marche dans les souks."
+      },
+      "image": "/riad-atlas-acacia/cover_spa.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 319,
+        "eur": 29
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true
+    },
+    {
+      "id": "spa-massage-back",
+      "category_id": "spa",
+      "group": "massage",
+      "title": {
+        "en": "Targeted Back Massage (30 min)",
+        "fr": "Massage bien-être du dos (30 min)"
+      },
+      "short_description": {
+        "en": "Deep relief focusing on shoulder, lumbar and spinal tension.",
+        "fr": "Dénouement ciblé des tensions dorsales, trapèzes et lombaires."
+      },
+      "image": "/riad-atlas-acacia/cover_spa.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 319,
+        "eur": 29
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true
+    },
+    {
+      "id": "spa-package-half-hour",
+      "category_id": "spa",
+      "group": "package",
+      "title": {
+        "en": "Ritual: Hammam + Ghassoul Wrap + 30 min Massage",
+        "fr": "Formule : Hammam + Enveloppement Ghassoul + 30 min Massage"
+      },
+      "short_description": {
+        "en": "45 min traditional hammam and black soap scrub with ghassoul wrap + 30 min argan massage.",
+        "fr": "45 min hammam & gommage au savon noir + enveloppement ghassoul + 30 min de massage."
+      },
+      "image": "/riad-atlas-acacia/cover_spa.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 539,
+        "eur": 49
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true
+    },
+    {
+      "id": "spa-package-one-hour",
+      "category_id": "spa",
+      "group": "package",
+      "title": {
+        "en": "Grand Ritual: Hammam + Ghassoul Wrap + 1h Massage",
+        "fr": "Formule Royale : Hammam + Enveloppement Ghassoul + 1h Massage"
+      },
+      "short_description": {
+        "en": "45 min traditional hammam and black soap scrub with ghassoul wrap + 60 min argan massage.",
+        "fr": "45 min hammam & gommage au savon noir + enveloppement ghassoul + 1h de massage."
+      },
+      "image": "/riad-atlas-acacia/cover_spa.png",
+      "pricing_model": "per_person",
+      "price": {
+        "mad": 649,
+        "eur": 59
+      },
+      "payment": {
+        "method": "pay_at_riad"
+      },
+      "cash_discount_applies": true
+    }
+  ],
+  "needs_confirmation": [
+    {
+      "field": "agafay_and_sahara_unit",
+      "status": "confirmed",
+      "note": "Confirmed: Agafay tent night is 2200 MAD / 200 EUR per person."
+    },
+    {
+      "field": "dining_payment_method",
+      "note": "Currently set to pay_at_riad with 10% cash discount granted on cash payment in € or MAD."
+    }
+  ]
+}

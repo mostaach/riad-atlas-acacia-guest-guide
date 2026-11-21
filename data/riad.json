@@ -1,0 +1,35 @@
+{
+  "id": "riad-atlas-acacia",
+  "name": "Riad Atlas Acacia",
+  "tagline": "Boutique Riad & Spa in the Marrakech Medina",
+  "description": "Suites & Spa in Riad Zitoun Jdid, steps away from Bahia Palace, Dar Si Said, and Jemaa El-Fna.",
+  "coordinates": [31.62214, -7.98336],
+  "address": "100 Derb Sidi Moussa, Riad Zitoun Jdid, Médina, 40000 Marrakech, Morocco",
+  "phone": "+212 663-715754",
+  "email": "contact@riadatlasacacia.com",
+  "whatsapp": "+212663715754",
+  "website": "https://riadatlasacacia.com/",
+  "google_maps": "https://maps.google.com/?q=31.62214,-7.98336",
+  "image": "/riad-atlas-acacia/cover_home.png",
+  "logo": "/riad-atlas-acacia/logo.png",
+  "gallery": [
+    "/riad-atlas-acacia/cover_home.png",
+    "/riad-atlas-acacia/cover_dining.png",
+    "/riad-atlas-acacia/cover_spa.png",
+    "/riad-atlas-acacia/agafay.png",
+    "/riad-atlas-acacia/hot_air_balloon.png",
+    "/riad-atlas-acacia/cooking_class.png"
+  ],
+  "amenities": [
+    "Traditional Hammam & Spa",
+    "Moroccan Restaurant",
+    "Rooftop Terrace",
+    "Plunge Pool & Jacuzzi",
+    "High-speed WiFi",
+    "Air Conditioning",
+    "24/7 Reception & Concierge"
+  ],
+  "checkin_time": "14:00",
+  "checkout_time": "11:00",
+  "languages": ["English", "French"]
+}

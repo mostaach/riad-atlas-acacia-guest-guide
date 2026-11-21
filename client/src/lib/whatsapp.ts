@@ -1,0 +1,85 @@
+import { PriceResult } from './pricing';
+
+export interface BookingRequestData {
+  itemTitle: { en: string; fr: string };
+  optionTitle?: { en: string; fr: string };
+  date: string;
+  time?: string;
+  guests: number;
+  price: PriceResult;
+  guestName: string;
+  roomNumber: string;
+  notes?: string;
+  mealSelections?: {
+    starter?: string;
+    main?: string;
+    dessert?: string;
+  }[];
+  language: 'en' | 'fr';
+}
+
+/**
+ * Builds the WhatsApp request message and wa.me URL according to PRD Section 8.
+ */
+export function buildWhatsAppMessage(data: BookingRequestData): string {
+  const isFr = data.language === 'fr';
+
+  const itemTitle = isFr ? data.itemTitle.fr : data.itemTitle.en;
+  const optionTitle = data.optionTitle ? (isFr ? data.optionTitle.fr : data.optionTitle.en) : null;
+  const itemLine = optionTitle ? `${itemTitle} — ${optionTitle}` : itemTitle;
+
+  const dateTime = data.time ? `${data.date} à ${data.time}` : data.date;
+  const dateTimeEn = data.time ? `${data.date} at ${data.time}` : data.date;
+
+  if (isFr) {
+    let msg = `Bonjour Riad Atlas Acacia, je souhaite demander :\n`;
+    msg += `• ${itemLine}\n`;
+    msg += `• Date : ${dateTime}\n`;
+    msg += `• Voyageurs : ${data.guests}\n`;
+    msg += `• Total estimé : ${data.price.mad} MAD / ${data.price.eur} €\n`;
+    msg += `• Nom / Chambre : ${data.guestName} / ${data.roomNumber}\n`;
+
+    if (data.notes && data.notes.trim()) {
+      msg += `• Remarques : ${data.notes.trim()}\n`;
+    }
+
+    if (data.mealSelections && data.mealSelections.length > 0) {
+      msg += `\nChoix des repas :\n`;
+      data.mealSelections.forEach((sel, idx) => {
+        msg += `Voyageur ${idx + 1}: ${sel.starter || '-'} | ${sel.main || '-'} | ${sel.dessert || '-'}\n`;
+      });
+    }
+
+    return msg.trim();
+  } else {
+    let msg = `Hello Riad Atlas Acacia, I'd like to request:\n`;
+    msg += `• ${itemLine}\n`;
+    msg += `• Date: ${dateTimeEn}\n`;
+    msg += `• Guests: ${data.guests}\n`;
+    msg += `• Estimated total: ${data.price.mad} MAD / ${data.price.eur} €\n`;
+    msg += `• Name / Room: ${data.guestName} / ${data.roomNumber}\n`;
+
+    if (data.notes && data.notes.trim()) {
+      msg += `• Notes: ${data.notes.trim()}\n`;
+    }
+
+    if (data.mealSelections && data.mealSelections.length > 0) {
+      msg += `\nMeal choices:\n`;
+      data.mealSelections.forEach((sel, idx) => {
+        msg += `Guest ${idx + 1}: ${sel.starter || '-'} | ${sel.main || '-'} | ${sel.dessert || '-'}\n`;
+      });
+    }
+
+    return msg.trim();
+  }
+}
+
+/**
+ * Creates the full whatsapp web/app URL for a phone number and message.
+ */
+export function createWhatsAppLink(phoneNumber: string, message: string): string {
+  // Strip non-digit characters
+  const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
+  const encodedMsg = encodeURIComponent(message);
+  return `https://wa.me/${cleanNumber}?text=${encodedMsg}`;
+}

@@ -41,8 +41,17 @@ export default function CatalogSection({
   useEffect(() => {
     fetch('/api/stock')
       .then(res => res.json())
-      .then(data => setStock(data))
-      .catch(() => {});
+      .then(data => {
+        if (data && typeof data === 'object') setStock(data);
+      })
+      .catch(() => {
+        try {
+          const local = JSON.parse(localStorage.getItem('riad_stock') || '{}');
+          if (local && typeof local === 'object') setStock(local);
+        } catch {
+          // Ignored
+        }
+      });
   }, []);
 
   const filteredItems = items.filter(item => {

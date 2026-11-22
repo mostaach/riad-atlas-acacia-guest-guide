@@ -15,6 +15,22 @@ export interface OrderLog {
 }
 
 export async function logOrder(order: OrderLog): Promise<void> {
+  // Always persist locally in browser storage so order is recorded even on static hosts (Vercel)
+  try {
+    const existing = JSON.parse(localStorage.getItem("riad_orders") || "[]");
+    const newOrder = {
+      id: Math.random().toString(36).substring(2, 8),
+      timestamp: new Date().toISOString(),
+      status: "new",
+      ...order,
+    };
+    existing.unshift(newOrder);
+    localStorage.setItem("riad_orders", JSON.stringify(existing.slice(0, 100)));
+  } catch {
+    // Local storage full or unavailable
+  }
+
+  // Also POST to /api/orders (when running with backend)
   try {
     await fetch("/api/orders", {
       method: "POST",

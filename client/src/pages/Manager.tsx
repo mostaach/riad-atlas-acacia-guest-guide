@@ -90,17 +90,31 @@ export default function Manager() {
   // Load orders
   const fetchOrders = useCallback(async () => {
     setLoadingOrders(true);
+    let loaded = false;
     try {
       const res = await fetch("/api/orders");
       if (res.ok) {
         const data = await res.json();
-        setOrders(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setOrders(data);
+          loaded = true;
+        }
       }
     } catch {
       // Offline fallback
-    } finally {
-      setLoadingOrders(false);
     }
+
+    if (!loaded) {
+      try {
+        const local = JSON.parse(localStorage.getItem("riad_orders") || "[]");
+        if (Array.isArray(local)) {
+          setOrders(local);
+        }
+      } catch {
+        // Ignored
+      }
+    }
+    setLoadingOrders(false);
   }, []);
 
   // Load stock
@@ -109,10 +123,21 @@ export default function Manager() {
       const res = await fetch("/api/stock");
       if (res.ok) {
         const data = await res.json();
-        setStock(data);
+        if (data && typeof data === "object") {
+          setStock(data);
+          return;
+        }
       }
     } catch {
       // Offline fallback
+    }
+    try {
+      const local = JSON.parse(localStorage.getItem("riad_stock") || "{}");
+      if (local && typeof local === "object") {
+        setStock(local);
+      }
+    } catch {
+      // Ignored
     }
   }, []);
 
@@ -125,17 +150,22 @@ export default function Manager() {
   }, [fetchOrders, fetchStock]);
 
   const updateOrderStatus = async (orderId: string, nextStatus: Order["status"]) => {
+    setOrders((prev) => {
+      const updated = prev.map((o) => (o.id === orderId ? { ...o, status: nextStatus } : o));
+      try {
+        localStorage.setItem("riad_orders", JSON.stringify(updated));
+      } catch {
+        // Ignored
+      }
+      return updated;
+    });
+
     try {
-      const res = await fetch(`/api/orders/${orderId}`, {
+      await fetch(`/api/orders/${orderId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: nextStatus }),
       });
-      if (res.ok) {
-        setOrders((prev) =>
-          prev.map((o) => (o.id === orderId ? { ...o, status: nextStatus } : o))
-        );
-      }
     } catch {
       // Ignored
     }
@@ -144,15 +174,22 @@ export default function Manager() {
   const toggleStock = async (itemId: string, currentAvailable: boolean) => {
     const nextState = !currentAvailable;
     setStockSaving(itemId);
+    setStock((prev) => {
+      const updated = { ...prev, [itemId]: nextState };
+      try {
+        localStorage.setItem("riad_stock", JSON.stringify(updated));
+      } catch {
+        // Ignored
+      }
+      return updated;
+    });
+
     try {
-      const res = await fetch("/api/stock", {
+      await fetch("/api/stock", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ [itemId]: nextState }),
       });
-      if (res.ok) {
-        setStock((prev) => ({ ...prev, [itemId]: nextState }));
-      }
     } catch {
       // Ignored
     } finally {

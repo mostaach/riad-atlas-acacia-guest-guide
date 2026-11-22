@@ -54,6 +54,61 @@ Accessible to riad staff via `/manager`:
 
 ---
 
+## 📊 Manager Operations Dashboard (`/manager`)
+
+The dedicated **Manager Portal** empowers riad hosts and concierge staff to oversee guest activity, track orders, adjust menu availability in real time, and manage in-room QR placards without touching code.
+
+```
+                              ┌──────────────────────────┐
+                              │     /manager (Login)     │
+                              │    4-Digit PIN (1234)    │
+                              └────────────┬─────────────┘
+                                           │
+                     ┌─────────────────────┼─────────────────────┐
+                     ▼                     ▼                     ▼
+          ┌────────────────────┐ ┌────────────────────┐ ┌────────────────────┐
+          │  📋 Orders Feed    │ │  📦 Stock Control  │ │  🖨️ QR Placards   │
+          │  - New / Seen      │ │  - Menu items      │ │  - 6 Private Suites│
+          │  - Confirmed / Done│ │  - Spa treatments  │ │  - Reception       │
+          │  - Flight tracker  │ │  - Real-time badge │ │  - A5 Print Sheet  │
+          └────────────────────┘ └────────────────────┘ └────────────────────┘
+```
+
+### 🔐 Authentication & Security
+- **Access Route**: `https://riad-atlas-acacia-guest-guide.vercel.app/manager`
+- **Default PIN**: `1234`
+- **PIN Configuration**: The PIN is stored in `data/riad.json` under `"manager_pin"` and verified securely on the server/API.
+- **Session Lifespan**: Successfully entering the PIN grants session access via `sessionStorage`. Logging out or closing the browser locks the portal immediately.
+
+### 📋 Tab 1: Live Order Tracking
+Whenever a guest completes the booking modal and clicks **Request via WhatsApp**, the order is asynchronously logged to the dashboard:
+- **Comprehensive Details**: Displays the guest's suite (e.g. *Suite Atlas*, *Suite Mimosa*), guest name, flight number (for airport transfers), selected options, customized 3-course dinner selections, special dietary notes, and estimated total in MAD and EUR.
+- **Order Lifecycle Management**: Each order features 1-click status progression:
+  - 🟡 **New**: Newly arrived order awaiting host review.
+  - 🔵 **Seen**: Acknowledged by staff.
+  - 🟢 **Confirmed**: Confirmed with the guest on WhatsApp or booked with the driver/chef.
+  - ⚪ **Done**: Service completed.
+- **Filter Bar**: Filter orders at a glance by status (*All*, *New*, *Seen*, *Confirmed*, *Done*).
+- **Offline & Static Resilience**: Built with dual-layer persistence — orders POST to `/api/orders` (Node runtime) and automatically sync to `localStorage`, ensuring the dashboard functions reliably even on static serverless deployments.
+
+### 📦 Tab 2: Dynamic Stock & Menu Availability
+Manage real-time availability of culinary items, hammam slots, and excursions:
+- **Instant Toggle**: Switch any item between *Available* and *Unavailable* with a single tap.
+- **Category Navigation**: Filter by category (*Dining*, *Spa & Wellness*, *Day Trips*, *Desert Tours*, *Workshops*).
+- **Immediate Guest Protection**: When an item is marked unavailable in the manager dashboard, the guest app immediately reflects this change:
+  - The card is subtly dimmed.
+  - Displays an amber `"Temporarily Unavailable"` / `"Temporairement Indisponible"` badge.
+  - The booking button is disabled, preventing guests from ordering out-of-stock dishes or fully-booked activities.
+
+### 🖨️ Tab 3: Bedside QR Placards Center
+Manage and print the physical in-room QR code signage:
+- **Suite-by-Suite Placard Preview**: View cards for all 6 suites (*Atlas*, *Majorelle*, *Ourika*, *Koutoubia*, *Makhila*, *Mimosa*), the *Reception Patio*, and *Pre-Arrival*.
+- **Download High-Res Assets**: Download high-resolution PNGs (1024×1024) or SVGs directly from the dashboard.
+- **1-Click A5 Batch Printing**: Click **Print All Placards (A5)** to open `/qr-placards/print.html`, formatted specifically for luxury hotel desktop tent cards and bedside acrylic stands.
+- **Deep-Link URL Copying**: Copy the exact scan URL for any room to clipboard in one click.
+
+---
+
 ## 📁 Repository Structure
 
 ```
@@ -144,7 +199,7 @@ The project is pre-configured with `vercel.json` for one-click Vercel deployment
 4. Output Directory: `dist/public`.
 5. Deploy!
 
-The QR codes will automatically target `https://riadatlasacacia.com`.
+The QR codes will automatically target `https://riad-atlas-acacia-guest-guide.vercel.app` (or your custom domain configured in Vercel).
 
 ---
 

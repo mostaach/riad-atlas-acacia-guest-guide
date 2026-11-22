@@ -91,15 +91,22 @@ const riadGallery = riadData.gallery ?? [];
 const whatsappNumber = riadData.whatsapp.replace(/\D/g, "");
 
 const ROOM_QR_LIST = [
-  { id: "atlas", name: "Suite Atlas", floor: "1er Étage", file: "qr-suite-atlas", badge: "Suite 1", url: "https://riadatlasacacia.com/?src=qr-room&room=atlas" },
-  { id: "majorelle", name: "Suite Majorelle", floor: "1er Étage", file: "qr-suite-majorelle", badge: "Suite 2", url: "https://riadatlasacacia.com/?src=qr-room&room=majorelle" },
-  { id: "ourika", name: "Suite Ourika", floor: "1er Étage", file: "qr-suite-ourika", badge: "Suite 3", url: "https://riadatlasacacia.com/?src=qr-room&room=ourika" },
-  { id: "koutoubia", name: "Suite Koutoubia", floor: "1er Étage", file: "qr-suite-koutoubia", badge: "Suite 4", url: "https://riadatlasacacia.com/?src=qr-room&room=koutoubia" },
-  { id: "makhila", name: "Suite Makhila", floor: "Terrasse", file: "qr-suite-makhila", badge: "Suite 5", url: "https://riadatlasacacia.com/?src=qr-room&room=makhila" },
-  { id: "mimosa", name: "Suite Mimosa", floor: "Terrasse", file: "qr-suite-mimosa", badge: "Suite 6", url: "https://riadatlasacacia.com/?src=qr-room&room=mimosa" },
-  { id: "reception", name: "Accueil & Réception", floor: "Patio", file: "qr-reception", badge: "Lobby", url: "https://riadatlasacacia.com/?src=qr-reception" },
-  { id: "prearrival", name: "Guide Pré-Arrivée", floor: "Arrivée", file: "qr-prearrival", badge: "Arrivée", url: "https://riadatlasacacia.com/?src=prearrival" },
+  { id: "atlas", name: "Suite Atlas", floor: "1er Étage", file: "qr-suite-atlas", badge: "Suite 1", code: "atlas" },
+  { id: "majorelle", name: "Suite Majorelle", floor: "1er Étage", file: "qr-suite-majorelle", badge: "Suite 2", code: "majorelle" },
+  { id: "ourika", name: "Suite Ourika", floor: "1er Étage", file: "qr-suite-ourika", badge: "Suite 3", code: "ourika" },
+  { id: "koutoubia", name: "Suite Koutoubia", floor: "1er Étage", file: "qr-suite-koutoubia", badge: "Suite 4", code: "koutoubia" },
+  { id: "makhila", name: "Suite Makhila", floor: "Terrasse", file: "qr-suite-makhila", badge: "Suite 5", code: "makhila" },
+  { id: "mimosa", name: "Suite Mimosa", floor: "Terrasse", file: "qr-suite-mimosa", badge: "Suite 6", code: "mimosa" },
+  { id: "reception", name: "Accueil & Réception", floor: "Patio", file: "qr-reception", badge: "Lobby", code: "reception" },
+  { id: "prearrival", name: "Guide Pré-Arrivée", floor: "Arrivée", file: "qr-prearrival", badge: "Arrivée", code: "prearrival" },
 ];
+
+const getRoomQrUrl = (code: string) => {
+  const base = typeof window !== "undefined" && window.location.origin ? window.location.origin : "https://riadatlasacacia.com";
+  if (code === "reception") return `${base}/?src=qr-reception`;
+  if (code === "prearrival") return `${base}/?src=prearrival`;
+  return `${base}/?src=qr-room&room=${code}`;
+};
 
 const getRoomQrInfo = (room: string) => {
   const normalized = (room || "").toLowerCase();
@@ -483,6 +490,16 @@ export default function Home() {
         const savedRoom = localStorage.getItem("riad_room");
         if (savedRoom) {
           setSelectedRoom(savedRoom);
+        }
+      }
+
+      // If guest arrives via QR code (room or reception), bypass facing hero cover and land directly inside the guest guide!
+      if (src || roomParam) {
+        setShowHero(false);
+        if (src === "qr-room" || roomParam) {
+          setCurrentTab("catalog"); // directly into room service & experiences
+        } else if (src === "qr-reception") {
+          setCurrentTab("welcome"); // into practical arrival & reception guide
         }
       }
 
@@ -887,6 +904,17 @@ export default function Home() {
 
       {!showHero && (
         <div className={currentTab === "map" ? "" : "pb-28"}>
+          {/* Connected Chamber Status Banner when arrived via QR */}
+          {selectedRoom && selectedRoom.startsWith("Suite ") && (
+            <div className="bg-[#B85C3C]/10 border-b border-[#B85C3C]/20 px-4 py-2.5 text-center flex items-center justify-center gap-2 text-xs font-semibold text-[#B85C3C]">
+              <Sparkles className="h-3.5 w-3.5 shrink-0" />
+              <span>
+                {language === "fr"
+                  ? `Connecté en ${selectedRoom} • Guide Résident & Room Service activés`
+                  : `Connected in ${selectedRoom} • Guest Guide & Room Service active`}
+              </span>
+            </div>
+          )}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTab}
@@ -1455,12 +1483,12 @@ export default function Home() {
                           {t.scanToTest}:
                         </p>
                         <a
-                          href={activeItem.url}
+                          href={getRoomQrUrl(activeItem.id)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-block break-all text-xs font-medium text-[#B85C3C] hover:underline"
                         >
-                          {activeItem.url}
+                          {getRoomQrUrl(activeItem.id)}
                         </a>
                         <div className="pt-2 flex flex-wrap gap-2 justify-center sm:justify-start">
                           <a

@@ -2,7 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import QRCode from 'qrcode';
 
-const BASE_URL = 'https://riadatlasacacia.com';
+// Default to the local network IP so scanning with a real smartphone on Wi-Fi immediately works!
+const NETWORK_IP = '192.168.1.239:3001';
+const BASE_URL = process.env.BASE_URL || `http://${NETWORK_IP}`;
 const OUTPUT_DIR = path.resolve('client', 'public', 'qr-placards');
 
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -15,7 +17,7 @@ const ITEMS = [
     title: 'Suite Atlas',
     sub: '1st Floor • 1er Étage',
     floor: '1er Étage / 1st Floor',
-    url: `${BASE_URL}/?src=qr-room&room=atlas`,
+    path: '/?src=qr-room&room=atlas',
     filename: 'qr-suite-atlas',
     badge: 'Suite Privée'
   },
@@ -24,7 +26,7 @@ const ITEMS = [
     title: 'Suite Majorelle',
     sub: '1st Floor • 1er Étage',
     floor: '1er Étage / 1st Floor',
-    url: `${BASE_URL}/?src=qr-room&room=majorelle`,
+    path: '/?src=qr-room&room=majorelle',
     filename: 'qr-suite-majorelle',
     badge: 'Suite Privée'
   },
@@ -33,7 +35,7 @@ const ITEMS = [
     title: 'Suite Ourika',
     sub: '1st Floor • 1er Étage',
     floor: '1er Étage / 1st Floor',
-    url: `${BASE_URL}/?src=qr-room&room=ourika`,
+    path: '/?src=qr-room&room=ourika',
     filename: 'qr-suite-ourika',
     badge: 'Suite Privée'
   },
@@ -42,7 +44,7 @@ const ITEMS = [
     title: 'Suite Koutoubia',
     sub: '1st Floor • 1er Étage',
     floor: '1er Étage / 1st Floor',
-    url: `${BASE_URL}/?src=qr-room&room=koutoubia`,
+    path: '/?src=qr-room&room=koutoubia',
     filename: 'qr-suite-koutoubia',
     badge: 'Suite Privée'
   },
@@ -51,7 +53,7 @@ const ITEMS = [
     title: 'Suite Makhila',
     sub: 'Rooftop Terrace • Terrasse Panoramique',
     floor: 'Terrasse Panoramique / Rooftop',
-    url: `${BASE_URL}/?src=qr-room&room=makhila`,
+    path: '/?src=qr-room&room=makhila',
     filename: 'qr-suite-makhila',
     badge: 'Suite Terrasse'
   },
@@ -60,7 +62,7 @@ const ITEMS = [
     title: 'Suite Mimosa',
     sub: 'Rooftop Terrace • Terrasse Panoramique',
     floor: 'Terrasse Panoramique / Rooftop',
-    url: `${BASE_URL}/?src=qr-room&room=mimosa`,
+    path: '/?src=qr-room&room=mimosa',
     filename: 'qr-suite-mimosa',
     badge: 'Suite Terrasse'
   },
@@ -69,7 +71,7 @@ const ITEMS = [
     title: 'Accueil & Conciergerie',
     sub: 'Reception & Lobby • Riad Atlas Acacia',
     floor: 'Patio & Accueil',
-    url: `${BASE_URL}/?src=qr-reception`,
+    path: '/?src=qr-reception',
     filename: 'qr-reception',
     badge: 'Conciergerie 24/7'
   },
@@ -78,21 +80,22 @@ const ITEMS = [
     title: 'Guide Pré-Arrivée',
     sub: 'Pre-Arrival Guest Guide & Transfers',
     floor: 'Arrivée & Transfert',
-    url: `${BASE_URL}/?src=prearrival`,
+    path: '/?src=prearrival',
     filename: 'qr-prearrival',
     badge: 'Bienvenue à Marrakech'
   }
 ];
 
 async function generate() {
-  console.log(`Generating QR code assets in ${OUTPUT_DIR}...`);
+  console.log(`Generating QR code assets with base: ${BASE_URL}...`);
 
   for (const item of ITEMS) {
+    const fullUrl = `${BASE_URL}${item.path}`;
     const pngPath = path.join(OUTPUT_DIR, `${item.filename}.png`);
     const svgPath = path.join(OUTPUT_DIR, `${item.filename}.svg`);
 
-    // High resolution PNG (1024x1024) with riad dark bronze color (#1C1917) and warm margin
-    await QRCode.toFile(pngPath, item.url, {
+    // High resolution PNG (1024x1024)
+    await QRCode.toFile(pngPath, fullUrl, {
       width: 1024,
       margin: 2,
       color: {
@@ -103,7 +106,7 @@ async function generate() {
     });
 
     // Vector SVG
-    const svgString = await QRCode.toString(item.url, {
+    const svgString = await QRCode.toString(fullUrl, {
       type: 'svg',
       margin: 2,
       color: {
@@ -114,10 +117,10 @@ async function generate() {
     });
     fs.writeFileSync(svgPath, svgString, 'utf-8');
 
-    console.log(`✓ Generated ${item.title}: ${item.filename}.png & .svg`);
+    console.log(`✓ Generated ${item.title}: ${item.filename}.png & .svg -> ${fullUrl}`);
   }
 
-  // Generate Print-Ready HTML Placards Sheet
+  // Generate Print-Ready HTML Placards Sheet with Dynamic Base URL Switcher
   const placardsHtml = `<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -127,6 +130,7 @@ async function generate() {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -137,20 +141,26 @@ async function generate() {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #F4EFEA;
       color: #1C1917;
-      padding: 30px;
+      padding: 30px 20px;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
     .toolbar {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto 30px auto;
       background: white;
-      padding: 20px 24px;
-      border-radius: 12px;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      border: 1px solid #E8DFD5;
+    }
+    .toolbar-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
     .btn-print {
       background: #B85C3C;
@@ -159,7 +169,7 @@ async function generate() {
       padding: 12px 24px;
       border-radius: 8px;
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -168,6 +178,60 @@ async function generate() {
     }
     .btn-print:hover {
       background: #9B482B;
+    }
+    .url-switcher-box {
+      background: #F8F5F0;
+      border: 1px solid #E4DACD;
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .url-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .btn-preset {
+      background: white;
+      border: 1px solid #D8CFC3;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #2C2C2C;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-preset.active {
+      background: #B85C3C;
+      color: white;
+      border-color: #B85C3C;
+    }
+    .url-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .url-input {
+      flex: 1;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid #D8CFC3;
+      font-size: 13px;
+      font-family: monospace;
+      color: #1C1917;
+    }
+    .url-apply-btn {
+      background: #2C2C2C;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
     }
     .grid {
       display: grid;
@@ -251,7 +315,7 @@ async function generate() {
       font-size: 12px;
       color: #78716C;
       font-weight: 500;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
     .qr-container {
       background: white;
@@ -259,13 +323,21 @@ async function generate() {
       border-radius: 16px;
       border: 1px solid #E8DFD5;
       box-shadow: 0 4px 16px rgba(0,0,0,0.04);
-      margin-bottom: 22px;
+      margin-bottom: 18px;
       position: relative;
     }
-    .qr-img {
+    .qr-canvas, .qr-img {
       width: 190px;
       height: 190px;
       display: block;
+    }
+    .target-url-text {
+      font-size: 10px;
+      color: #9B482B;
+      font-family: monospace;
+      margin-bottom: 14px;
+      word-break: break-all;
+      max-width: 280px;
     }
     .instructions-fr {
       font-size: 13px;
@@ -324,19 +396,40 @@ async function generate() {
 <body>
 
   <div class="toolbar">
-    <div>
-      <h2 style="font-family:'Playfair Display', serif; font-size: 20px;">Placards & Chevalets QR — Riad Atlas Acacia</h2>
-      <p style="font-size: 13px; color: #78716C; margin-top: 4px;">6 Suites privées + 1 Accueil Réception + 1 Guide Pré-Arrivée</p>
+    <div class="toolbar-header">
+      <div>
+        <h2 style="font-family:'Playfair Display', serif; font-size: 20px;">Placards & Chevalets QR — Riad Atlas Acacia</h2>
+        <p style="font-size: 13px; color: #78716C; margin-top: 4px;">6 Suites privées • Accueil Réception • Guide Pré-Arrivée</p>
+      </div>
+      <button class="btn-print" onclick="window.print()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+        Imprimer les chevalets (A5)
+      </button>
     </div>
-    <button class="btn-print" onclick="window.print()">
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
-      Imprimer les chevalets (A5)
-    </button>
+
+    <div class="url-switcher-box">
+      <div style="font-size: 12px; font-weight: 700; color: #1C1917;">Sélectionnez la destination des QR codes :</div>
+      <div class="url-presets">
+        <button class="btn-preset active" id="btn-local" onclick="setBaseUrl('http://${NETWORK_IP}')">
+          📱 Test Wi-Fi Smartphone (http://${NETWORK_IP})
+        </button>
+        <button class="btn-preset" id="btn-prod" onclick="setBaseUrl('https://riadatlasacacia.com')">
+          🌐 Domaine Production (https://riadatlasacacia.com)
+        </button>
+        <button class="btn-preset" id="btn-origin" onclick="setBaseUrl(window.location.origin)">
+          💻 Hôte Actuel (${typeof window !== 'undefined' ? window.location.origin : 'Host'})
+        </button>
+      </div>
+      <div class="url-input-row">
+        <input type="text" id="custom-url-input" class="url-input" value="${BASE_URL}" placeholder="https://votre-domaine.com">
+        <button class="url-apply-btn" onclick="applyCustomUrl()">Mettre à jour les QR</button>
+      </div>
+    </div>
   </div>
 
   <div class="grid">
     ${ITEMS.map(item => `
-      <div class="placard">
+      <div class="placard" data-path="${item.path}">
         <img src="/riad-atlas-acacia/logo.png" alt="Riad Atlas Acacia" class="riad-logo" onerror="this.style.display='none'">
         <div class="brand-kicker">Marrakech Medina</div>
         <div class="brand-title">Riad Atlas Acacia</div>
@@ -347,8 +440,10 @@ async function generate() {
         <div class="suite-sub">${item.sub}</div>
 
         <div class="qr-container">
-          <img src="/qr-placards/${item.filename}.png" alt="${item.title} QR" class="qr-img">
+          <canvas id="qr-canvas-${item.id}" class="qr-canvas"></canvas>
         </div>
+
+        <div class="target-url-text" id="url-text-${item.id}">${BASE_URL}${item.path}</div>
 
         <div class="instructions-fr">Scannez pour accéder au Guide & Room Service</div>
         <div class="instructions-en">Scan to access your Guest Guide & In-Room Service</div>
@@ -362,12 +457,70 @@ async function generate() {
     `).join('')}
   </div>
 
+  <script>
+    const items = ${JSON.stringify(ITEMS)};
+    let currentBase = "${BASE_URL}";
+
+    function renderAllQrs(base) {
+      currentBase = base.replace(/\\/+$/, '');
+      document.getElementById('custom-url-input').value = currentBase;
+
+      items.forEach(item => {
+        const fullUrl = currentBase + item.path;
+        const canvas = document.getElementById('qr-canvas-' + item.id);
+        const urlText = document.getElementById('url-text-' + item.id);
+        if (urlText) urlText.textContent = fullUrl;
+
+        if (window.QRCode && canvas) {
+          QRCode.toCanvas(canvas, fullUrl, {
+            width: 190,
+            margin: 1,
+            color: {
+              dark: '#1C1917',
+              light: '#FFFFFF'
+            },
+            errorCorrectionLevel: 'H'
+          }, function (error) {
+            if (error) console.error(error);
+          });
+        }
+      });
+    }
+
+    function setBaseUrl(base) {
+      document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+      if (base.includes('${NETWORK_IP}')) {
+        document.getElementById('btn-local')?.classList.add('active');
+      } else if (base.includes('riadatlasacacia.com')) {
+        document.getElementById('btn-prod')?.classList.add('active');
+      }
+      renderAllQrs(base);
+    }
+
+    function applyCustomUrl() {
+      const val = document.getElementById('custom-url-input').value.trim();
+      if (val) {
+        document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+        renderAllQrs(val);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // If we are currently browsing on localhost or custom domain, default to current origin
+      if (window.location.origin && window.location.origin.includes('http')) {
+        setBaseUrl(window.location.origin);
+      } else {
+        renderAllQrs(currentBase);
+      }
+    });
+  </script>
+
 </body>
 </html>`;
 
   fs.writeFileSync(path.join(OUTPUT_DIR, 'print.html'), placardsHtml, 'utf-8');
   fs.writeFileSync(path.join(OUTPUT_DIR, 'index.html'), placardsHtml, 'utf-8');
-  console.log('✓ Generated print-ready placards: print.html & index.html');
+  console.log('✓ Generated interactive print-ready placards: print.html & index.html');
 }
 
 generate().catch(err => {

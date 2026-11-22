@@ -509,19 +509,23 @@ export default function BookingModal({
                 >
                   <option value="">{isFr ? '-- Choisir votre suite ou lieu --' : '-- Select your suite or location --'}</option>
                   <optgroup label={isFr ? "Suites du 1er étage" : "1st Floor Suites"}>
-                    <option value="Suite 1">{isFr ? "Suite 1 (1er étage)" : "Suite 1 (1st Floor)"}</option>
-                    <option value="Suite 2">{isFr ? "Suite 2 (1er étage)" : "Suite 2 (1st Floor)"}</option>
-                    <option value="Suite 3">{isFr ? "Suite 3 (1er étage)" : "Suite 3 (1st Floor)"}</option>
-                    <option value="Suite 4">{isFr ? "Suite 4 (1er étage)" : "Suite 4 (1st Floor)"}</option>
+                    <option value="Suite Atlas">{isFr ? "Suite Atlas (1er étage)" : "Suite Atlas (1st Floor)"}</option>
+                    <option value="Suite Majorelle">{isFr ? "Suite Majorelle (1er étage)" : "Suite Majorelle (1st Floor)"}</option>
+                    <option value="Suite Ourika">{isFr ? "Suite Ourika (1er étage)" : "Suite Ourika (1st Floor)"}</option>
+                    <option value="Suite Koutoubia">{isFr ? "Suite Koutoubia (1er étage)" : "Suite Koutoubia (1st Floor)"}</option>
                   </optgroup>
                   <optgroup label={isFr ? "Suites sur la Terrasse" : "Rooftop Terrace Suites"}>
-                    <option value="Suite 5">{isFr ? "Suite 5 (Terrasse)" : "Suite 5 (Rooftop Terrace)"}</option>
-                    <option value="Suite 6">{isFr ? "Suite 6 (Terrasse)" : "Suite 6 (Rooftop Terrace)"}</option>
+                    <option value="Suite Makhila">{isFr ? "Suite Makhila (Terrasse)" : "Suite Makhila (Rooftop)"}</option>
+                    <option value="Suite Mimosa">{isFr ? "Suite Mimosa (Terrasse)" : "Suite Mimosa (Rooftop)"}</option>
                   </optgroup>
                   <optgroup label={isFr ? "Espaces communs du Riad" : "Riad Common Areas"}>
                     <option value="Patio & Pool">{isFr ? "Patio central & Bassin (RDC)" : "Central Patio & Pool"}</option>
                     <option value="Panoramic Rooftop">{isFr ? "Toit terrasse panoramique" : "Panoramic Rooftop"}</option>
                     <option value="Moroccan Salon">{isFr ? "Salon marocain & Cheminée" : "Moroccan Fireplace Salon"}</option>
+                  </optgroup>
+                  <optgroup label={isFr ? "Statut de séjour & Visiteur" : "Stay Status & Visitors"}>
+                    <option value="Pre-Arrival">{isFr ? "Avant arrivée (Transfert / Arrivée)" : "Pre-Arrival (Transfer / Arrival Night)"}</option>
+                    <option value="Outside Visitor">{isFr ? "Client extérieur (Non résident)" : "Outside Visitor (Non-Resident)"}</option>
                   </optgroup>
                 </select>
               </div>

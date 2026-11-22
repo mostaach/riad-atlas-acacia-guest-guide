@@ -208,6 +208,18 @@ const ui = {
     bookService: "Book / Request",
     allOffersKicker: "Curated for Acacia Guests",
     needHelp: "Need Help?",
+    policiesTitle: "House Policies & Privacy",
+    privacyHeading: "Privacy & Data Protection",
+    privacyText: "Your privacy is fully respected. We do not track you across the web, use advertising cookies, or store payment card details. Booking requests are transmitted directly and privately to the riad team via end-to-end encrypted WhatsApp or direct phone call.",
+    houseRulesHeading: "House Rules & Stay Information",
+    houseRules: [
+      "Check-in from 14:00 • Check-out until 12:00 (Complimentary luggage storage available).",
+      "Serenity & Quiet Hours: Between 22:00 and 08:00 to preserve the peace of the riad.",
+      "Dining Orders: Prepared fresh from the market; please order at least 4 hours in advance (before 16:00 for same-day dinner).",
+      "Smoking: All bedrooms and indoor salons are non-smoking. Smoking is permitted on the rooftop terrace and open patio.",
+      "Payments: Cash in MAD or EUR and credit cards accepted at reception. 10% discount applies to cash payments for dining and spa treatments.",
+      "Outside Visitors: Advance reservation required for dining, hammam, or rooftop access.",
+    ],
     bestTime: "Best Time",
     budget: "Budget",
     openInMaps: "Open in Google Maps",
@@ -332,6 +344,18 @@ const ui = {
     bookService: "Demander / Réserver",
     allOffersKicker: "Sur mesure pour nos résidents",
     needHelp: "Besoin d'aide?",
+    policiesTitle: "Règlement intérieur & Confidentialité",
+    privacyHeading: "Protection des données & Confidentialité",
+    privacyText: "Votre vie privée est strictement respectée. Nous n'utilisons aucun cookie publicitaire et ne stockons aucune coordonnée bancaire. Vos demandes de réservation sont transmises directement à l'équipe du riad via WhatsApp sécurisé ou appel direct.",
+    houseRulesHeading: "Règles de la maison & Conditions de séjour",
+    houseRules: [
+      "Arrivée à partir de 14h00 • Départ jusqu'à 12h00 (Bagagerie gratuite disponible).",
+      "Calme & Sérénité : Respect du repos des hôtes entre 22h00 et 08h00.",
+      "Commandes de repas : Produits frais du marché ; commande requise au moins 4h à l'avance (avant 16h00 pour le dîner du soir).",
+      "Tabac : Toutes les chambres et salons intérieurs sont non-fumeurs. Autorisé sur le toit-terrasse et les espaces ouverts du patio.",
+      "Paiements : Espèces en MAD ou EUR et cartes bancaires acceptées à la réception. Remise de 10% accordée sur les paiements en espèces pour les repas et soins spa.",
+      "Visiteurs extérieurs : Réservation préalable obligatoire pour les repas et l'accès au hammam.",
+    ],
     bestTime: "Meilleur moment",
     budget: "Budget",
     openInMaps: "Ouvrir dans Google Maps",
@@ -349,7 +373,7 @@ export default function Home() {
   const [feedbackRating, setFeedbackRating] = useState<number | null>(null);
   const [feedbackNote, setFeedbackNote] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState<string>("Suite 1");
+  const [selectedRoom, setSelectedRoom] = useState<string>("Suite Atlas");
   const [primaryCurrency, setPrimaryCurrency] = useState<"MAD" | "EUR">("MAD");
   const [selectedCatalogItem, setSelectedCatalogItem] = useState<CatalogItem | null>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -1302,6 +1326,36 @@ export default function Home() {
               </Card>
 
               <Card className="border-[#E0D5C7] bg-white/95 p-4 shadow-sm backdrop-blur-sm">
+                <h3 className="mb-3 flex items-center gap-2 text-lg font-bold text-[#2C2C2C]">
+                  <ShieldCheck className="h-5 w-5 text-[#B85C3C]" />
+                  {t.policiesTitle}
+                </h3>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <h4 className="font-semibold text-[#2C2C2C] mb-1">
+                      {t.privacyHeading}
+                    </h4>
+                    <p className="text-xs leading-relaxed text-[#6B6B6B]">
+                      {t.privacyText}
+                    </p>
+                  </div>
+                  <div className="border-t border-[#E0D5C7]/60 pt-3">
+                    <h4 className="font-semibold text-[#2C2C2C] mb-2">
+                      {t.houseRulesHeading}
+                    </h4>
+                    <ul className="space-y-1.5 text-xs text-[#6B6B6B]">
+                      {t.houseRules.map((rule: string, i: number) => (
+                        <li key={i} className="flex items-start gap-1.5">
+                          <span className="text-[#B85C3C] font-bold">•</span>
+                          <span>{rule}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="border-[#E0D5C7] bg-white/95 p-4 shadow-sm backdrop-blur-sm">
                 <h3 className="mb-2 flex items-center gap-2 text-lg font-bold text-[#2C2C2C]">
                   <MessageCircle className="h-5 w-5 text-[#B85C3C]" />
                   {t.feedbackTitle}
@@ -1497,14 +1551,14 @@ export default function Home() {
                         className="w-full rounded-lg border border-[#E0D5C7] bg-white p-2.5 text-sm font-semibold text-[#2C2C2C] focus:border-[#B85C3C] focus:outline-none focus:ring-1 focus:ring-[#B85C3C]"
                       >
                         <optgroup label={language === "fr" ? "Suites du 1er étage" : "1st Floor Suites"}>
-                          <option value="Suite 1">{language === "fr" ? "Suite 1 (1er étage)" : "Suite 1 (1st Floor)"}</option>
-                          <option value="Suite 2">{language === "fr" ? "Suite 2 (1er étage)" : "Suite 2 (1st Floor)"}</option>
-                          <option value="Suite 3">{language === "fr" ? "Suite 3 (1er étage)" : "Suite 3 (1st Floor)"}</option>
-                          <option value="Suite 4">{language === "fr" ? "Suite 4 (1er étage)" : "Suite 4 (1st Floor)"}</option>
+                          <option value="Suite Atlas">{language === "fr" ? "Suite Atlas (1er étage)" : "Suite Atlas (1st Floor)"}</option>
+                          <option value="Suite Majorelle">{language === "fr" ? "Suite Majorelle (1er étage)" : "Suite Majorelle (1st Floor)"}</option>
+                          <option value="Suite Ourika">{language === "fr" ? "Suite Ourika (1er étage)" : "Suite Ourika (1st Floor)"}</option>
+                          <option value="Suite Koutoubia">{language === "fr" ? "Suite Koutoubia (1er étage)" : "Suite Koutoubia (1st Floor)"}</option>
                         </optgroup>
                         <optgroup label={language === "fr" ? "Suites sur la terrasse" : "Rooftop Terrace Suites"}>
-                          <option value="Suite 5">{language === "fr" ? "Suite 5 (Terrasse)" : "Suite 5 (Rooftop Terrace)"}</option>
-                          <option value="Suite 6">{language === "fr" ? "Suite 6 (Terrasse)" : "Suite 6 (Rooftop Terrace)"}</option>
+                          <option value="Suite Makhila">{language === "fr" ? "Suite Makhila (Terrasse)" : "Suite Makhila (Rooftop)"}</option>
+                          <option value="Suite Mimosa">{language === "fr" ? "Suite Mimosa (Terrasse)" : "Suite Mimosa (Rooftop)"}</option>
                         </optgroup>
                         <optgroup label={language === "fr" ? "Espaces de vie du Riad" : "Riad Common Spaces"}>
                           <option value="Patio & Pool">
@@ -1515,6 +1569,14 @@ export default function Home() {
                           </option>
                           <option value="Fireplace Salon">
                             {language === "fr" ? "Salon marocain avec cheminée (RDC)" : "Moroccan Fireplace Salon (Ground Floor)"}
+                          </option>
+                        </optgroup>
+                        <optgroup label={language === "fr" ? "Statut de séjour & Visiteur" : "Stay Status & Visitors"}>
+                          <option value="Pre-Arrival">
+                            {language === "fr" ? "Avant arrivée (Transfert / Arrivée)" : "Pre-Arrival (Transfer / Arrival Night)"}
+                          </option>
+                          <option value="Outside Visitor">
+                            {language === "fr" ? "Client extérieur (Non résident)" : "Outside Visitor (Non-Resident)"}
                           </option>
                         </optgroup>
                       </select>
@@ -1533,9 +1595,17 @@ export default function Home() {
                         </button>
                         <a
                           href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-                            language === "fr"
-                              ? `Bonjour, je suis actuellement à ${selectedRoom} au Riad Atlas Acacia et je souhaite commander le service en chambre / un soin spa.`
-                              : `Hello, I am currently at ${selectedRoom} at Riad Atlas Acacia and would like to order room service / a spa treatment.`
+                            selectedRoom === "Pre-Arrival"
+                              ? (language === "fr"
+                                  ? "Bonjour Riad Atlas Acacia, je prépare mon arrivée et je souhaite réserver un transfert / un repas ou un soin."
+                                  : "Hello Riad Atlas Acacia, I am preparing my arrival and would like to arrange a transfer / a meal or spa treatment.")
+                              : selectedRoom === "Outside Visitor"
+                              ? (language === "fr"
+                                  ? "Bonjour Riad Atlas Acacia, en tant que client extérieur, je souhaite réserver une table pour dîner / un soin spa."
+                                  : "Hello Riad Atlas Acacia, as an outside guest, I would like to reserve a dining table / spa treatment.")
+                              : (language === "fr"
+                                  ? `Bonjour, je suis actuellement à la ${selectedRoom} au Riad Atlas Acacia et je souhaite commander le service en chambre / un soin spa.`
+                                  : `Hello, I am currently at ${selectedRoom} at Riad Atlas Acacia and would like to order room service / a spa treatment.`)
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"

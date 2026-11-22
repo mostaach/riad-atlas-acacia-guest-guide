@@ -44,8 +44,8 @@
   ],
   "suites": [
     {
-      "id": "suite-1",
-      "name": "Suite 1",
+      "id": "suite-atlas",
+      "name": "Suite Atlas",
       "floor": { "en": "1st Floor", "fr": "1er étage" },
       "size": "32 m²",
       "description": {
@@ -54,8 +54,8 @@
       }
     },
     {
-      "id": "suite-2",
-      "name": "Suite 2",
+      "id": "suite-majorelle",
+      "name": "Suite Majorelle",
       "floor": { "en": "1st Floor", "fr": "1er étage" },
       "size": "30 m²",
       "description": {
@@ -64,8 +64,8 @@
       }
     },
     {
-      "id": "suite-3",
-      "name": "Suite 3",
+      "id": "suite-ourika",
+      "name": "Suite Ourika",
       "floor": { "en": "1st Floor", "fr": "1er étage" },
       "size": "35 m²",
       "description": {
@@ -74,8 +74,8 @@
       }
     },
     {
-      "id": "suite-4",
-      "name": "Suite 4",
+      "id": "suite-koutoubia",
+      "name": "Suite Koutoubia",
       "floor": { "en": "1st Floor", "fr": "1er étage" },
       "size": "30 m²",
       "description": {
@@ -84,9 +84,9 @@
       }
     },
     {
-      "id": "suite-5",
-      "name": "Suite 5",
-      "floor": { "en": "Terrace Floor", "fr": "Terrasse" },
+      "id": "suite-makhila",
+      "name": "Suite Makhila",
+      "floor": { "en": "Rooftop Terrace", "fr": "Toit terrasse" },
       "size": "29 m²",
       "description": {
         "en": "Intimate terrace suite opening onto the rooftop solarium, tranquil and secluded.",
@@ -94,9 +94,9 @@
       }
     },
     {
-      "id": "suite-6",
-      "name": "Suite 6",
-      "floor": { "en": "Terrace Floor", "fr": "Terrasse" },
+      "id": "suite-mimosa",
+      "name": "Suite Mimosa",
+      "floor": { "en": "Rooftop Terrace", "fr": "Toit terrasse" },
       "size": "34 m²",
       "description": {
         "en": "Exclusive rooftop suite with generous proportions, direct terrace access and sunset views.",

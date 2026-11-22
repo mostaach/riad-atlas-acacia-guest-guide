@@ -38,44 +38,44 @@
   ],
   "suites": [
     {
-      "id": "suite-1",
-      "name": "Suite 1",
+      "id": "suite-atlas",
+      "name": "Suite Atlas",
       "floor": "1st Floor",
       "size": "32 m²",
       "description": "Elegant and bright 1st floor suite with private sitting area, king bed and refined bathroom."
     },
     {
-      "id": "suite-2",
-      "name": "Suite 2",
+      "id": "suite-majorelle",
+      "name": "Suite Majorelle",
       "floor": "1st Floor",
       "size": "30 m²",
       "description": "Warm and inviting 1st floor suite with authentic Moroccan artisan decor and serene ambiance."
     },
     {
-      "id": "suite-3",
-      "name": "Suite 3",
+      "id": "suite-ourika",
+      "name": "Suite Ourika",
       "floor": "1st Floor",
       "size": "35 m²",
       "description": "Spacious and refined 1st floor suite with generous lounge area and soft natural light."
     },
     {
-      "id": "suite-4",
-      "name": "Suite 4",
+      "id": "suite-koutoubia",
+      "name": "Suite Koutoubia",
       "floor": "1st Floor",
       "size": "30 m²",
       "description": "Tranquil 1st floor suite offering a fluid harmonious layout and intimate private lounge."
     },
     {
-      "id": "suite-5",
-      "name": "Suite 5",
-      "floor": "Terrace Floor",
+      "id": "suite-makhila",
+      "name": "Suite Makhila",
+      "floor": "Rooftop Terrace",
       "size": "29 m²",
-      "description": "Intimate terrace suite opening onto the rooftop solarium, tranquil and secluded."
+      "description": "Intimate rooftop suite opening onto the solarium, tranquil and secluded."
     },
     {
-      "id": "suite-6",
-      "name": "Suite 6",
-      "floor": "Terrace Floor",
+      "id": "suite-mimosa",
+      "name": "Suite Mimosa",
+      "floor": "Rooftop Terrace",
       "size": "34 m²",
       "description": "Exclusive rooftop suite with generous proportions, direct terrace access and sunset views."
     }

@@ -37,7 +37,13 @@ export function buildWhatsAppMessage(data: BookingRequestData): string {
     msg += `• Date : ${dateTime}\n`;
     msg += `• Voyageurs : ${data.guests}\n`;
     msg += `• Total estimé : ${data.price.mad} MAD / ${data.price.eur} €\n`;
-    msg += `• Nom / Chambre : ${data.guestName} / ${data.roomNumber}\n`;
+    const roomDisplay =
+      data.roomNumber === 'Pre-Arrival'
+        ? 'Avant arrivée (Transfert / Premier soir)'
+        : data.roomNumber === 'Outside Visitor'
+        ? 'Client extérieur (Non-résident)'
+        : data.roomNumber;
+    msg += `• Nom / Chambre : ${data.guestName} / ${roomDisplay}\n`;
 
     if (data.notes && data.notes.trim()) {
       msg += `• Remarques : ${data.notes.trim()}\n`;
@@ -57,7 +63,13 @@ export function buildWhatsAppMessage(data: BookingRequestData): string {
     msg += `• Date: ${dateTimeEn}\n`;
     msg += `• Guests: ${data.guests}\n`;
     msg += `• Estimated total: ${data.price.mad} MAD / ${data.price.eur} €\n`;
-    msg += `• Name / Room: ${data.guestName} / ${data.roomNumber}\n`;
+    const roomDisplayEn =
+      data.roomNumber === 'Pre-Arrival'
+        ? 'Pre-Arrival (Transfer / Arrival Night)'
+        : data.roomNumber === 'Outside Visitor'
+        ? 'Outside Visitor (Non-Resident)'
+        : data.roomNumber;
+    msg += `• Name / Room: ${data.guestName} / ${roomDisplayEn}\n`;
 
     if (data.notes && data.notes.trim()) {
       msg += `• Notes: ${data.notes.trim()}\n`;

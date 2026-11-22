@@ -37,6 +37,7 @@ interface BookingModalProps {
   language: 'en' | 'fr';
   primaryCurrency: 'MAD' | 'EUR';
   whatsappNumber: string;
+  defaultRoom?: string;
 }
 
 export default function BookingModal({
@@ -46,15 +47,15 @@ export default function BookingModal({
   language,
   primaryCurrency,
   whatsappNumber,
+  defaultRoom,
 }: BookingModalProps) {
-  if (!item || !isOpen) return null;
-
+  // All hooks MUST come before any conditional return (Rules of Hooks)
   const isFr = language === 'fr';
 
   // Form states
   const [guests, setGuests] = useState<number>(2);
   const [selectedOptionId, setSelectedOptionId] = useState<string>(() => {
-    return item.options?.[0]?.id || '';
+    return item?.options?.[0]?.id || '';
   });
   const [useSharedMinibus, setUseSharedMinibus] = useState<boolean>(false);
   const [date, setDate] = useState<string>(() => {
@@ -63,7 +64,8 @@ export default function BookingModal({
   });
   const [time, setTime] = useState<string>('19:30');
   const [guestName, setGuestName] = useState<string>('');
-  const [roomNumber, setRoomNumber] = useState<string>('');
+  const [roomNumber, setRoomNumber] = useState<string>(() => defaultRoom || '');
+  const [flightNumber, setFlightNumber] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -72,11 +74,14 @@ export default function BookingModal({
     { starter: string; main: string; dessert: string }[]
   >(() => {
     return Array.from({ length: 2 }, () => ({
-      starter: item.meal_selection?.starters?.[0]?.id || '',
-      main: item.meal_selection?.mains?.[0]?.id || '',
-      dessert: item.meal_selection?.desserts?.[0]?.id || '',
+      starter: item?.meal_selection?.starters?.[0]?.id || '',
+      main: item?.meal_selection?.mains?.[0]?.id || '',
+      dessert: item?.meal_selection?.desserts?.[0]?.id || '',
     }));
   });
+
+  // Guard: render nothing if modal is not open or no item selected
+  if (!item || !isOpen) return null;
 
   // Adjust meal selections if guest count changes
   const handleGuestChange = (newCount: number) => {
@@ -169,6 +174,7 @@ export default function BookingModal({
       price: priceResult,
       guestName,
       roomNumber,
+      flightNumber: flightNumber.trim() || undefined,
       notes,
       mealSelections: readableMeals,
       language,
@@ -509,14 +515,14 @@ export default function BookingModal({
                 >
                   <option value="">{isFr ? '-- Choisir votre suite ou lieu --' : '-- Select your suite or location --'}</option>
                   <optgroup label={isFr ? "Suites du 1er étage" : "1st Floor Suites"}>
-                    <option value="Suite Atlas">{isFr ? "Suite Atlas (1er étage)" : "Suite Atlas (1st Floor)"}</option>
-                    <option value="Suite Majorelle">{isFr ? "Suite Majorelle (1er étage)" : "Suite Majorelle (1st Floor)"}</option>
-                    <option value="Suite Ourika">{isFr ? "Suite Ourika (1er étage)" : "Suite Ourika (1st Floor)"}</option>
-                    <option value="Suite Koutoubia">{isFr ? "Suite Koutoubia (1er étage)" : "Suite Koutoubia (1st Floor)"}</option>
+                    <option value="Suite Atlas">Suite Atlas</option>
+                    <option value="Suite Majorelle">Suite Majorelle</option>
+                    <option value="Suite Ourika">Suite Ourika</option>
+                    <option value="Suite Koutoubia">Suite Koutoubia</option>
                   </optgroup>
                   <optgroup label={isFr ? "Suites sur la Terrasse" : "Rooftop Terrace Suites"}>
-                    <option value="Suite Makhila">{isFr ? "Suite Makhila (Terrasse)" : "Suite Makhila (Rooftop)"}</option>
-                    <option value="Suite Mimosa">{isFr ? "Suite Mimosa (Terrasse)" : "Suite Mimosa (Rooftop)"}</option>
+                    <option value="Suite Makhila">Suite Makhila</option>
+                    <option value="Suite Mimosa">Suite Mimosa</option>
                   </optgroup>
                   <optgroup label={isFr ? "Espaces communs du Riad" : "Riad Common Areas"}>
                     <option value="Patio & Pool">{isFr ? "Patio central & Bassin (RDC)" : "Central Patio & Pool"}</option>
@@ -529,6 +535,20 @@ export default function BookingModal({
                   </optgroup>
                 </select>
               </div>
+            </div>
+
+            {/* Flight Number (Optional) */}
+            <div>
+              <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground block mb-1">
+                {isFr ? 'Numéro de vol (Optionnel)' : 'Flight Number (Optional)'}
+              </label>
+              <input
+                type="text"
+                placeholder={isFr ? 'Ex: AF 1476 / AT 412 (pour le suivi en direct de votre transfert)' : 'e.g. AF 1476 / AT 412 (for live pickup tracking)'}
+                value={flightNumber}
+                onChange={e => setFlightNumber(e.target.value)}
+                className="w-full text-xs p-2.5 rounded-xl border border-border bg-card text-foreground"
+              />
             </div>
 
             {/* Notes */}

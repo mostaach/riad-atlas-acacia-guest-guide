@@ -419,6 +419,34 @@ export default function Home() {
         track("qr_landing", { src, riadId: riadData.id });
       }
 
+      const roomParam = searchParams.get("room");
+      if (roomParam) {
+        const normalized = roomParam.toLowerCase().replace(/[-_]/g, " ");
+        const suitesList = [
+          "Suite Atlas",
+          "Suite Majorelle",
+          "Suite Ourika",
+          "Suite Koutoubia",
+          "Suite Makhila",
+          "Suite Mimosa",
+        ];
+        const matched = suitesList.find(
+          (s) =>
+            s.toLowerCase() === normalized ||
+            s.toLowerCase().includes(normalized) ||
+            normalized.includes(s.toLowerCase().replace("suite ", ""))
+        );
+        if (matched) {
+          setSelectedRoom(matched);
+          localStorage.setItem("riad_room", matched);
+        }
+      } else {
+        const savedRoom = localStorage.getItem("riad_room");
+        if (savedRoom) {
+          setSelectedRoom(savedRoom);
+        }
+      }
+
       const savedLang = localStorage.getItem("riad_lang") as Language;
       if (savedLang === "en" || savedLang === "fr") {
         setLanguage(savedLang);
@@ -1551,14 +1579,14 @@ export default function Home() {
                         className="w-full rounded-lg border border-[#E0D5C7] bg-white p-2.5 text-sm font-semibold text-[#2C2C2C] focus:border-[#B85C3C] focus:outline-none focus:ring-1 focus:ring-[#B85C3C]"
                       >
                         <optgroup label={language === "fr" ? "Suites du 1er étage" : "1st Floor Suites"}>
-                          <option value="Suite Atlas">{language === "fr" ? "Suite Atlas (1er étage)" : "Suite Atlas (1st Floor)"}</option>
-                          <option value="Suite Majorelle">{language === "fr" ? "Suite Majorelle (1er étage)" : "Suite Majorelle (1st Floor)"}</option>
-                          <option value="Suite Ourika">{language === "fr" ? "Suite Ourika (1er étage)" : "Suite Ourika (1st Floor)"}</option>
-                          <option value="Suite Koutoubia">{language === "fr" ? "Suite Koutoubia (1er étage)" : "Suite Koutoubia (1st Floor)"}</option>
+                          <option value="Suite Atlas">Suite Atlas</option>
+                          <option value="Suite Majorelle">Suite Majorelle</option>
+                          <option value="Suite Ourika">Suite Ourika</option>
+                          <option value="Suite Koutoubia">Suite Koutoubia</option>
                         </optgroup>
                         <optgroup label={language === "fr" ? "Suites sur la terrasse" : "Rooftop Terrace Suites"}>
-                          <option value="Suite Makhila">{language === "fr" ? "Suite Makhila (Terrasse)" : "Suite Makhila (Rooftop)"}</option>
-                          <option value="Suite Mimosa">{language === "fr" ? "Suite Mimosa (Terrasse)" : "Suite Mimosa (Rooftop)"}</option>
+                          <option value="Suite Makhila">Suite Makhila</option>
+                          <option value="Suite Mimosa">Suite Mimosa</option>
                         </optgroup>
                         <optgroup label={language === "fr" ? "Espaces de vie du Riad" : "Riad Common Spaces"}>
                           <option value="Patio & Pool">
@@ -1653,6 +1681,7 @@ export default function Home() {
         language={language}
         primaryCurrency={primaryCurrency}
         whatsappNumber={riadData.whatsapp || "+212663715754"}
+        defaultRoom={selectedRoom}
       />
     </div>
   );

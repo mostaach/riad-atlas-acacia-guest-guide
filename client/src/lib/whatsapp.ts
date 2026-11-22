@@ -9,6 +9,7 @@ export interface BookingRequestData {
   price: PriceResult;
   guestName: string;
   roomNumber: string;
+  flightNumber?: string;
   notes?: string;
   mealSelections?: {
     starter?: string;
@@ -45,6 +46,10 @@ export function buildWhatsAppMessage(data: BookingRequestData): string {
         : data.roomNumber;
     msg += `• Nom / Chambre : ${data.guestName} / ${roomDisplay}\n`;
 
+    if (data.flightNumber && data.flightNumber.trim()) {
+      msg += `• Numéro de vol : ${data.flightNumber.trim()}\n`;
+    }
+
     if (data.notes && data.notes.trim()) {
       msg += `• Remarques : ${data.notes.trim()}\n`;
     }
@@ -70,6 +75,10 @@ export function buildWhatsAppMessage(data: BookingRequestData): string {
         ? 'Outside Visitor (Non-Resident)'
         : data.roomNumber;
     msg += `• Name / Room: ${data.guestName} / ${roomDisplayEn}\n`;
+
+    if (data.flightNumber && data.flightNumber.trim()) {
+      msg += `• Flight number: ${data.flightNumber.trim()}\n`;
+    }
 
     if (data.notes && data.notes.trim()) {
       msg += `• Notes: ${data.notes.trim()}\n`;

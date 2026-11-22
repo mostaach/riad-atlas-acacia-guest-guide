@@ -594,31 +594,26 @@ export default function Home() {
           }}
         >
           {/* Multi-layered luxury vignette & contrast overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/85" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.6)_100%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/80" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.55)_100%)]" />
 
           {/* Top Bar Header */}
           <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 md:px-8">
-            <div className="flex items-center gap-2.5 rounded-full border border-white/20 bg-black/40 px-3.5 py-1.5 backdrop-blur-md shadow-sm">
-              <img
-                src={riadData.logo || riadData.image}
-                alt={riadData.name}
-                className="h-6 w-6 rounded-full object-cover border border-amber-300/60"
-              />
-              <span className="font-serif text-xs font-semibold tracking-wider text-amber-100 hidden xs:inline">
-                RIAD ATLAS ACACIA
+            <div className="flex items-center gap-2.5">
+              <span className="font-serif text-xs font-semibold tracking-[0.25em] uppercase text-amber-200/90 drop-shadow">
+                Marrakech Médina
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex items-center rounded-full border border-white/30 bg-black/40 p-0.5 backdrop-blur-md">
+              <div className="flex items-center rounded-full border border-white/20 bg-black/40 p-0.5 backdrop-blur-md shadow-xs">
                 <button
                   onClick={() => {
                     setPrimaryCurrency("MAD");
                     localStorage.setItem("riad_curr", "MAD");
                   }}
-                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
                     primaryCurrency === "MAD"
-                      ? "bg-amber-100 text-stone-900 shadow-sm"
+                      ? "bg-amber-100/95 text-stone-900 shadow-xs"
                       : "text-white/80 hover:text-white"
                   }`}
                 >
@@ -629,9 +624,9 @@ export default function Home() {
                     setPrimaryCurrency("EUR");
                     localStorage.setItem("riad_curr", "EUR");
                   }}
-                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
                     primaryCurrency === "EUR"
-                      ? "bg-amber-100 text-stone-900 shadow-sm"
+                      ? "bg-amber-100/95 text-stone-900 shadow-xs"
                       : "text-white/80 hover:text-white"
                   }`}
                 >
@@ -644,7 +639,7 @@ export default function Home() {
                   setLanguage(next);
                   localStorage.setItem("riad_lang", next);
                 }}
-                className="rounded-full border border-white/30 bg-black/40 px-3.5 py-1 text-xs font-bold text-white backdrop-blur-md hover:bg-black/60 transition-colors"
+                className="rounded-full border border-white/20 bg-black/40 px-3.5 py-1 text-xs font-semibold text-white backdrop-blur-md hover:bg-black/60 transition-colors shadow-xs"
                 type="button"
                 aria-label={`Switch language to ${language === "en" ? "French" : "English"}`}
               >
@@ -654,96 +649,86 @@ export default function Home() {
           </div>
 
           {/* Central Hero Card */}
-          <div className="relative z-10 max-w-2xl text-center pt-8">
-            {/* Medallion Emblem */}
-            <div className="mx-auto mb-4 inline-flex items-center justify-center">
+          <div className="relative z-10 max-w-xl text-center px-4">
+            {/* Medallion Crest */}
+            <div className="mx-auto mb-5 inline-flex items-center justify-center">
               <div className="relative">
-                <div className="absolute -inset-1 rounded-full bg-amber-400/30 blur-sm" />
+                <div className="absolute -inset-1.5 rounded-full bg-gradient-to-tr from-amber-500/30 via-amber-300/20 to-transparent blur-md" />
                 <img
                   src={riadData.logo || riadData.image}
                   alt={riadData.name}
-                  className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full border-2 border-amber-300/80 object-cover p-1 bg-black/60 shadow-2xl backdrop-blur-md"
+                  className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full border border-amber-300/80 object-cover p-1 bg-black/60 shadow-2xl backdrop-blur-md"
                 />
               </div>
             </div>
 
-            {/* Kicker badge */}
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-black/50 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-amber-200 backdrop-blur-md">
-              <span className="text-[10px] text-amber-400">✦</span>
-              <span>{t.heroKicker}</span>
-              <span className="text-[10px] text-amber-400">✦</span>
-            </div>
+            {/* Kicker */}
+            <p className="mb-2 text-xs font-medium uppercase tracking-[0.28em] text-amber-200/90 drop-shadow-sm">
+              {t.heroKicker}
+            </p>
 
             {/* Title */}
-            <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)] leading-tight">
               {riadData.name}
             </h1>
 
-            {/* Moroccan ornamental divider */}
-            <div className="mx-auto my-3.5 flex items-center justify-center gap-3 text-amber-300/70">
-              <span className="h-px w-10 sm:w-16 bg-gradient-to-r from-transparent to-amber-300/60" />
-              <span className="text-[11px]">❖</span>
+            {/* Moroccan refined divider */}
+            <div className="mx-auto my-3 flex items-center justify-center gap-3 text-amber-300/60">
+              <span className="h-px w-10 sm:w-16 bg-gradient-to-r from-transparent to-amber-300/50" />
+              <span className="text-[10px] text-amber-300/70">❖</span>
               <span className="text-xs text-amber-300">✦</span>
-              <span className="text-[11px]">❖</span>
-              <span className="h-px w-10 sm:w-16 bg-gradient-to-l from-transparent to-amber-300/60" />
+              <span className="text-[10px] text-amber-300/70">❖</span>
+              <span className="h-px w-10 sm:w-16 bg-gradient-to-l from-transparent to-amber-300/50" />
             </div>
 
             {/* Subtitle */}
-            <p className="mx-auto mb-8 max-w-xl text-base sm:text-lg font-light leading-relaxed text-stone-200 drop-shadow">
+            <p className="mx-auto mb-8 max-w-md text-sm sm:text-base font-light leading-relaxed text-stone-200/95 drop-shadow">
               {t.heroCopy}
             </p>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col justify-center gap-3 sm:flex-row max-w-md mx-auto sm:max-w-none">
+            {/* Cohesive Luxury Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
               <button
                 onClick={() => openTab("welcome")}
-                className="group flex items-center justify-center gap-2 rounded-full bg-[#B85C3C] px-8 py-3.5 font-semibold text-white shadow-xl shadow-[#B85C3C]/35 ring-1 ring-white/20 transition-all duration-300 hover:bg-[#A04A2F] active:scale-[0.98]"
+                className="w-full sm:w-auto min-w-[200px] flex items-center justify-center gap-2 rounded-full bg-[#B85C3C] px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[#B85C3C]/30 border border-white/20 transition-all duration-300 hover:bg-[#A04A2F] active:scale-[0.98]"
                 type="button"
               >
                 <span>{t.startGuide}</span>
-                <span className="transition-transform group-hover:translate-x-1">→</span>
+                <span className="text-base leading-none">→</span>
               </button>
               <button
                 onClick={() => openTab("catalog")}
-                className="flex items-center justify-center gap-2 rounded-full border border-emerald-400/40 bg-[#1E3A2F]/90 px-7 py-3.5 font-semibold text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:bg-[#1E3A2F] hover:border-emerald-300 active:scale-[0.98]"
+                className="w-full sm:w-auto min-w-[200px] flex items-center justify-center gap-2 rounded-full bg-black/40 hover:bg-black/60 px-7 py-3.5 text-sm font-semibold text-white border border-amber-300/40 backdrop-blur-md shadow-lg transition-all duration-300 active:scale-[0.98]"
                 type="button"
               >
                 <Sparkles className="h-4 w-4 text-amber-300" />
-                <span>{language === "fr" ? "Nos Offres & Spa" : "Browse Offers & Spa"}</span>
-              </button>
-              <button
-                onClick={() => openTab("map")}
-                className="flex items-center justify-center gap-2 rounded-full border border-white/25 bg-black/40 px-7 py-3.5 font-semibold text-white shadow-md backdrop-blur-md transition-all duration-300 hover:bg-black/60 hover:border-white/40 active:scale-[0.98]"
-                type="button"
-              >
-                <Navigation className="h-4 w-4 text-amber-200" />
-                <span>{t.openMap}</span>
+                <span>{language === "fr" ? "Offres & Expériences" : "Offers & Spa"}</span>
               </button>
             </div>
 
-            {/* Highlights quick pills */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-[11px] font-medium text-stone-200">
-              <span className="rounded-full bg-black/45 border border-white/15 px-3.5 py-1 backdrop-blur-sm">
-                📍 Riad Zitoun Jdid
-              </span>
-              <span className="rounded-full bg-black/45 border border-white/15 px-3.5 py-1 backdrop-blur-sm">
-                ⭐ 6 Suites Privées
-              </span>
-              <span className="rounded-full bg-black/45 border border-white/15 px-3.5 py-1 backdrop-blur-sm">
-                🛎️ Concierge WhatsApp
-              </span>
+            {/* Subtle Tertiary Action */}
+            <div className="mt-4">
+              <button
+                onClick={() => openTab("map")}
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-amber-100/80 hover:text-white transition-colors underline-offset-4 hover:underline py-1"
+                type="button"
+              >
+                <Navigation className="h-3.5 w-3.5 text-amber-300" />
+                <span>{language === "fr" ? "Consulter le plan de la médina" : "Explore Medina Map"}</span>
+                <span>↗</span>
+              </button>
             </div>
 
             {/* Bouncing scroll indicator */}
             <button
               onClick={() => openTab("welcome")}
-              className="mx-auto mt-6 flex flex-col items-center gap-1 text-white/70 transition-colors hover:text-white"
+              className="mx-auto mt-7 flex flex-col items-center gap-1 text-white/60 transition-colors hover:text-white"
               aria-label="Scroll down to explore"
             >
-              <span className="text-[10px] font-medium tracking-widest uppercase opacity-80">
+              <span className="text-[10px] font-medium tracking-[0.2em] uppercase opacity-75">
                 {language === "fr" ? "Découvrir" : "Explore"}
               </span>
-              <ChevronDown className="h-5 w-5 animate-bounce text-amber-200" />
+              <ChevronDown className="h-4 w-4 animate-bounce text-amber-200/80" />
             </button>
           </div>
         </section>

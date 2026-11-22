@@ -413,14 +413,8 @@ async function generate() {
         <button class="btn-preset active" id="btn-prod" onclick="setBaseUrl('https://riad-atlas-acacia-guest-guide.vercel.app')">
           🚀 Application Live Vercel (https://riad-atlas-acacia-guest-guide.vercel.app)
         </button>
-        <button class="btn-preset" id="btn-domain" onclick="setBaseUrl('https://riadatlasacacia.com')">
-          🌐 Domaine Racine (https://riadatlasacacia.com)
-        </button>
-        <button class="btn-preset" id="btn-local" onclick="setBaseUrl('http://${NETWORK_IP}')">
-          📱 Test Wi-Fi Smartphone (http://${NETWORK_IP})
-        </button>
         <button class="btn-preset" id="btn-origin" onclick="setBaseUrl(window.location.origin)">
-          💻 Hôte Actuel (${typeof window !== 'undefined' ? window.location.origin : 'Host'})
+          💻 Hôte Actuel (Host)
         </button>
       </div>
       <div class="url-input-row">
@@ -465,11 +459,11 @@ async function generate() {
     let currentBase = "${BASE_URL}";
 
     function renderAllQrs(base) {
-      currentBase = base.replace(/\\/+$/, '');
+      currentBase = base.replace(/\/+$/, '');
       const input = document.getElementById('custom-url-input');
       if (input) input.value = currentBase;
 
-      const isDefault = currentBase.includes("${NETWORK_IP}");
+      const isLiveVercel = currentBase.includes('vercel.app') || currentBase === "${BASE_URL}";
 
       items.forEach(item => {
         const fullUrl = currentBase + item.path;
@@ -478,7 +472,7 @@ async function generate() {
         if (urlText) urlText.textContent = fullUrl;
 
         if (img) {
-          if (isDefault) {
+          if (isLiveVercel) {
             img.src = '/qr-placards/' + item.filename + '.png';
           } else {
             img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=' + encodeURIComponent(fullUrl);
@@ -489,10 +483,10 @@ async function generate() {
 
     function setBaseUrl(base) {
       document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
-      if (base.includes('${NETWORK_IP}')) {
-        document.getElementById('btn-local')?.classList.add('active');
-      } else if (base.includes('riadatlasacacia.com')) {
+      if (base.includes('vercel.app') || base === "${BASE_URL}") {
         document.getElementById('btn-prod')?.classList.add('active');
+      } else {
+        document.getElementById('btn-origin')?.classList.add('active');
       }
       renderAllQrs(base);
     }
@@ -506,12 +500,8 @@ async function generate() {
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // If we are currently browsing on localhost or custom domain, default to current origin
-      if (window.location.origin && window.location.origin.includes('http')) {
-        setBaseUrl(window.location.origin);
-      } else {
-        renderAllQrs(currentBase);
-      }
+      // Default strictly to live production app URL
+      renderAllQrs(currentBase);
     });
   </script>
 

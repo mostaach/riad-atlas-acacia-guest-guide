@@ -55,7 +55,9 @@ const ROOM_QR_LIST = [
 ];
 
 const getRoomQrUrl = (code: string) => {
-  const base = typeof window !== "undefined" && window.location.origin ? window.location.origin : "https://riadatlasacacia.com";
+  const base = typeof window !== "undefined" && window.location.origin && !window.location.origin.includes("localhost")
+    ? window.location.origin
+    : "https://riad-atlas-acacia-guest-guide.vercel.app";
   if (code === "reception") return `${base}/?src=qr-reception`;
   if (code === "prearrival") return `${base}/?src=prearrival`;
   return `${base}/?src=qr-room&room=${code}`;

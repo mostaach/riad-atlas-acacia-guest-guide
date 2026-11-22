@@ -202,11 +202,22 @@ export default function InteractiveMap({
   useEffect(() => {
     if (mapRef.current || !mapContainerRef.current) return;
 
-    const map = L.map(mapContainerRef.current, {
-      center: [riadData.coordinates[0], riadData.coordinates[1]],
-      zoom: 16,
-      zoomControl: false,
-    });
+    // Guard against React StrictMode or fast tab-switch residual Leaflet ID
+    if ((mapContainerRef.current as any)?._leaflet_id) {
+      delete (mapContainerRef.current as any)._leaflet_id;
+    }
+
+    let map: L.Map;
+    try {
+      map = L.map(mapContainerRef.current, {
+        center: [riadData.coordinates[0], riadData.coordinates[1]],
+        zoom: 16,
+        zoomControl: false,
+      });
+    } catch (e) {
+      console.warn("Leaflet map initialization skipped or re-attached:", e);
+      return;
+    }
 
     // OpenStreetMap — free, no API key, full Medina derb coverage
     L.tileLayer(
@@ -239,19 +250,28 @@ export default function InteractiveMap({
 
     mapRef.current = map;
 
-    // Fix: Force invalidateSize on multiple ticks to guarantee tiles render properly
+    // Force invalidateSize on multiple ticks to guarantee tiles render properly
     const timer1 = setTimeout(() => {
-      map.invalidateSize();
+      try { map.invalidateSize(); } catch {}
     }, 100);
     const timer2 = setTimeout(() => {
-      map.invalidateSize();
-    }, 400);
+      try { map.invalidateSize(); } catch {}
+    }, 350);
+    const timer3 = setTimeout(() => {
+      try { map.invalidateSize(); } catch {}
+    }, 700);
 
-    // Fix: ResizeObserver automatically handles tab switching & responsive resize
+    const handleResize = () => {
+      try { map.invalidateSize(); } catch {}
+    };
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+
+    // ResizeObserver automatically handles tab switching & responsive resize
     let resizeObserver: ResizeObserver | null = null;
     if (mapContainerRef.current && typeof ResizeObserver !== "undefined") {
       resizeObserver = new ResizeObserver(() => {
-        map.invalidateSize();
+        try { map.invalidateSize(); } catch {}
       });
       resizeObserver.observe(mapContainerRef.current);
     }
@@ -259,10 +279,17 @@ export default function InteractiveMap({
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
+      clearTimeout(timer3);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
-      map.remove();
+      try {
+        map.remove();
+      } catch (e) {
+        // Prevent Leaflet unmount crash
+      }
       mapRef.current = null;
       markersRef.current.clear();
     };

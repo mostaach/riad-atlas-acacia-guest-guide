@@ -289,12 +289,6 @@
         <button class="btn-preset active" id="btn-prod" onclick="setBaseUrl('https://riad-atlas-acacia-guest-guide.vercel.app')">
           🚀 Application Live Vercel (https://riad-atlas-acacia-guest-guide.vercel.app)
         </button>
-        <button class="btn-preset" id="btn-domain" onclick="setBaseUrl('https://riadatlasacacia.com')">
-          🌐 Domaine Racine (https://riadatlasacacia.com)
-        </button>
-        <button class="btn-preset" id="btn-local" onclick="setBaseUrl('http://192.168.1.239:3001')">
-          📱 Test Wi-Fi Smartphone (http://192.168.1.239:3001)
-        </button>
         <button class="btn-preset" id="btn-origin" onclick="setBaseUrl(window.location.origin)">
           💻 Hôte Actuel (Host)
         </button>
@@ -523,11 +517,11 @@
     let currentBase = "https://riad-atlas-acacia-guest-guide.vercel.app";
 
     function renderAllQrs(base) {
-      currentBase = base.replace(/\/+$/, '');
+      currentBase = base.replace(//+$/, '');
       const input = document.getElementById('custom-url-input');
       if (input) input.value = currentBase;
 
-      const isDefault = currentBase.includes("192.168.1.239:3001");
+      const isLiveVercel = currentBase.includes('vercel.app') || currentBase === "https://riad-atlas-acacia-guest-guide.vercel.app";
 
       items.forEach(item => {
         const fullUrl = currentBase + item.path;
@@ -536,7 +530,7 @@
         if (urlText) urlText.textContent = fullUrl;
 
         if (img) {
-          if (isDefault) {
+          if (isLiveVercel) {
             img.src = '/qr-placards/' + item.filename + '.png';
           } else {
             img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=' + encodeURIComponent(fullUrl);
@@ -547,10 +541,10 @@
 
     function setBaseUrl(base) {
       document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
-      if (base.includes('192.168.1.239:3001')) {
-        document.getElementById('btn-local')?.classList.add('active');
-      } else if (base.includes('riadatlasacacia.com')) {
+      if (base.includes('vercel.app') || base === "https://riad-atlas-acacia-guest-guide.vercel.app") {
         document.getElementById('btn-prod')?.classList.add('active');
+      } else {
+        document.getElementById('btn-origin')?.classList.add('active');
       }
       renderAllQrs(base);
     }
@@ -564,12 +558,8 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // If we are currently browsing on localhost or custom domain, default to current origin
-      if (window.location.origin && window.location.origin.includes('http')) {
-        setBaseUrl(window.location.origin);
-      } else {
-        renderAllQrs(currentBase);
-      }
+      // Default strictly to live production app URL
+      renderAllQrs(currentBase);
     });
   </script>
 

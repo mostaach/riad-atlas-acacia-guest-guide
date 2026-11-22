@@ -375,7 +375,7 @@ export default function Home() {
   const [feedbackRating, setFeedbackRating] = useState<number | null>(null);
   const [feedbackNote, setFeedbackNote] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState<string>("Suite Atlas");
+  const [selectedRoom, setSelectedRoom] = useState<string>("");
   const [isRoomQrScanned, setIsRoomQrScanned] = useState(false);
   const [primaryCurrency, setPrimaryCurrency] = useState<"MAD" | "EUR">("MAD");
   const [selectedCatalogItem, setSelectedCatalogItem] = useState<CatalogItem | null>(null);
@@ -443,13 +443,14 @@ export default function Home() {
           setSelectedRoom(matched);
           setIsRoomQrScanned(true);
           localStorage.setItem("riad_room", matched);
+        } else {
+          setIsRoomQrScanned(false);
+          setSelectedRoom("");
         }
       } else {
         setIsRoomQrScanned(false);
-        const savedRoom = localStorage.getItem("riad_room");
-        if (savedRoom) {
-          setSelectedRoom(savedRoom);
-        }
+        // Only set room if explicitly requested via QR code parameter
+        setSelectedRoom("");
       }
 
       // If guest arrives via QR code (room or reception), bypass facing hero cover and land directly inside the guest guide!
@@ -1617,6 +1618,9 @@ export default function Home() {
                         onChange={(e) => setSelectedRoom(e.target.value)}
                         className="w-full rounded-lg border border-[#E0D5C7] bg-white p-2.5 text-sm font-semibold text-[#2C2C2C] focus:border-[#B85C3C] focus:outline-none focus:ring-1 focus:ring-[#B85C3C]"
                       >
+                        <option value="">
+                          {language === "fr" ? "-- Choisir votre suite ou lieu --" : "-- Select your suite or location --"}
+                        </option>
                         <optgroup label={language === "fr" ? "Suites du 1er étage" : "1st Floor Suites"}>
                           <option value="Suite Atlas">Suite Atlas</option>
                           <option value="Suite Majorelle">Suite Majorelle</option>
@@ -1662,7 +1666,11 @@ export default function Home() {
                         </button>
                         <a
                           href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-                            selectedRoom === "Pre-Arrival"
+                            !selectedRoom
+                              ? (language === "fr"
+                                  ? "Bonjour Riad Atlas Acacia, je souhaite commander un repas ou réserver un soin spa."
+                                  : "Hello Riad Atlas Acacia, I would like to order a meal or book a spa treatment.")
+                              : selectedRoom === "Pre-Arrival"
                               ? (language === "fr"
                                   ? "Bonjour Riad Atlas Acacia, je prépare mon arrivée et je souhaite réserver un transfert / un repas ou un soin."
                                   : "Hello Riad Atlas Acacia, I am preparing my arrival and would like to arrange a transfer / a meal or spa treatment.")

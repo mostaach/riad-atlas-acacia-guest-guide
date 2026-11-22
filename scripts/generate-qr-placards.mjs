@@ -130,7 +130,6 @@ async function generate() {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -440,7 +439,7 @@ async function generate() {
         <div class="suite-sub">${item.sub}</div>
 
         <div class="qr-container">
-          <canvas id="qr-canvas-${item.id}" class="qr-canvas"></canvas>
+          <img id="qr-img-${item.id}" class="qr-img" src="/qr-placards/${item.filename}.png" alt="${item.title} QR Code" />
         </div>
 
         <div class="target-url-text" id="url-text-${item.id}">${BASE_URL}${item.path}</div>
@@ -463,26 +462,23 @@ async function generate() {
 
     function renderAllQrs(base) {
       currentBase = base.replace(/\\/+$/, '');
-      document.getElementById('custom-url-input').value = currentBase;
+      const input = document.getElementById('custom-url-input');
+      if (input) input.value = currentBase;
+
+      const isDefault = currentBase.includes("${NETWORK_IP}");
 
       items.forEach(item => {
         const fullUrl = currentBase + item.path;
-        const canvas = document.getElementById('qr-canvas-' + item.id);
+        const img = document.getElementById('qr-img-' + item.id);
         const urlText = document.getElementById('url-text-' + item.id);
         if (urlText) urlText.textContent = fullUrl;
 
-        if (window.QRCode && canvas) {
-          QRCode.toCanvas(canvas, fullUrl, {
-            width: 190,
-            margin: 1,
-            color: {
-              dark: '#1C1917',
-              light: '#FFFFFF'
-            },
-            errorCorrectionLevel: 'H'
-          }, function (error) {
-            if (error) console.error(error);
-          });
+        if (img) {
+          if (isDefault) {
+            img.src = '/qr-placards/' + item.filename + '.png';
+          } else {
+            img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=' + encodeURIComponent(fullUrl);
+          }
         }
       });
     }

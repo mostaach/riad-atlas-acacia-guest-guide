@@ -87,36 +87,6 @@ const whatsappMessage = encodeURIComponent(
 const riadGallery = riadData.gallery ?? [];
 const whatsappNumber = riadData.whatsapp.replace(/\D/g, "");
 
-const ROOM_QR_LIST = [
-  { id: "atlas", name: "Suite Atlas", floor: "1er Étage", file: "qr-suite-atlas", badge: "Suite 1", code: "atlas" },
-  { id: "majorelle", name: "Suite Majorelle", floor: "1er Étage", file: "qr-suite-majorelle", badge: "Suite 2", code: "majorelle" },
-  { id: "ourika", name: "Suite Ourika", floor: "1er Étage", file: "qr-suite-ourika", badge: "Suite 3", code: "ourika" },
-  { id: "koutoubia", name: "Suite Koutoubia", floor: "1er Étage", file: "qr-suite-koutoubia", badge: "Suite 4", code: "koutoubia" },
-  { id: "makhila", name: "Suite Makhila", floor: "Terrasse", file: "qr-suite-makhila", badge: "Suite 5", code: "makhila" },
-  { id: "mimosa", name: "Suite Mimosa", floor: "Terrasse", file: "qr-suite-mimosa", badge: "Suite 6", code: "mimosa" },
-  { id: "reception", name: "Accueil & Réception", floor: "Patio", file: "qr-reception", badge: "Lobby", code: "reception" },
-  { id: "prearrival", name: "Guide Pré-Arrivée", floor: "Arrivée", file: "qr-prearrival", badge: "Arrivée", code: "prearrival" },
-];
-
-const getRoomQrUrl = (code: string) => {
-  const base = typeof window !== "undefined" && window.location.origin ? window.location.origin : "https://riadatlasacacia.com";
-  if (code === "reception") return `${base}/?src=qr-reception`;
-  if (code === "prearrival") return `${base}/?src=prearrival`;
-  return `${base}/?src=qr-room&room=${code}`;
-};
-
-const getRoomQrInfo = (room: string) => {
-  const normalized = (room || "").toLowerCase();
-  if (normalized.includes("atlas")) return ROOM_QR_LIST[0];
-  if (normalized.includes("majorelle")) return ROOM_QR_LIST[1];
-  if (normalized.includes("ourika")) return ROOM_QR_LIST[2];
-  if (normalized.includes("koutoubia")) return ROOM_QR_LIST[3];
-  if (normalized.includes("makhila")) return ROOM_QR_LIST[4];
-  if (normalized.includes("mimosa")) return ROOM_QR_LIST[5];
-  if (normalized.includes("pre-arrival") || normalized.includes("arrivée")) return ROOM_QR_LIST[7];
-  return ROOM_QR_LIST[6];
-};
-
 const ui = {
   en: {
     languageName: "English",
@@ -1663,31 +1633,7 @@ export default function Home() {
                         </optgroup>
                       </select>
 
-                      {/* In-Room QR Code in Place for Selected Chamber */}
-                      <div className="flex items-center gap-3 rounded-lg border border-[#E0D5C7] bg-white p-3 shadow-xs">
-                        <img
-                          src={`/qr-placards/${getRoomQrInfo(selectedRoom).file}.png`}
-                          alt={`QR Code ${selectedRoom}`}
-                          className="h-16 w-16 shrink-0 rounded-md border border-[#E0D5C7] bg-white p-1 object-contain"
-                        />
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-1.5 flex-wrap">
-                            <span className="text-xs font-bold text-[#1C1917]">
-                              {getRoomQrInfo(selectedRoom).name}
-                            </span>
-                            <span className="rounded-full bg-[#B85C3C]/10 px-2 py-0.5 text-[10px] font-bold text-[#B85C3C]">
-                              {getRoomQrInfo(selectedRoom).badge}
-                            </span>
-                          </div>
-                          <p className="mt-0.5 text-[11px] text-[#78716C] leading-snug">
-                            {language === "fr"
-                              ? "QR code de chevet : le scanner identifie immédiatement votre chambre."
-                              : "Bedside QR: scanning this instantly identifies your suite."}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col sm:flex-row gap-2 mt-1">
+                      <div className="flex flex-col sm:flex-row gap-2 mt-2">
                         <button
                           type="button"
                           onClick={() => {

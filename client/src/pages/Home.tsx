@@ -9,7 +9,6 @@ import {
   Coffee,
   Compass,
   ConciergeBell,
-  Download,
   Footprints,
   Heart,
   Home as HomeIcon,
@@ -20,8 +19,6 @@ import {
   MessageCircle,
   Navigation,
   Phone,
-  Printer,
-  QrCode,
   ShieldCheck,
   Star,
   Utensils,
@@ -256,11 +253,6 @@ const ui = {
     bestTime: "Best Time",
     budget: "Budget",
     openInMaps: "Open in Google Maps",
-    roomQrTitle: "In-Room QR Placards",
-    roomQrSubtitle: "Bedside QR codes for instant dining, spa & concierge orders.",
-    roomQrHelp: "Each suite features a dedicated QR placard on the bedside table. Scanning it automatically identifies your chamber so our team knows where to deliver.",
-    printPlacards: "Print All Placards (A5)",
-    downloadQr: "Download High-Res QR",
     scanToTest: "Scan with your phone to test live room link",
   },
   fr: {
@@ -398,11 +390,6 @@ const ui = {
     bestTime: "Meilleur moment",
     budget: "Budget",
     openInMaps: "Ouvrir dans Google Maps",
-    roomQrTitle: "Chevalets & QR Codes des Chambres",
-    roomQrSubtitle: "QR codes de chevet pour commander vos repas, soins et services sans attente.",
-    roomQrHelp: "Chaque suite dispose d'un chevalet sur sa table de nuit. Le scanner avec votre smartphone identifie automatiquement votre chambre.",
-    printPlacards: "Imprimer les chevalets (A5)",
-    downloadQr: "Télécharger le QR HD",
     scanToTest: "Scannez avec votre téléphone pour tester l'accès direct",
   },
 } satisfies Record<Language, Record<string, any>>;
@@ -419,7 +406,6 @@ export default function Home() {
   const [feedbackNote, setFeedbackNote] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<string>("Suite Atlas");
-  const [previewQrSuite, setPreviewQrSuite] = useState<string>("atlas");
   const [primaryCurrency, setPrimaryCurrency] = useState<"MAD" | "EUR">("MAD");
   const [selectedCatalogItem, setSelectedCatalogItem] = useState<CatalogItem | null>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -1409,111 +1395,6 @@ export default function Home() {
                 </div>
               </Card>
 
-              {/* In-Room QR Placards Section */}
-              <Card className="border-[#E0D5C7] bg-white/95 p-4 shadow-sm backdrop-blur-sm">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                  <div>
-                    <h3 className="flex items-center gap-2 text-lg font-bold text-[#2C2C2C]">
-                      <QrCode className="h-5 w-5 text-[#B85C3C]" />
-                      {t.roomQrTitle}
-                    </h3>
-                    <p className="text-xs text-[#78716C] mt-0.5">
-                      {t.roomQrSubtitle}
-                    </p>
-                  </div>
-                  <a
-                    href="/qr-placards/print.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#B85C3C] bg-[#B85C3C]/10 px-3 py-1.5 text-xs font-semibold text-[#B85C3C] hover:bg-[#B85C3C] hover:text-white transition-colors self-start sm:self-auto"
-                  >
-                    <Printer className="h-3.5 w-3.5" />
-                    {t.printPlacards}
-                  </a>
-                </div>
-
-                <p className="text-xs text-[#6B6B6B] leading-relaxed mb-4">
-                  {t.roomQrHelp}
-                </p>
-
-                {/* Chamber selector tabs */}
-                <div className="flex gap-1.5 overflow-x-auto pb-2 mb-3">
-                  {ROOM_QR_LIST.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => setPreviewQrSuite(item.id)}
-                      className={`whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                        previewQrSuite === item.id
-                          ? "bg-[#B85C3C] text-white shadow-xs"
-                          : "bg-[#F5F1E8] text-[#2C2C2C] hover:bg-[#EAE4D9]"
-                      }`}
-                    >
-                      {item.name}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Selected Chamber QR Details */}
-                {(() => {
-                  const activeItem =
-                    ROOM_QR_LIST.find((q) => q.id === previewQrSuite) ||
-                    ROOM_QR_LIST[0];
-                  return (
-                    <div className="flex flex-col sm:flex-row items-center gap-4 rounded-xl border border-[#E0D5C7] bg-[#FDFBF7] p-4 text-center sm:text-left">
-                      <div className="relative rounded-xl border border-[#E0D5C7] bg-white p-2.5 shadow-xs shrink-0">
-                        <img
-                          src={`/qr-placards/${activeItem.file}.png`}
-                          alt={`${activeItem.name} QR Code`}
-                          className="h-32 w-32 object-contain"
-                        />
-                      </div>
-                      <div className="flex-1 space-y-2">
-                        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                          <span className="text-base font-bold text-[#1C1917]">
-                            {activeItem.name}
-                          </span>
-                          <span className="rounded-full bg-[#B85C3C]/10 px-2.5 py-0.5 text-xs font-bold text-[#B85C3C]">
-                            {activeItem.floor}
-                          </span>
-                          <span className="rounded-full bg-stone-200 px-2 py-0.5 text-[10px] font-bold text-stone-700">
-                            {activeItem.badge}
-                          </span>
-                        </div>
-                        <p className="text-xs text-[#6B6B6B]">
-                          {t.scanToTest}:
-                        </p>
-                        <a
-                          href={getRoomQrUrl(activeItem.id)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block break-all text-xs font-medium text-[#B85C3C] hover:underline"
-                        >
-                          {getRoomQrUrl(activeItem.id)}
-                        </a>
-                        <div className="pt-2 flex flex-wrap gap-2 justify-center sm:justify-start">
-                          <a
-                            href={`/qr-placards/${activeItem.file}.png`}
-                            download
-                            className="inline-flex items-center gap-1.5 rounded-lg bg-[#B85C3C] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#A04A2F] transition-colors"
-                          >
-                            <Download className="h-3.5 w-3.5" />
-                            {t.downloadQr}
-                          </a>
-                          <a
-                            href="/qr-placards/print.html"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 rounded-lg border border-[#E0D5C7] bg-white px-3 py-1.5 text-xs font-semibold text-[#2C2C2C] hover:bg-[#F5F1E8] transition-colors"
-                          >
-                            <Printer className="h-3.5 w-3.5" />
-                            {t.printPlacards}
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })()}
-              </Card>
 
               <Card className="border-[#E0D5C7] bg-white/95 p-4 shadow-sm backdrop-blur-sm">
                 <h3 className="mb-3 text-lg font-bold text-[#2C2C2C]">
@@ -1803,24 +1684,6 @@ export default function Home() {
                               ? "QR code de chevet : le scanner identifie immédiatement votre chambre."
                               : "Bedside QR: scanning this instantly identifies your suite."}
                           </p>
-                          <div className="mt-1 flex items-center gap-3 text-[11px]">
-                            <a
-                              href={`/qr-placards/${getRoomQrInfo(selectedRoom).file}.png`}
-                              download
-                              className="font-semibold text-[#B85C3C] hover:underline"
-                            >
-                              {t.downloadQr}
-                            </a>
-                            <span className="text-[#E0D5C7]">•</span>
-                            <a
-                              href="/qr-placards/print.html"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="font-semibold text-[#6B6B6B] hover:text-[#1C1917]"
-                            >
-                              {t.printPlacards}
-                            </a>
-                          </div>
                         </div>
                       </div>
 

@@ -29,6 +29,7 @@ import {
 import { buildWhatsAppMessage, createWhatsAppLink } from '@/lib/whatsapp';
 import { validateDiningOrder } from '@/lib/diningRules';
 import { WhatsAppIcon } from '@/components/WhatsAppIcon';
+import { logOrder } from '@/lib/orderLogger';
 
 interface BookingModalProps {
   item: CatalogItem | null;
@@ -181,6 +182,18 @@ export default function BookingModal({
     });
 
     const link = createWhatsAppLink(whatsappNumber, message);
+
+    // Asynchronously log order to manager tracking dashboard (non-blocking)
+    logOrder({
+      room: roomNumber || 'Not specified',
+      guestName: guestName.trim() || undefined,
+      category: item.category_id || 'general',
+      items: selectedOption ? `${item.title[language]} (${selectedOption.title[language]})` : item.title[language],
+      totalMAD: priceResult.mad,
+      flightNumber: flightNumber.trim() || undefined,
+      notes: notes.trim() || undefined,
+    });
+
     window.open(link, '_blank');
     onClose();
   };

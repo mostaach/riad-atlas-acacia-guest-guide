@@ -203,7 +203,134 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+function vitePluginApi(): Plugin {
+  const DATA_DIR = path.resolve(PROJECT_ROOT, "data");
+  const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
+  const STOCK_FILE = path.join(DATA_DIR, "stock.json");
+  const RIAD_FILE = path.join(DATA_DIR, "riad.json");
+
+  function readJson<T>(filePath: string, fallback: T): T {
+    try {
+      return JSON.parse(fs.readFileSync(filePath, "utf-8")) as T;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function writeJson(filePath: string, data: unknown): void {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+  }
+
+  function nanoId(len = 6): string {
+    const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    return Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+  }
+
+  return {
+    name: "vite-plugin-riad-api",
+    configureServer(server: ViteDevServer) {
+      server.middlewares.use((req, res, next) => {
+        const url = req.url || "";
+        if (!url.startsWith("/api/")) {
+          return next();
+        }
+
+        const parseBody = (cb: (body: any) => void) => {
+          let body = "";
+          req.on("data", (chunk) => {
+            body += chunk;
+          });
+          req.on("end", () => {
+            try {
+              cb(body ? JSON.parse(body) : {});
+            } catch {
+              cb({});
+            }
+          });
+        };
+
+        if (url === "/api/config" && req.method === "GET") {
+          const riad = readJson<{ manager_pin?: string }>(RIAD_FILE, {});
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ manager_pin: riad.manager_pin ?? "1234" }));
+          return;
+        }
+
+        if (url === "/api/orders" && req.method === "GET") {
+          const orders = readJson<unknown[]>(ORDERS_FILE, []);
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify(orders));
+          return;
+        }
+
+        if (url === "/api/orders" && req.method === "POST") {
+          parseBody((body) => {
+            const orders = readJson<Record<string, unknown>[]>(ORDERS_FILE, []);
+            const order = {
+              id: nanoId(),
+              timestamp: new Date().toISOString(),
+              status: "new",
+              ...body,
+            };
+            orders.unshift(order);
+            writeJson(ORDERS_FILE, orders);
+            res.writeHead(201, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(order));
+          });
+          return;
+        }
+
+        if (url.startsWith("/api/orders/") && req.method === "PATCH") {
+          const id = url.replace("/api/orders/", "").split("?")[0];
+          parseBody((body) => {
+            const orders = readJson<Record<string, unknown>[]>(ORDERS_FILE, []);
+            const idx = orders.findIndex((o) => o.id === id);
+            if (idx === -1) {
+              res.writeHead(404, { "Content-Type": "application/json" });
+              res.end(JSON.stringify({ error: "Not found" }));
+              return;
+            }
+            orders[idx] = { ...orders[idx], ...body };
+            writeJson(ORDERS_FILE, orders);
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(orders[idx]));
+          });
+          return;
+        }
+
+        if (url === "/api/stock" && req.method === "GET") {
+          const stock = readJson<Record<string, boolean>>(STOCK_FILE, {});
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify(stock));
+          return;
+        }
+
+        if (url === "/api/stock" && req.method === "POST") {
+          parseBody((body) => {
+            const current = readJson<Record<string, boolean>>(STOCK_FILE, {});
+            const updated = { ...current, ...body };
+            writeJson(STOCK_FILE, updated);
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(updated));
+          });
+          return;
+        }
+
+        next();
+      });
+    },
+  };
+}
+
+const plugins = [
+  react(),
+  tailwindcss(),
+  jsxLocPlugin(),
+  vitePluginManusRuntime(),
+  vitePluginManusDebugCollector(),
+  vitePluginStorageProxy(),
+  vitePluginApi(),
+];
 
 export default defineConfig({
   plugins,

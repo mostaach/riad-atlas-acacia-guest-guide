@@ -6,6 +6,8 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import ManagerLogin from "./pages/ManagerLogin";
+import Manager from "./pages/Manager";
 
 /**
  * Riad Atlas Acacia Guest Guide
@@ -19,6 +21,8 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/r/:riadId"} component={Home} />
+      <Route path={"/manager"} component={ManagerLogin} />
+      <Route path={"/manager/dashboard"} component={Manager} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

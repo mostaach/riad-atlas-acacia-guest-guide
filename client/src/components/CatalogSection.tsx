@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Utensils,
@@ -11,6 +11,7 @@ import {
   Car,
   Banknote,
   Search,
+  Ban,
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -35,6 +36,14 @@ export default function CatalogSection({
   const isFr = language === 'fr';
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [spaGroup, setSpaGroup] = useState<'all' | 'hammam' | 'massage' | 'package'>('all');
+  const [stock, setStock] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    fetch('/api/stock')
+      .then(res => res.json())
+      .then(data => setStock(data))
+      .catch(() => {});
+  }, []);
 
   const filteredItems = items.filter(item => {
     if (selectedCategory !== 'all' && item.category_id !== selectedCategory) {
@@ -161,24 +170,41 @@ export default function CatalogSection({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {filteredItems.map(item => {
           const startPrice = getStartingPrice(item);
+          const isAvailable = stock[item.id] !== false;
+
           return (
             <Card
               key={item.id}
-              onClick={() => onSelectItem(item)}
-              className="group overflow-hidden rounded-2xl border border-border bg-card hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col justify-between"
+              onClick={() => {
+                if (isAvailable) onSelectItem(item);
+              }}
+              className={`group overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 flex flex-col justify-between ${
+                isAvailable
+                  ? 'hover:shadow-lg cursor-pointer'
+                  : 'opacity-70 cursor-not-allowed bg-stone-50/80 border-dashed'
+              }`}
             >
               <div className="relative h-44 w-full overflow-hidden bg-muted">
                 <img
                   src={item.image}
                   alt={isFr ? item.title.fr : item.title.en}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className={`w-full h-full object-cover transition-transform duration-500 ${
+                    isAvailable ? 'group-hover:scale-105' : 'grayscale'
+                  }`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-                {item.cash_discount_applies && (
+                {item.cash_discount_applies && isAvailable && (
                   <div className="absolute top-3 left-3 bg-amber-500/90 text-white font-bold text-[10px] px-2.5 py-1 rounded-full shadow-md backdrop-blur-xs flex items-center gap-1">
                     <Banknote className="w-3 h-3" />
                     <span>−10% Cash</span>
+                  </div>
+                )}
+
+                {!isAvailable && (
+                  <div className="absolute top-3 left-3 bg-rose-600 text-white font-bold text-[11px] px-3 py-1 rounded-full shadow-md backdrop-blur-xs flex items-center gap-1.5">
+                    <Ban className="w-3.5 h-3.5" />
+                    <span>{isFr ? 'Temporairement Indisponible' : 'Temporarily Unavailable'}</span>
                   </div>
                 )}
 
@@ -215,10 +241,15 @@ export default function CatalogSection({
 
                   <Button
                     size="sm"
-                    className="rounded-xl text-xs font-semibold px-3 py-1 h-8 flex items-center gap-1 bg-primary text-primary-foreground group-hover:bg-primary/90"
+                    disabled={!isAvailable}
+                    className={`rounded-xl text-xs font-semibold px-3 py-1 h-8 flex items-center gap-1 ${
+                      isAvailable
+                        ? 'bg-primary text-primary-foreground group-hover:bg-primary/90'
+                        : 'bg-stone-200 text-stone-500 cursor-not-allowed hover:bg-stone-200'
+                    }`}
                   >
-                    <span>{isFr ? 'Réserver' : 'Book'}</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
+                    <span>{isAvailable ? (isFr ? 'Réserver' : 'Book') : (isFr ? 'Indisponible' : 'Unavailable')}</span>
+                    {isAvailable && <ChevronRight className="w-3.5 h-3.5" />}
                   </Button>
                 </div>
               </div>

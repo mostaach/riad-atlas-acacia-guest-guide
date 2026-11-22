@@ -501,14 +501,29 @@ export default function BookingModal({
                 <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground block mb-1">
                   {isFr ? 'Chambre / Suite' : 'Room / Suite'} *
                 </label>
-                <input
-                  type="text"
+                <select
                   required
-                  placeholder="e.g. Suite Acacia"
                   value={roomNumber}
                   onChange={e => setRoomNumber(e.target.value)}
-                  className="w-full text-xs p-2.5 rounded-xl border border-border bg-card text-foreground"
-                />
+                  className="w-full text-xs p-2.5 rounded-xl border border-border bg-card text-foreground focus:outline-none focus:ring-1 focus:ring-[#B85C3C]"
+                >
+                  <option value="">{isFr ? '-- Choisir votre suite ou lieu --' : '-- Select your suite or location --'}</option>
+                  <optgroup label={isFr ? "Suites du 1er étage" : "1st Floor Suites"}>
+                    <option value="Suite 1">{isFr ? "Suite 1 (1er étage)" : "Suite 1 (1st Floor)"}</option>
+                    <option value="Suite 2">{isFr ? "Suite 2 (1er étage)" : "Suite 2 (1st Floor)"}</option>
+                    <option value="Suite 3">{isFr ? "Suite 3 (1er étage)" : "Suite 3 (1st Floor)"}</option>
+                    <option value="Suite 4">{isFr ? "Suite 4 (1er étage)" : "Suite 4 (1st Floor)"}</option>
+                  </optgroup>
+                  <optgroup label={isFr ? "Suites sur la Terrasse" : "Rooftop Terrace Suites"}>
+                    <option value="Suite 5">{isFr ? "Suite 5 (Terrasse)" : "Suite 5 (Rooftop Terrace)"}</option>
+                    <option value="Suite 6">{isFr ? "Suite 6 (Terrasse)" : "Suite 6 (Rooftop Terrace)"}</option>
+                  </optgroup>
+                  <optgroup label={isFr ? "Espaces communs du Riad" : "Riad Common Areas"}>
+                    <option value="Patio & Pool">{isFr ? "Patio central & Bassin (RDC)" : "Central Patio & Pool"}</option>
+                    <option value="Panoramic Rooftop">{isFr ? "Toit terrasse panoramique" : "Panoramic Rooftop"}</option>
+                    <option value="Moroccan Salon">{isFr ? "Salon marocain & Cheminée" : "Moroccan Fireplace Salon"}</option>
+                  </optgroup>
+                </select>
               </div>
             </div>
 

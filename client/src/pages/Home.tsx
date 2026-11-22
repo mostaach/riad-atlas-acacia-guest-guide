@@ -213,19 +213,19 @@ const ui = {
     openInMaps: "Open in Google Maps",
   },
   fr: {
-    languageName: "Francais",
+    languageName: "Français",
     switchLabel: "EN",
-    heroKicker: "Bienvenue a Marrakech",
+    heroKicker: "Bienvenue à Marrakech",
     heroCopy:
-      "Toutes les informations utiles pour l'arrivee, le sejour et la decouverte de la medina.",
+      "Toutes les informations utiles pour l'arrivée, le séjour et la découverte de la médina.",
     startGuide: "Ouvrir le guide",
     openMap: "Ouvrir la carte",
     contactRiad: "Contacter le riad",
     viewOnMaps: "Voir sur Maps",
-    yourStay: "Votre sejour",
-    welcomeTitle: "Bienvenue dans votre base a Marrakech.",
+    yourStay: "Votre séjour",
+    welcomeTitle: "Bienvenue dans votre havre à Marrakech.",
     welcomeCopy:
-      "Ce guide rassemble les informations pratiques essentielles: arrivee, contact, notes de maison, lieux proches, itineraires et aide. Gardez-le sur votre telephone avant de partir dans la medina.",
+      "Ce guide rassemble les informations pratiques essentielles : arrivée, contact, notes de maison, lieux proches, itinéraires et aide. Gardez-le sur votre téléphone avant de partir dans la médina.",
     developmentNoticeTitle: "Guide en cours de developpement",
     developmentNotice:
       "Nous ameliorons encore ce guide. Merci de confirmer le WiFi, les horaires, les reservations et les informations urgentes avec l'equipe du riad a l'arrivee.",
@@ -349,7 +349,7 @@ export default function Home() {
   const [feedbackRating, setFeedbackRating] = useState<number | null>(null);
   const [feedbackNote, setFeedbackNote] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState<string>("1");
+  const [selectedRoom, setSelectedRoom] = useState<string>("Suite 1");
   const [primaryCurrency, setPrimaryCurrency] = useState<"MAD" | "EUR">("MAD");
   const [selectedCatalogItem, setSelectedCatalogItem] = useState<CatalogItem | null>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -588,93 +588,163 @@ export default function Home() {
     <div className={`min-h-screen bg-[#F5F1E8]${!showHero && currentTab === "map" ? " overflow-hidden h-dvh" : ""}`}>
       {showHero && (
         <section
-          className="relative flex min-h-screen items-center justify-center overflow-hidden bg-cover bg-center px-4"
+          className="relative flex min-h-screen items-center justify-center overflow-hidden bg-cover bg-center px-4 py-16"
           style={{
             backgroundImage: `url('${riadData.image}')`,
           }}
         >
-          <div className="absolute inset-0 bg-black/45" />
+          {/* Multi-layered luxury vignette & contrast overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/85" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.6)_100%)]" />
 
-          <div className="absolute right-4 top-4 z-20 flex items-center gap-2">
-            <div className="flex items-center rounded-full border border-white/40 bg-black/30 p-0.5 backdrop-blur-sm">
+          {/* Top Bar Header */}
+          <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 md:px-8">
+            <div className="flex items-center gap-2.5 rounded-full border border-white/20 bg-black/40 px-3.5 py-1.5 backdrop-blur-md shadow-sm">
+              <img
+                src={riadData.logo || riadData.image}
+                alt={riadData.name}
+                className="h-6 w-6 rounded-full object-cover border border-amber-300/60"
+              />
+              <span className="font-serif text-xs font-semibold tracking-wider text-amber-100 hidden xs:inline">
+                RIAD ATLAS ACACIA
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center rounded-full border border-white/30 bg-black/40 p-0.5 backdrop-blur-md">
+                <button
+                  onClick={() => {
+                    setPrimaryCurrency("MAD");
+                    localStorage.setItem("riad_curr", "MAD");
+                  }}
+                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                    primaryCurrency === "MAD"
+                      ? "bg-amber-100 text-stone-900 shadow-sm"
+                      : "text-white/80 hover:text-white"
+                  }`}
+                >
+                  MAD
+                </button>
+                <button
+                  onClick={() => {
+                    setPrimaryCurrency("EUR");
+                    localStorage.setItem("riad_curr", "EUR");
+                  }}
+                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                    primaryCurrency === "EUR"
+                      ? "bg-amber-100 text-stone-900 shadow-sm"
+                      : "text-white/80 hover:text-white"
+                  }`}
+                >
+                  EUR
+                </button>
+              </div>
               <button
                 onClick={() => {
-                  setPrimaryCurrency("MAD");
-                  localStorage.setItem("riad_curr", "MAD");
+                  const next = language === "en" ? "fr" : "en";
+                  setLanguage(next);
+                  localStorage.setItem("riad_lang", next);
                 }}
-                className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
-                  primaryCurrency === "MAD"
-                    ? "bg-white text-black shadow-sm"
-                    : "text-white/80 hover:text-white"
-                }`}
+                className="rounded-full border border-white/30 bg-black/40 px-3.5 py-1 text-xs font-bold text-white backdrop-blur-md hover:bg-black/60 transition-colors"
+                type="button"
+                aria-label={`Switch language to ${language === "en" ? "French" : "English"}`}
               >
-                MAD
-              </button>
-              <button
-                onClick={() => {
-                  setPrimaryCurrency("EUR");
-                  localStorage.setItem("riad_curr", "EUR");
-                }}
-                className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
-                  primaryCurrency === "EUR"
-                    ? "bg-white text-black shadow-sm"
-                    : "text-white/80 hover:text-white"
-                }`}
-              >
-                EUR
+                {t.switchLabel}
               </button>
             </div>
-            <button
-              onClick={() => {
-                const next = language === "en" ? "fr" : "en";
-                setLanguage(next);
-                localStorage.setItem("riad_lang", next);
-              }}
-              className="rounded-full border border-white/40 bg-black/30 px-4 py-1.5 text-xs font-bold text-white backdrop-blur-sm hover:bg-black/50"
-              type="button"
-              aria-label={`Switch language to ${language === "en" ? "French" : "English"}`}
-            >
-              {t.switchLabel}
-            </button>
           </div>
 
-          <div className="relative z-10 max-w-3xl text-center">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-white/80">
-              {t.heroKicker}
-            </p>
-            <h1 className="mb-4 text-5xl font-bold text-white md:text-7xl">
+          {/* Central Hero Card */}
+          <div className="relative z-10 max-w-2xl text-center pt-8">
+            {/* Medallion Emblem */}
+            <div className="mx-auto mb-4 inline-flex items-center justify-center">
+              <div className="relative">
+                <div className="absolute -inset-1 rounded-full bg-amber-400/30 blur-sm" />
+                <img
+                  src={riadData.logo || riadData.image}
+                  alt={riadData.name}
+                  className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full border-2 border-amber-300/80 object-cover p-1 bg-black/60 shadow-2xl backdrop-blur-md"
+                />
+              </div>
+            </div>
+
+            {/* Kicker badge */}
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-black/50 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-amber-200 backdrop-blur-md">
+              <span className="text-[10px] text-amber-400">✦</span>
+              <span>{t.heroKicker}</span>
+              <span className="text-[10px] text-amber-400">✦</span>
+            </div>
+
+            {/* Title */}
+            <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
               {riadData.name}
             </h1>
-            <p className="mb-8 text-xl font-light text-white/90 md:text-2xl">
+
+            {/* Moroccan ornamental divider */}
+            <div className="mx-auto my-3.5 flex items-center justify-center gap-3 text-amber-300/70">
+              <span className="h-px w-10 sm:w-16 bg-gradient-to-r from-transparent to-amber-300/60" />
+              <span className="text-[11px]">❖</span>
+              <span className="text-xs text-amber-300">✦</span>
+              <span className="text-[11px]">❖</span>
+              <span className="h-px w-10 sm:w-16 bg-gradient-to-l from-transparent to-amber-300/60" />
+            </div>
+
+            {/* Subtitle */}
+            <p className="mx-auto mb-8 max-w-xl text-base sm:text-lg font-light leading-relaxed text-stone-200 drop-shadow">
               {t.heroCopy}
             </p>
 
-            <div className="flex flex-col justify-center gap-3 sm:flex-row">
+            {/* Action Buttons */}
+            <div className="flex flex-col justify-center gap-3 sm:flex-row max-w-md mx-auto sm:max-w-none">
               <button
                 onClick={() => openTab("welcome")}
-                className="rounded-lg bg-[#B85C3C] px-8 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:bg-[#A04A2F]"
+                className="group flex items-center justify-center gap-2 rounded-full bg-[#B85C3C] px-8 py-3.5 font-semibold text-white shadow-xl shadow-[#B85C3C]/35 ring-1 ring-white/20 transition-all duration-300 hover:bg-[#A04A2F] active:scale-[0.98]"
                 type="button"
               >
-                {t.startGuide}
+                <span>{t.startGuide}</span>
+                <span className="transition-transform group-hover:translate-x-1">→</span>
               </button>
               <button
                 onClick={() => openTab("catalog")}
-                className="rounded-lg border border-white/40 bg-[#2C4A3E]/80 px-8 py-3 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-[#2C4A3E] flex items-center justify-center gap-2 shadow-lg"
+                className="flex items-center justify-center gap-2 rounded-full border border-emerald-400/40 bg-[#1E3A2F]/90 px-7 py-3.5 font-semibold text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:bg-[#1E3A2F] hover:border-emerald-300 active:scale-[0.98]"
                 type="button"
               >
-                <Sparkles className="w-4 h-4 text-amber-300" />
+                <Sparkles className="h-4 w-4 text-amber-300" />
                 <span>{language === "fr" ? "Nos Offres & Spa" : "Browse Offers & Spa"}</span>
               </button>
               <button
                 onClick={() => openTab("map")}
-                className="rounded-lg border border-white/30 bg-white/20 px-8 py-3 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/30"
+                className="flex items-center justify-center gap-2 rounded-full border border-white/25 bg-black/40 px-7 py-3.5 font-semibold text-white shadow-md backdrop-blur-md transition-all duration-300 hover:bg-black/60 hover:border-white/40 active:scale-[0.98]"
                 type="button"
               >
-                {t.openMap}
+                <Navigation className="h-4 w-4 text-amber-200" />
+                <span>{t.openMap}</span>
               </button>
             </div>
 
-            <ChevronDown className="mx-auto mt-12 h-6 w-6 animate-bounce text-white" />
+            {/* Highlights quick pills */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-[11px] font-medium text-stone-200">
+              <span className="rounded-full bg-black/45 border border-white/15 px-3.5 py-1 backdrop-blur-sm">
+                📍 Riad Zitoun Jdid
+              </span>
+              <span className="rounded-full bg-black/45 border border-white/15 px-3.5 py-1 backdrop-blur-sm">
+                ⭐ 6 Suites Privées
+              </span>
+              <span className="rounded-full bg-black/45 border border-white/15 px-3.5 py-1 backdrop-blur-sm">
+                🛎️ Concierge WhatsApp
+              </span>
+            </div>
+
+            {/* Bouncing scroll indicator */}
+            <button
+              onClick={() => openTab("welcome")}
+              className="mx-auto mt-6 flex flex-col items-center gap-1 text-white/70 transition-colors hover:text-white"
+              aria-label="Scroll down to explore"
+            >
+              <span className="text-[10px] font-medium tracking-widest uppercase opacity-80">
+                {language === "fr" ? "Découvrir" : "Explore"}
+              </span>
+              <ChevronDown className="h-5 w-5 animate-bounce text-amber-200" />
+            </button>
           </div>
         </section>
       )}
@@ -1433,29 +1503,63 @@ export default function Home() {
 
                   {selectedPlace.is_order_system ? (
                     <div className="flex flex-col gap-3 rounded-xl border border-[#E0D5C7] bg-[#F5F1E8] p-4">
-                      <p className="text-sm font-bold text-[#2C2C2C]">Where are you ordering from?</p>
+                      <p className="text-sm font-bold text-[#2C2C2C]">
+                        {language === "fr" ? "D'où commandez-vous ?" : "Where are you ordering from?"}
+                      </p>
                       <select
                         value={selectedRoom}
                         onChange={(e) => setSelectedRoom(e.target.value)}
-                        className="w-full rounded-lg border border-[#E0D5C7] p-2.5 text-sm font-semibold text-[#2C2C2C] focus:border-[#B85C3C] focus:outline-none focus:ring-1 focus:ring-[#B85C3C]"
+                        className="w-full rounded-lg border border-[#E0D5C7] bg-white p-2.5 text-sm font-semibold text-[#2C2C2C] focus:border-[#B85C3C] focus:outline-none focus:ring-1 focus:ring-[#B85C3C]"
                       >
-                        {Array.from({ length: 16 }, (_, i) => i + 1).map((num) => (
-                          <option key={num} value={num.toString()}>
-                            Room {num}
+                        <optgroup label={language === "fr" ? "Suites du 1er étage" : "1st Floor Suites"}>
+                          <option value="Suite 1">{language === "fr" ? "Suite 1 (1er étage)" : "Suite 1 (1st Floor)"}</option>
+                          <option value="Suite 2">{language === "fr" ? "Suite 2 (1er étage)" : "Suite 2 (1st Floor)"}</option>
+                          <option value="Suite 3">{language === "fr" ? "Suite 3 (1er étage)" : "Suite 3 (1st Floor)"}</option>
+                          <option value="Suite 4">{language === "fr" ? "Suite 4 (1er étage)" : "Suite 4 (1st Floor)"}</option>
+                        </optgroup>
+                        <optgroup label={language === "fr" ? "Suites sur la terrasse" : "Rooftop Terrace Suites"}>
+                          <option value="Suite 5">{language === "fr" ? "Suite 5 (Terrasse)" : "Suite 5 (Rooftop Terrace)"}</option>
+                          <option value="Suite 6">{language === "fr" ? "Suite 6 (Terrasse)" : "Suite 6 (Rooftop Terrace)"}</option>
+                        </optgroup>
+                        <optgroup label={language === "fr" ? "Espaces de vie du Riad" : "Riad Common Spaces"}>
+                          <option value="Patio & Pool">
+                            {language === "fr" ? "Patio central & Bassin (RDC)" : "Central Patio & Plunge Pool (Ground Floor)"}
                           </option>
-                        ))}
-                        <option value="pool">Pool / Courtyard</option>
-                        <option value="rooftop">Rooftop</option>
+                          <option value="Panoramic Rooftop">
+                            {language === "fr" ? "Toit terrasse panoramique & Solarium" : "Panoramic Rooftop & Solarium"}
+                          </option>
+                          <option value="Fireplace Salon">
+                            {language === "fr" ? "Salon marocain avec cheminée (RDC)" : "Moroccan Fireplace Salon (Ground Floor)"}
+                          </option>
+                        </optgroup>
                       </select>
-                      <a
-                        href={`${selectedPlace.action_link}?room=${selectedRoom}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#B85C3C] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-[#A04A2F]"
-                      >
-                        <ConciergeBell className="h-5 w-5" />
-                        {selectedPlace.action_text || "Order Room Service"}
-                      </a>
+
+                      <div className="flex flex-col sm:flex-row gap-2 mt-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedPlace(null);
+                            setCurrentTab("catalog");
+                          }}
+                          className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-[#B85C3C] px-4 py-3 font-semibold text-white transition-all duration-300 hover:bg-[#A04A2F]"
+                        >
+                          <Sparkles className="h-4 w-4" />
+                          {language === "fr" ? "Voir les Offres & Menus" : "Browse Offers & Menu"}
+                        </button>
+                        <a
+                          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+                            language === "fr"
+                              ? `Bonjour, je suis actuellement à ${selectedRoom} au Riad Atlas Acacia et je souhaite commander le service en chambre / un soin spa.`
+                              : `Hello, I am currently at ${selectedRoom} at Riad Atlas Acacia and would like to order room service / a spa treatment.`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#25D366] bg-white px-4 py-3 font-semibold text-[#25D366] hover:bg-[#25D366]/10 transition-all duration-300"
+                        >
+                          <WhatsAppIcon className="h-4 w-4" />
+                          {language === "fr" ? "Demander sur WhatsApp" : "Order on WhatsApp"}
+                        </a>
+                      </div>
                     </div>
                   ) : (
                     <a

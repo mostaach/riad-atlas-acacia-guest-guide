@@ -33,12 +33,123 @@
   ],
   "amenities": [
     "Traditional Hammam & Spa",
-    "Moroccan Restaurant",
-    "Rooftop Terrace",
-    "Plunge Pool / Jacuzzi",
+    "Moroccan Restaurant & Room Service",
+    "Panoramic Rooftop Terrace & Solarium",
+    "Central Patio & Plunge Pool",
+    "Ground Floor Jacuzzi",
+    "Fireplace Moroccan Salon",
     "High-speed WiFi",
     "Air Conditioning",
     "Concierge & Tour Desk"
+  ],
+  "suites": [
+    {
+      "id": "suite-1",
+      "name": "Suite 1",
+      "floor": { "en": "1st Floor", "fr": "1er étage" },
+      "size": "32 m²",
+      "description": {
+        "en": "Elegant and bright 1st floor suite with private sitting area, king bed and refined bathroom.",
+        "fr": "Suite élégante et lumineuse au 1er étage avec coin salon, grand lit et salle de bain privative."
+      }
+    },
+    {
+      "id": "suite-2",
+      "name": "Suite 2",
+      "floor": { "en": "1st Floor", "fr": "1er étage" },
+      "size": "30 m²",
+      "description": {
+        "en": "Warm and inviting 1st floor suite with authentic Moroccan artisan decor and serene ambiance.",
+        "fr": "Suite chaleureuse au 1er étage avec décor artisanal marocain et ambiance sereine."
+      }
+    },
+    {
+      "id": "suite-3",
+      "name": "Suite 3",
+      "floor": { "en": "1st Floor", "fr": "1er étage" },
+      "size": "35 m²",
+      "description": {
+        "en": "Spacious and refined 1st floor suite with generous lounge area and soft natural light.",
+        "fr": "Suite spacieuse et raffinée au 1er étage avec vaste salon et douce lumière naturelle."
+      }
+    },
+    {
+      "id": "suite-4",
+      "name": "Suite 4",
+      "floor": { "en": "1st Floor", "fr": "1er étage" },
+      "size": "30 m²",
+      "description": {
+        "en": "Tranquil 1st floor suite offering a fluid harmonious layout and intimate private lounge.",
+        "fr": "Suite calme au 1er étage avec agencement harmonieux et salon intime."
+      }
+    },
+    {
+      "id": "suite-5",
+      "name": "Suite 5",
+      "floor": { "en": "Terrace Floor", "fr": "Terrasse" },
+      "size": "29 m²",
+      "description": {
+        "en": "Intimate terrace suite opening onto the rooftop solarium, tranquil and secluded.",
+        "fr": "Suite intime sur le toit terrasse s'ouvrant sur le solarium, calme et privilégiée."
+      }
+    },
+    {
+      "id": "suite-6",
+      "name": "Suite 6",
+      "floor": { "en": "Terrace Floor", "fr": "Terrasse" },
+      "size": "34 m²",
+      "description": {
+        "en": "Exclusive rooftop suite with generous proportions, direct terrace access and sunset views.",
+        "fr": "Suite exclusive sur le toit terrasse avec de généreuses proportions et vue couchers de soleil."
+      }
+    }
+  ],
+  "facilities": [
+    {
+      "id": "patio-pool",
+      "name": { "en": "Central Patio & Plunge Pool", "fr": "Patio central & Bassin" },
+      "floor": { "en": "Ground Floor", "fr": "Rez-de-chaussée" },
+      "description": {
+        "en": "Central courtyard with fresh pool for breakfast, dining, and afternoon relaxation.",
+        "fr": "Patio central avec bassin pour le petit-déjeuner, dîners et détente."
+      }
+    },
+    {
+      "id": "jacuzzi",
+      "name": { "en": "Ground Floor Jacuzzi", "fr": "Jacuzzi du rez-de-chaussée" },
+      "floor": { "en": "Ground Floor", "fr": "Rez-de-chaussée" },
+      "description": {
+        "en": "Intimate hydrotherapy hot tub adjacent to the courtyard pool.",
+        "fr": "Bain à remous privatif au rez-de-chaussée près du bassin."
+      }
+    },
+    {
+      "id": "fireplace-salon",
+      "name": { "en": "Moroccan Fireplace Salon", "fr": "Salon marocain avec cheminée" },
+      "floor": { "en": "Ground Floor", "fr": "Rez-de-chaussée" },
+      "description": {
+        "en": "Warm traditional living room with fireplace and handcrafted Moroccan furnishings.",
+        "fr": "Grand salon chaleureux avec cheminée et mobilier artisanal d'époque."
+      }
+    },
+    {
+      "id": "rooftop-terrace",
+      "name": { "en": "Panoramic Rooftop & Solarium", "fr": "Toit terrasse panoramique & Solarium" },
+      "floor": { "en": "Rooftop", "fr": "Toit terrasse" },
+      "description": {
+        "en": "Spacious sun terrace with dining tables, sun loungers and Koutoubia & Atlas views.",
+        "fr": "Terrasse ensoleillée avec espace dînatoire, transats et vue Atlas/Koutoubia."
+      }
+    },
+    {
+      "id": "spa-hammam",
+      "name": { "en": "Traditional Hammam & Massage Room", "fr": "Hammam traditionnel & Salle de massage" },
+      "floor": { "en": "Wellness Area", "fr": "Espace bien-être" },
+      "description": {
+        "en": "Authentic black soap steam hammam and private argan oil massage room.",
+        "fr": "Bain de vapeur au savon noir bio et cabine de massage aux huiles d'argan."
+      }
+    }
   ],
   "checkin_time": "14:00",
   "checkout_time": "11:00",

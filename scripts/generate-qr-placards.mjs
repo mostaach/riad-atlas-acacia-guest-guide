@@ -2,8 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import QRCode from 'qrcode';
 
-// Production live domain as primary, with environment variable override
-const PRODUCTION_URL = 'https://riadatlasacacia.com';
+// Production live domain as primary: points directly to the live guest guide app on Vercel
+const PRODUCTION_URL = 'https://riad-atlas-acacia-guest-guide.vercel.app';
 const NETWORK_IP = '192.168.1.239:3001';
 const BASE_URL = (process.env.BASE_URL || PRODUCTION_URL).replace(/\/+$/, '');
 const OUTPUT_DIR = path.resolve('client', 'public', 'qr-placards');
@@ -410,8 +410,11 @@ async function generate() {
     <div class="url-switcher-box">
       <div style="font-size: 12px; font-weight: 700; color: #1C1917;">Sélectionnez la destination des QR codes :</div>
       <div class="url-presets">
-        <button class="btn-preset active" id="btn-prod" onclick="setBaseUrl('https://riadatlasacacia.com')">
-          🌐 Domaine Production (https://riadatlasacacia.com)
+        <button class="btn-preset active" id="btn-prod" onclick="setBaseUrl('https://riad-atlas-acacia-guest-guide.vercel.app')">
+          🚀 Application Live Vercel (https://riad-atlas-acacia-guest-guide.vercel.app)
+        </button>
+        <button class="btn-preset" id="btn-domain" onclick="setBaseUrl('https://riadatlasacacia.com')">
+          🌐 Domaine Racine (https://riadatlasacacia.com)
         </button>
         <button class="btn-preset" id="btn-local" onclick="setBaseUrl('http://${NETWORK_IP}')">
           📱 Test Wi-Fi Smartphone (http://${NETWORK_IP})

@@ -239,7 +239,29 @@ export default function InteractiveMap({
 
     mapRef.current = map;
 
+    // Fix: Force invalidateSize on multiple ticks to guarantee tiles render properly
+    const timer1 = setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+    const timer2 = setTimeout(() => {
+      map.invalidateSize();
+    }, 400);
+
+    // Fix: ResizeObserver automatically handles tab switching & responsive resize
+    let resizeObserver: ResizeObserver | null = null;
+    if (mapContainerRef.current && typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(() => {
+        map.invalidateSize();
+      });
+      resizeObserver.observe(mapContainerRef.current);
+    }
+
     return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
       map.remove();
       mapRef.current = null;
       markersRef.current.clear();
@@ -293,8 +315,8 @@ export default function InteractiveMap({
   }, [filteredPlaces, onPlaceSelect]);
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-lg">
-      <div ref={mapContainerRef} className="h-full w-full min-h-[500px]" />
+    <div className="relative h-full w-full overflow-hidden">
+      <div ref={mapContainerRef} className="h-full w-full" />
       <style>{`
         @keyframes riadPulse {
           0%, 100% { transform: scale(1); opacity: 0.4; }

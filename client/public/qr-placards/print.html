@@ -286,8 +286,11 @@
     <div class="url-switcher-box">
       <div style="font-size: 12px; font-weight: 700; color: #1C1917;">Sélectionnez la destination des QR codes :</div>
       <div class="url-presets">
-        <button class="btn-preset active" id="btn-prod" onclick="setBaseUrl('https://riadatlasacacia.com')">
-          🌐 Domaine Production (https://riadatlasacacia.com)
+        <button class="btn-preset active" id="btn-prod" onclick="setBaseUrl('https://riad-atlas-acacia-guest-guide.vercel.app')">
+          🚀 Application Live Vercel (https://riad-atlas-acacia-guest-guide.vercel.app)
+        </button>
+        <button class="btn-preset" id="btn-domain" onclick="setBaseUrl('https://riadatlasacacia.com')">
+          🌐 Domaine Racine (https://riadatlasacacia.com)
         </button>
         <button class="btn-preset" id="btn-local" onclick="setBaseUrl('http://192.168.1.239:3001')">
           📱 Test Wi-Fi Smartphone (http://192.168.1.239:3001)
@@ -297,7 +300,7 @@
         </button>
       </div>
       <div class="url-input-row">
-        <input type="text" id="custom-url-input" class="url-input" value="https://riadatlasacacia.com" placeholder="https://votre-domaine.com">
+        <input type="text" id="custom-url-input" class="url-input" value="https://riad-atlas-acacia-guest-guide.vercel.app" placeholder="https://votre-domaine.com">
         <button class="url-apply-btn" onclick="applyCustomUrl()">Mettre à jour les QR</button>
       </div>
     </div>
@@ -319,7 +322,7 @@
           <img id="qr-img-atlas" class="qr-img" src="/qr-placards/qr-suite-atlas.png" alt="Suite Atlas QR Code" />
         </div>
 
-        <div class="target-url-text" id="url-text-atlas">https://riadatlasacacia.com/?src=qr-room&room=atlas</div>
+        <div class="target-url-text" id="url-text-atlas">https://riad-atlas-acacia-guest-guide.vercel.app/?src=qr-room&room=atlas</div>
 
         <div class="instructions-fr">Scannez pour accéder au Guide & Room Service</div>
         <div class="instructions-en">Scan to access your Guest Guide & In-Room Service</div>
@@ -345,7 +348,7 @@
           <img id="qr-img-majorelle" class="qr-img" src="/qr-placards/qr-suite-majorelle.png" alt="Suite Majorelle QR Code" />
         </div>
 
-        <div class="target-url-text" id="url-text-majorelle">https://riadatlasacacia.com/?src=qr-room&room=majorelle</div>
+        <div class="target-url-text" id="url-text-majorelle">https://riad-atlas-acacia-guest-guide.vercel.app/?src=qr-room&room=majorelle</div>
 
         <div class="instructions-fr">Scannez pour accéder au Guide & Room Service</div>
         <div class="instructions-en">Scan to access your Guest Guide & In-Room Service</div>
@@ -371,7 +374,7 @@
           <img id="qr-img-ourika" class="qr-img" src="/qr-placards/qr-suite-ourika.png" alt="Suite Ourika QR Code" />
         </div>
 
-        <div class="target-url-text" id="url-text-ourika">https://riadatlasacacia.com/?src=qr-room&room=ourika</div>
+        <div class="target-url-text" id="url-text-ourika">https://riad-atlas-acacia-guest-guide.vercel.app/?src=qr-room&room=ourika</div>
 
         <div class="instructions-fr">Scannez pour accéder au Guide & Room Service</div>
         <div class="instructions-en">Scan to access your Guest Guide & In-Room Service</div>
@@ -397,7 +400,7 @@
           <img id="qr-img-koutoubia" class="qr-img" src="/qr-placards/qr-suite-koutoubia.png" alt="Suite Koutoubia QR Code" />
         </div>
 
-        <div class="target-url-text" id="url-text-koutoubia">https://riadatlasacacia.com/?src=qr-room&room=koutoubia</div>
+        <div class="target-url-text" id="url-text-koutoubia">https://riad-atlas-acacia-guest-guide.vercel.app/?src=qr-room&room=koutoubia</div>
 
         <div class="instructions-fr">Scannez pour accéder au Guide & Room Service</div>
         <div class="instructions-en">Scan to access your Guest Guide & In-Room Service</div>
@@ -423,7 +426,7 @@
           <img id="qr-img-makhila" class="qr-img" src="/qr-placards/qr-suite-makhila.png" alt="Suite Makhila QR Code" />
         </div>
 
-        <div class="target-url-text" id="url-text-makhila">https://riadatlasacacia.com/?src=qr-room&room=makhila</div>
+        <div class="target-url-text" id="url-text-makhila">https://riad-atlas-acacia-guest-guide.vercel.app/?src=qr-room&room=makhila</div>
 
         <div class="instructions-fr">Scannez pour accéder au Guide & Room Service</div>
         <div class="instructions-en">Scan to access your Guest Guide & In-Room Service</div>
@@ -449,7 +452,7 @@
           <img id="qr-img-mimosa" class="qr-img" src="/qr-placards/qr-suite-mimosa.png" alt="Suite Mimosa QR Code" />
         </div>
 
-        <div class="target-url-text" id="url-text-mimosa">https://riadatlasacacia.com/?src=qr-room&room=mimosa</div>
+        <div class="target-url-text" id="url-text-mimosa">https://riad-atlas-acacia-guest-guide.vercel.app/?src=qr-room&room=mimosa</div>
 
         <div class="instructions-fr">Scannez pour accéder au Guide & Room Service</div>
         <div class="instructions-en">Scan to access your Guest Guide & In-Room Service</div>
@@ -475,7 +478,7 @@
           <img id="qr-img-reception" class="qr-img" src="/qr-placards/qr-reception.png" alt="Accueil & Conciergerie QR Code" />
         </div>
 
-        <div class="target-url-text" id="url-text-reception">https://riadatlasacacia.com/?src=qr-reception</div>
+        <div class="target-url-text" id="url-text-reception">https://riad-atlas-acacia-guest-guide.vercel.app/?src=qr-reception</div>
 
         <div class="instructions-fr">Scannez pour accéder au Guide & Room Service</div>
         <div class="instructions-en">Scan to access your Guest Guide & In-Room Service</div>
@@ -501,7 +504,7 @@
           <img id="qr-img-prearrival" class="qr-img" src="/qr-placards/qr-prearrival.png" alt="Guide Pré-Arrivée QR Code" />
         </div>
 
-        <div class="target-url-text" id="url-text-prearrival">https://riadatlasacacia.com/?src=prearrival</div>
+        <div class="target-url-text" id="url-text-prearrival">https://riad-atlas-acacia-guest-guide.vercel.app/?src=prearrival</div>
 
         <div class="instructions-fr">Scannez pour accéder au Guide & Room Service</div>
         <div class="instructions-en">Scan to access your Guest Guide & In-Room Service</div>
@@ -517,7 +520,7 @@
 
   <script>
     const items = [{"id":"atlas","title":"Suite Atlas","sub":"1st Floor • 1er Étage","floor":"1er Étage / 1st Floor","path":"/?src=qr-room&room=atlas","filename":"qr-suite-atlas","badge":"Suite Privée"},{"id":"majorelle","title":"Suite Majorelle","sub":"1st Floor • 1er Étage","floor":"1er Étage / 1st Floor","path":"/?src=qr-room&room=majorelle","filename":"qr-suite-majorelle","badge":"Suite Privée"},{"id":"ourika","title":"Suite Ourika","sub":"1st Floor • 1er Étage","floor":"1er Étage / 1st Floor","path":"/?src=qr-room&room=ourika","filename":"qr-suite-ourika","badge":"Suite Privée"},{"id":"koutoubia","title":"Suite Koutoubia","sub":"1st Floor • 1er Étage","floor":"1er Étage / 1st Floor","path":"/?src=qr-room&room=koutoubia","filename":"qr-suite-koutoubia","badge":"Suite Privée"},{"id":"makhila","title":"Suite Makhila","sub":"Rooftop Terrace • Terrasse Panoramique","floor":"Terrasse Panoramique / Rooftop","path":"/?src=qr-room&room=makhila","filename":"qr-suite-makhila","badge":"Suite Terrasse"},{"id":"mimosa","title":"Suite Mimosa","sub":"Rooftop Terrace • Terrasse Panoramique","floor":"Terrasse Panoramique / Rooftop","path":"/?src=qr-room&room=mimosa","filename":"qr-suite-mimosa","badge":"Suite Terrasse"},{"id":"reception","title":"Accueil & Conciergerie","sub":"Reception & Lobby • Riad Atlas Acacia","floor":"Patio & Accueil","path":"/?src=qr-reception","filename":"qr-reception","badge":"Conciergerie 24/7"},{"id":"prearrival","title":"Guide Pré-Arrivée","sub":"Pre-Arrival Guest Guide & Transfers","floor":"Arrivée & Transfert","path":"/?src=prearrival","filename":"qr-prearrival","badge":"Bienvenue à Marrakech"}];
-    let currentBase = "https://riadatlasacacia.com";
+    let currentBase = "https://riad-atlas-acacia-guest-guide.vercel.app";
 
     function renderAllQrs(base) {
       currentBase = base.replace(/\/+$/, '');

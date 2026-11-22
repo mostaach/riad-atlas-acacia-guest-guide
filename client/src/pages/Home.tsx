@@ -376,6 +376,7 @@ export default function Home() {
   const [feedbackNote, setFeedbackNote] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<string>("Suite Atlas");
+  const [isRoomQrScanned, setIsRoomQrScanned] = useState(false);
   const [primaryCurrency, setPrimaryCurrency] = useState<"MAD" | "EUR">("MAD");
   const [selectedCatalogItem, setSelectedCatalogItem] = useState<CatalogItem | null>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -440,9 +441,11 @@ export default function Home() {
         );
         if (matched) {
           setSelectedRoom(matched);
+          setIsRoomQrScanned(true);
           localStorage.setItem("riad_room", matched);
         }
       } else {
+        setIsRoomQrScanned(false);
         const savedRoom = localStorage.getItem("riad_room");
         if (savedRoom) {
           setSelectedRoom(savedRoom);
@@ -860,15 +863,25 @@ export default function Home() {
 
       {!showHero && (
         <div className={currentTab === "map" ? "" : "pb-28"}>
-          {/* Connected Chamber Status Banner when arrived via QR */}
-          {selectedRoom && selectedRoom.startsWith("Suite ") && (
-            <div className="bg-[#B85C3C]/10 border-b border-[#B85C3C]/20 px-4 py-2.5 text-center flex items-center justify-center gap-2 text-xs font-semibold text-[#B85C3C]">
-              <Sparkles className="h-3.5 w-3.5 shrink-0" />
-              <span>
-                {language === "fr"
-                  ? `Connecté en ${selectedRoom} • Guide Résident & Room Service activés`
-                  : `Connected in ${selectedRoom} • Guest Guide & Room Service active`}
-              </span>
+          {/* Connected Chamber Status Banner ONLY when arrived via Room QR */}
+          {isRoomQrScanned && selectedRoom && selectedRoom.startsWith("Suite ") && (
+            <div className="bg-[#B85C3C]/10 border-b border-[#B85C3C]/20 px-4 py-2 text-center flex items-center justify-between gap-2 text-xs font-semibold text-[#B85C3C]">
+              <div className="flex-1 flex items-center justify-center gap-2">
+                <Sparkles className="h-3.5 w-3.5 shrink-0" />
+                <span>
+                  {language === "fr"
+                    ? `Connecté en ${selectedRoom} • Guide Résident & Room Service activés`
+                    : `Connected in ${selectedRoom} • Guest Guide & Room Service active`}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsRoomQrScanned(false)}
+                className="p-1 hover:bg-[#B85C3C]/20 rounded-md transition-colors"
+                title="Dismiss"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
             </div>
           )}
           <AnimatePresence mode="wait">
@@ -1185,8 +1198,10 @@ export default function Home() {
             /* Fixed-height column: fills exactly the viewport between sticky header (46px) and bottom nav (72px).
                Must NOT be inside the pb-28 scroll wrapper — it escapes it via the outer render. */
             <div
-              className="flex flex-col"
-              style={{ height: "calc(100dvh - 118px)" }}
+              className="flex flex-col overflow-hidden"
+              style={{
+                height: isRoomQrScanned ? "calc(100dvh - 156px)" : "calc(100dvh - 118px)",
+              }}
             >
               {/* Compact filter strip — shrinks to its content, never pushed by map */}
               <div className="shrink-0 bg-white/90 px-4 pt-3 pb-2 shadow-md backdrop-blur-sm border-b border-[#E0D5C7]">

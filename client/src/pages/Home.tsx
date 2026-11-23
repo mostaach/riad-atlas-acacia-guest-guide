@@ -498,10 +498,16 @@ export default function Home() {
     setWalkablePlaces(sortByDistance(walkable, riadCoordinates));
   }, []);
 
+  // Ensure switching tabs (especially to Map) always resets the viewport scroll on mobile
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [currentTab]);
+
   const openTab = (tab: Tab) => {
     setShowHero(false);
     setCurrentTab(tab);
     setSelectedPlace(null);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   };
 
   const handleFeedbackRating = (rating: number) => {
@@ -725,7 +731,7 @@ export default function Home() {
                 <img
                   src={riadData.logo || riadData.image}
                   alt={riadData.name}
-                  className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full border border-amber-300/80 object-cover p-1 bg-black/60 shadow-2xl backdrop-blur-md"
+                  className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full border border-amber-300/80 object-contain p-2 bg-black/60 shadow-2xl backdrop-blur-md"
                 />
               </div>
             </div>
@@ -1201,7 +1207,9 @@ export default function Home() {
             <div
               className="flex flex-col overflow-hidden"
               style={{
-                height: isRoomQrScanned ? "calc(100dvh - 156px)" : "calc(100dvh - 118px)",
+                height: isRoomQrScanned
+                  ? "calc(100dvh - 160px - env(safe-area-inset-bottom, 0px))"
+                  : "calc(100dvh - 124px - env(safe-area-inset-bottom, 0px))",
               }}
             >
               {/* Compact filter strip — shrinks to its content, never pushed by map */}
@@ -1507,6 +1515,7 @@ export default function Home() {
                   onClick={() => {
                     setCurrentTab(item.id as Tab);
                     setSelectedPlace(null);
+                    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
                   }}
                   className={`flex flex-1 flex-col items-center gap-1 border-t-2 py-4 transition-all ${
                     isActive

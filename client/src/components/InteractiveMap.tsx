@@ -229,8 +229,8 @@ export default function InteractiveMap({
       }
     ).addTo(map);
 
-    // Custom zoom control — bottom-left avoids colliding with popups & action buttons
-    L.control.zoom({ position: "bottomleft" }).addTo(map);
+    // Custom zoom control — top-right avoids colliding with mobile bottom navigation & popups
+    L.control.zoom({ position: "topright" }).addTo(map);
 
     // Riad marker
     const riadMarker = L.marker(
@@ -250,38 +250,44 @@ export default function InteractiveMap({
 
     mapRef.current = map;
 
-    // Force invalidateSize on multiple ticks to guarantee tiles render properly
-    const timer1 = setTimeout(() => {
-      try { map.invalidateSize(); } catch {}
-    }, 100);
-    const timer2 = setTimeout(() => {
-      try { map.invalidateSize(); } catch {}
-    }, 350);
-    const timer3 = setTimeout(() => {
-      try { map.invalidateSize(); } catch {}
-    }, 700);
-
-    const handleResize = () => {
-      try { map.invalidateSize(); } catch {}
+    // Force invalidateSize on multiple ticks to guarantee tiles render properly on mobile
+    const invalidate = () => {
+      try {
+        map.invalidateSize(true);
+      } catch {}
     };
+
+    const timer0 = setTimeout(invalidate, 50);
+    const timer1 = setTimeout(invalidate, 150);
+    const timer2 = setTimeout(invalidate, 350);
+    const timer3 = setTimeout(invalidate, 700);
+    const timer4 = setTimeout(invalidate, 1200);
+
+    const handleResize = () => invalidate();
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") invalidate();
+    };
+
     window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", handleResize);
+    document.addEventListener("visibilitychange", handleVisibility);
 
     // ResizeObserver automatically handles tab switching & responsive resize
     let resizeObserver: ResizeObserver | null = null;
     if (mapContainerRef.current && typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(() => {
-        try { map.invalidateSize(); } catch {}
-      });
+      resizeObserver = new ResizeObserver(() => invalidate());
       resizeObserver.observe(mapContainerRef.current);
     }
 
     return () => {
+      clearTimeout(timer0);
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
+      clearTimeout(timer4);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibility);
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
@@ -343,7 +349,7 @@ export default function InteractiveMap({
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      <div ref={mapContainerRef} className="h-full w-full" />
+      <div ref={mapContainerRef} className="h-full w-full min-h-[300px]" />
       <style>{`
         @keyframes riadPulse {
           0%, 100% { transform: scale(1); opacity: 0.4; }

@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import React, { useState, useEffect, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -16,6 +16,7 @@ import {
   Leaf,
   CreditCard,
   Banknote,
+  Lock,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -67,6 +68,13 @@ export default function BookingModal({
   const [guestName, setGuestName] = useState<string>('');
   const [roomNumber, setRoomNumber] = useState<string>(() => defaultRoom || '');
   const [flightNumber, setFlightNumber] = useState<string>('');
+
+  // Sync room when arriving via QR with pre-set room
+  useEffect(() => {
+    if (defaultRoom) {
+      setRoomNumber(defaultRoom);
+    }
+  }, [defaultRoom]);
   const [notes, setNotes] = useState<string>('');
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -517,14 +525,23 @@ export default function BookingModal({
               </div>
 
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground block mb-1">
-                  {isFr ? 'Chambre / Suite' : 'Room / Suite'} *
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
+                    {isFr ? 'Chambre / Suite' : 'Room / Suite'} *
+                  </label>
+                  {(defaultRoom || roomNumber) && (
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                      {isFr ? '✓ QR Actif' : '✓ QR Active'}
+                    </span>
+                  )}
+                </div>
                 <select
                   required
                   value={roomNumber}
                   onChange={e => setRoomNumber(e.target.value)}
-                  className="w-full text-xs p-2.5 rounded-xl border border-border bg-card text-foreground focus:outline-none focus:ring-1 focus:ring-[#B85C3C]"
+                  className={`w-full text-xs p-2.5 rounded-xl border bg-card text-foreground focus:outline-none focus:ring-1 focus:ring-[#B85C3C] ${
+                    (defaultRoom || roomNumber) ? 'border-emerald-500/50 bg-emerald-50/15 font-semibold text-emerald-950' : 'border-border'
+                  }`}
                 >
                   <option value="">{isFr ? '-- Choisir votre suite ou lieu --' : '-- Select your suite or location --'}</option>
                   <optgroup label={isFr ? "Suites du 1er étage" : "1st Floor Suites"}>

@@ -34,7 +34,9 @@ import { Sparkles } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import InteractiveMap from "@/components/InteractiveMap";
 import CurrencyConverter from "@/components/CurrencyConverter";
+import ReportModal from "@/components/ReportModal";
 import { track } from "@vercel/analytics";
+import { trackQrScan } from "@/lib/qrTracker";
 import placesData from "../../../data/places.json";
 import routesData from "../../../data/routes.json";
 import categoriesData from "../../../data/categories.json";
@@ -380,6 +382,7 @@ export default function Home() {
   const [primaryCurrency, setPrimaryCurrency] = useState<"MAD" | "EUR">("MAD");
   const [selectedCatalogItem, setSelectedCatalogItem] = useState<CatalogItem | null>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isReportOpen, setIsReportOpen] = useState(false);
   const t = ui[language];
   const hasWhatsapp = whatsappNumber.length > 0;
   const quickInfo = [
@@ -417,12 +420,9 @@ export default function Home() {
     try {
       const searchParams = new URLSearchParams(window.location.search);
       const src = searchParams.get("src");
-      if (src) {
-        localStorage.setItem("riad_qr_source", src);
-        track("qr_landing", { src, riadId: riadData.id });
-      }
-
       const roomParam = searchParams.get("room");
+
+      let resolvedRoom = "";
       if (roomParam) {
         const normalized = roomParam.toLowerCase().replace(/[-_]/g, " ");
         const suitesList = [
@@ -440,6 +440,7 @@ export default function Home() {
             normalized.includes(s.toLowerCase().replace("suite ", ""))
         );
         if (matched) {
+          resolvedRoom = matched;
           setSelectedRoom(matched);
           setIsRoomQrScanned(true);
           localStorage.setItem("riad_room", matched);
@@ -448,9 +449,30 @@ export default function Home() {
           setSelectedRoom("");
         }
       } else {
-        setIsRoomQrScanned(false);
-        // Only set room if explicitly requested via QR code parameter
-        setSelectedRoom("");
+        // Restore room if previously scanned via QR during this stay
+        const savedRoom = localStorage.getItem("riad_room");
+        if (savedRoom) {
+          resolvedRoom = savedRoom;
+          setSelectedRoom(savedRoom);
+          setIsRoomQrScanned(true);
+        } else {
+          setIsRoomQrScanned(false);
+          setSelectedRoom("");
+        }
+      }
+
+      if (src) {
+        localStorage.setItem("riad_qr_source", src);
+      }
+
+      // Record QR scan in analytics and manager logs
+      if (src || roomParam) {
+        trackQrScan({
+          src: src || (roomParam ? "qr-room" : "direct"),
+          room: resolvedRoom || undefined,
+          riadId: riadData.id,
+          language: (localStorage.getItem("riad_lang") as string) || "fr",
+        });
       }
 
       // If guest arrives via QR code (room or reception), bypass facing hero cover and land directly inside the guest guide!
@@ -764,11 +786,12 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
               <button
                 onClick={() => openTab("welcome")}
-                className="w-full sm:w-auto min-w-[200px] flex items-center justify-center gap-2 rounded-full bg-[#B85C3C] px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[#B85C3C]/30 border border-white/20 transition-all duration-300 hover:bg-[#A04A2F] active:scale-[0.98]"
+                className="w-full sm:w-auto min-w-[200px] flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#F5D77F] to-[#C5A059] hover:from-[#E5C158] hover:to-[#D4AF37] px-8 py-3.5 text-sm font-bold text-stone-950 shadow-xl shadow-[#C5A059]/40 border border-amber-200/90 transition-all duration-300 hover:shadow-2xl hover:shadow-[#D4AF37]/50 active:scale-[0.98]"
                 type="button"
               >
+                <Sparkles className="h-4 w-4 text-stone-900 fill-stone-900/10" />
                 <span>{t.startGuide}</span>
-                <span className="text-base leading-none">→</span>
+                <span className="text-base leading-none font-bold">→</span>
               </button>
               <button
                 onClick={() => openTab("catalog")}
@@ -853,6 +876,15 @@ export default function Home() {
                   EUR
                 </button>
               </div>
+              <button
+                type="button"
+                onClick={() => setIsReportOpen(true)}
+                className="flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50/90 hover:bg-amber-100/90 px-2.5 py-1 text-[11px] font-bold text-amber-900 transition-colors shadow-xs"
+                title={language === "fr" ? "Signaler un problème ou demander de l'aide" : "Report an issue or request assistance"}
+              >
+                <AlertCircle className="h-3.5 w-3.5 text-amber-600" />
+                <span>{language === "fr" ? "Signaler" : "Report"}</span>
+              </button>
               <button
                 onClick={() => {
                   const next = language === "en" ? "fr" : "en";
@@ -1619,47 +1651,74 @@ export default function Home() {
 
                   {selectedPlace.is_order_system ? (
                     <div className="flex flex-col gap-3 rounded-xl border border-[#E0D5C7] bg-[#F5F1E8] p-4">
-                      <p className="text-sm font-bold text-[#2C2C2C]">
-                        {language === "fr" ? "D'où commandez-vous ?" : "Where are you ordering from?"}
-                      </p>
-                      <select
-                        value={selectedRoom}
-                        onChange={(e) => setSelectedRoom(e.target.value)}
-                        className="w-full rounded-lg border border-[#E0D5C7] bg-white p-2.5 text-sm font-semibold text-[#2C2C2C] focus:border-[#B85C3C] focus:outline-none focus:ring-1 focus:ring-[#B85C3C]"
-                      >
-                        <option value="">
-                          {language === "fr" ? "-- Choisir votre suite ou lieu --" : "-- Select your suite or location --"}
-                        </option>
-                        <optgroup label={language === "fr" ? "Suites du 1er étage" : "1st Floor Suites"}>
-                          <option value="Suite Atlas">Suite Atlas</option>
-                          <option value="Suite Majorelle">Suite Majorelle</option>
-                          <option value="Suite Ourika">Suite Ourika</option>
-                          <option value="Suite Koutoubia">Suite Koutoubia</option>
-                        </optgroup>
-                        <optgroup label={language === "fr" ? "Suites sur la terrasse" : "Rooftop Terrace Suites"}>
-                          <option value="Suite Makhila">Suite Makhila</option>
-                          <option value="Suite Mimosa">Suite Mimosa</option>
-                        </optgroup>
-                        <optgroup label={language === "fr" ? "Espaces de vie du Riad" : "Riad Common Spaces"}>
-                          <option value="Patio & Pool">
-                            {language === "fr" ? "Patio central & Bassin (RDC)" : "Central Patio & Plunge Pool (Ground Floor)"}
-                          </option>
-                          <option value="Panoramic Rooftop">
-                            {language === "fr" ? "Toit terrasse panoramique & Solarium" : "Panoramic Rooftop & Solarium"}
-                          </option>
-                          <option value="Fireplace Salon">
-                            {language === "fr" ? "Salon marocain avec cheminée (RDC)" : "Moroccan Fireplace Salon (Ground Floor)"}
-                          </option>
-                        </optgroup>
-                        <optgroup label={language === "fr" ? "Statut de séjour & Visiteur" : "Stay Status & Visitors"}>
-                          <option value="Pre-Arrival">
-                            {language === "fr" ? "Avant arrivée (Transfert / Arrivée)" : "Pre-Arrival (Transfer / Arrival Night)"}
-                          </option>
-                          <option value="Outside Visitor">
-                            {language === "fr" ? "Client extérieur (Non résident)" : "Outside Visitor (Non-Resident)"}
-                          </option>
-                        </optgroup>
-                      </select>
+                      {selectedRoom ? (
+                        <div className="flex items-center justify-between p-3 rounded-xl bg-white border border-emerald-400/50 shadow-xs">
+                          <div className="flex items-center gap-2.5">
+                            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
+                              ✓
+                            </span>
+                            <div>
+                              <div className="text-[11px] text-[#78716C] uppercase font-bold tracking-wide">
+                                {language === "fr" ? "Lieu de commande (Auto-détecté via QR)" : "Ordering Location (Auto-detected via QR)"}
+                              </div>
+                              <div className="text-sm font-bold text-[#1C1917]">
+                                {selectedRoom}
+                              </div>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedRoom("")}
+                            className="text-xs text-[#B85C3C] hover:underline font-semibold px-2 py-1"
+                          >
+                            {language === "fr" ? "Changer" : "Change"}
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <p className="text-sm font-bold text-[#2C2C2C]">
+                            {language === "fr" ? "D'où commandez-vous ?" : "Where are you ordering from?"}
+                          </p>
+                          <select
+                            value={selectedRoom}
+                            onChange={(e) => setSelectedRoom(e.target.value)}
+                            className="w-full rounded-lg border border-[#E0D5C7] bg-white p-2.5 text-sm font-semibold text-[#2C2C2C] focus:border-[#B85C3C] focus:outline-none focus:ring-1 focus:ring-[#B85C3C]"
+                          >
+                            <option value="">
+                              {language === "fr" ? "-- Choisir votre suite ou lieu --" : "-- Select your suite or location --"}
+                            </option>
+                            <optgroup label={language === "fr" ? "Suites du 1er étage" : "1st Floor Suites"}>
+                              <option value="Suite Atlas">Suite Atlas</option>
+                              <option value="Suite Majorelle">Suite Majorelle</option>
+                              <option value="Suite Ourika">Suite Ourika</option>
+                              <option value="Suite Koutoubia">Suite Koutoubia</option>
+                            </optgroup>
+                            <optgroup label={language === "fr" ? "Suites sur la terrasse" : "Rooftop Terrace Suites"}>
+                              <option value="Suite Makhila">Suite Makhila</option>
+                              <option value="Suite Mimosa">Suite Mimosa</option>
+                            </optgroup>
+                            <optgroup label={language === "fr" ? "Espaces de vie du Riad" : "Riad Common Spaces"}>
+                              <option value="Patio & Pool">
+                                {language === "fr" ? "Patio central & Bassin (RDC)" : "Central Patio & Plunge Pool (Ground Floor)"}
+                              </option>
+                              <option value="Panoramic Rooftop">
+                                {language === "fr" ? "Toit terrasse panoramique & Solarium" : "Panoramic Rooftop & Solarium"}
+                              </option>
+                              <option value="Fireplace Salon">
+                                {language === "fr" ? "Salon marocain avec cheminée (RDC)" : "Moroccan Fireplace Salon (Ground Floor)"}
+                              </option>
+                            </optgroup>
+                            <optgroup label={language === "fr" ? "Statut de séjour & Visiteur" : "Stay Status & Visitors"}>
+                              <option value="Pre-Arrival">
+                                {language === "fr" ? "Avant arrivée (Transfert / Arrivée)" : "Pre-Arrival (Transfer / Arrival Night)"}
+                              </option>
+                              <option value="Outside Visitor">
+                                {language === "fr" ? "Client extérieur (Non résident)" : "Outside Visitor (Non-Resident)"}
+                              </option>
+                            </optgroup>
+                          </select>
+                        </>
+                      )}
 
                       <div className="flex flex-col sm:flex-row gap-2 mt-2">
                         <button
@@ -1738,6 +1797,13 @@ export default function Home() {
         primaryCurrency={primaryCurrency}
         whatsappNumber={riadData.whatsapp || "+212663715754"}
         defaultRoom={selectedRoom}
+      />
+      <ReportModal
+        isOpen={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+        room={selectedRoom}
+        whatsappNumber={riadData.whatsapp || "+212663715754"}
+        language={language}
       />
     </div>
   );

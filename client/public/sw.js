@@ -1,13 +1,16 @@
 // Service Worker for Riad Atlas Acacia Guest Guide
-const CACHE_NAME = 'riad-acacia-v2';
+const CACHE_NAME = 'riad-acacia-v3';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
+  '/favicon.ico',
+  '/favicon.png',
+  '/favicon-32x32.png',
+  '/favicon-16x16.png',
   '/apple-touch-icon.png',
   '/icon-192.png',
   '/icon-512.png',
-  '/favicon.svg',
   '/riad-atlas-acacia/logo.png',
   '/riad-atlas-acacia/hero_courtyard.jpg',
   '/whatsapp.png'

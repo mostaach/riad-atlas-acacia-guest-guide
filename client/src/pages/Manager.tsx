@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import catalogData from "../../../data/riads/riad-atlas-acacia/catalog.json";
 import riadData from "../../../data/riad.json";
+import { getQrStats, QrStats } from "@/lib/qrTracker";
 
 interface Order {
   id: string;
@@ -81,6 +82,12 @@ export default function Manager() {
   // QR Placards state
   const [selectedQrId, setSelectedQrId] = useState<string>("atlas");
   const [copiedUrl, setCopiedUrl] = useState(false);
+  const [qrStats, setQrStats] = useState<QrStats>({
+    totalScans: 0,
+    byRoom: {},
+    bySource: {},
+    recentScans: [],
+  });
 
   // Auth guard
   useEffect(() => {
@@ -146,10 +153,20 @@ export default function Manager() {
   useEffect(() => {
     fetchOrders();
     fetchStock();
+    setQrStats(getQrStats());
     // Poll orders every 30s
-    const timer = setInterval(fetchOrders, 30000);
+    const timer = setInterval(() => {
+      fetchOrders();
+      setQrStats(getQrStats());
+    }, 30000);
     return () => clearInterval(timer);
   }, [fetchOrders, fetchStock]);
+
+  useEffect(() => {
+    if (activeTab === "qr") {
+      setQrStats(getQrStats());
+    }
+  }, [activeTab]);
 
   const updateOrderStatus = async (orderId: string, nextStatus: Order["status"]) => {
     setOrders((prev) => {
@@ -737,6 +754,98 @@ export default function Manager() {
                   </a>
                 </div>
               </div>
+            </div>
+
+            {/* Live QR Scan Tracker Analytics */}
+            <div className="rounded-2xl border border-[#E0D5C7] bg-white p-5 shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E0D5C7] pb-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="p-2 rounded-xl bg-amber-500/10 text-amber-700">
+                    <QrCode className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <h3 className="text-base font-bold text-[#1C1917]">
+                      {isFr ? "Suivi en direct des Scans QR" : "Live QR Scan Analytics & Tracker"}
+                    </h3>
+                    <p className="text-xs text-[#78716C]">
+                      {isFr
+                        ? "Mesure le nombre d'invités ayant scanné les QR codes par chambre et à la réception."
+                        : "Tracks guest scans per room and reception in real time."}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <div className="text-2xl font-bold font-serif text-[#B85C3C]">
+                      {qrStats.totalScans}
+                    </div>
+                    <div className="text-[10px] font-semibold text-[#78716C] uppercase">
+                      {isFr ? "Scans au total" : "Total Scans"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Grid per room */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                {ROOM_QR_LIST.map((item) => {
+                  const scansForRoom = qrStats.byRoom[item.name] || 0;
+                  return (
+                    <div
+                      key={item.id}
+                      className="rounded-xl border border-[#E0D5C7] bg-[#FDFBF7] p-3 text-center space-y-1"
+                    >
+                      <div className="text-[11px] font-semibold text-[#78716C] truncate">
+                        {item.name}
+                      </div>
+                      <div className="text-xl font-bold text-[#1C1917]">
+                        {scansForRoom}
+                      </div>
+                      <div className="text-[10px] text-amber-700 font-medium">
+                        {isFr ? "scans enregistrés" : "scans tracked"}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Recent Scan History */}
+              {qrStats.recentScans.length > 0 ? (
+                <div className="pt-2">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#78716C] mb-2">
+                    {isFr ? "Dernière activité de scan" : "Recent Scan Activity"}
+                  </h4>
+                  <div className="divide-y divide-[#E0D5C7] rounded-xl border border-[#E0D5C7] bg-white overflow-hidden text-xs">
+                    {qrStats.recentScans.slice(0, 6).map((scan) => (
+                      <div key={scan.id} className="flex items-center justify-between p-2.5 hover:bg-[#F5F1E8]">
+                        <div className="flex items-center gap-2">
+                          <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
+                          <span className="font-bold text-[#1C1917]">
+                            {scan.room || scan.src}
+                          </span>
+                          <span className="text-[10px] text-[#78716C]">
+                            ({scan.userAgent || "Device"})
+                          </span>
+                        </div>
+                        <span className="text-[11px] text-[#78716C]">
+                          {new Date(scan.timestamp).toLocaleString(isFr ? "fr-FR" : "en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            day: "2-digit",
+                            month: "short",
+                          })}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-3 text-xs text-[#78716C]">
+                  {isFr
+                    ? "Aucun scan enregistré pour le moment. Scannez un QR code depuis un téléphone pour le voir apparaître ici."
+                    : "No QR scans recorded yet. Scan a room QR code with a phone to see it appear here."}
+                </div>
+              )}
             </div>
           </div>
         )}

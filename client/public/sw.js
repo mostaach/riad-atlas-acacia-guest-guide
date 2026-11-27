@@ -1,5 +1,5 @@
 // Service Worker for Riad Atlas Acacia Guest Guide
-const CACHE_NAME = 'riad-acacia-v3';
+const CACHE_NAME = 'riad-acacia-v5';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

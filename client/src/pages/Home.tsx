@@ -753,7 +753,7 @@ export default function Home() {
                 <img
                   src={riadData.logo || riadData.image}
                   alt={riadData.name}
-                  className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full border border-amber-300/80 object-contain p-2 bg-black/60 shadow-2xl backdrop-blur-md"
+                  className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full object-contain shadow-2xl drop-shadow-[0_4px_16px_rgba(212,175,55,0.3)]"
                 />
               </div>
             </div>

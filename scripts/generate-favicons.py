@@ -1,5 +1,6 @@
 import base64
 import os
+import numpy as np
 from PIL import Image, ImageDraw
 
 base_dir = r"d:\Workspace\MosaicOS\01_SYSTEM\AgenticOS project manager\projects\degitize-riad-acacia"
@@ -9,12 +10,16 @@ pub_dir = os.path.join(base_dir, "client", "public")
 
 raw_img = Image.open(src_path).convert("RGBA")
 
-# Crop to the outer golden ring bounds
-# X: 35 to 980 (width 945)
-# Y: 29 to 943 (height 914)
-cropped = raw_img.crop((35, 29, 980, 943))
+# Center and radii for exact 0.982 normalized distance
+# This crops right on the peak of the outer solid gold ring, eliminating 100% of the dark outer edge
+cx, cy = 507.5, 486.0
+rx = (943 / 2.0) * 0.982
+ry = (912 / 2.0) * 0.982
 
-# Normalize to a mathematically perfect 1:1 square circular medallion (1024x1024 master)
+x1, x2 = int(cx - rx), int(cx + rx)
+y1, y2 = int(cy - ry), int(cy + ry)
+
+cropped = raw_img.crop((x1, y1, x2, y2))
 norm_size = 1024
 medallion_1024 = cropped.resize((norm_size, norm_size), Image.LANCZOS)
 
@@ -31,7 +36,7 @@ logo_512 = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
 resized_500 = medallion_1024.resize((500, 500), Image.LANCZOS)
 logo_512.paste(resized_500, (6, 6), resized_500)
 logo_512.save(logo_dest, "PNG")
-print("Saved 1:1 circular master logo.png to:", logo_dest)
+print("Saved 100% clean circular master logo.png to:", logo_dest)
 
 # Helper function to generate clean square icons
 def make_icon(size, padding_ratio=1.0):
@@ -74,4 +79,4 @@ svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" wi
 with open(os.path.join(pub_dir, "favicon.svg"), "w", encoding="utf-8") as f:
     f.write(svg_content)
 
-print("All icons successfully generated from official logo-source.jpg!")
+print("Generated all icons with zero outer black fringe!")

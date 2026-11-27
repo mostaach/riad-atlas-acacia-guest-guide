@@ -1,6 +1,5 @@
 import base64
 import os
-import numpy as np
 from PIL import Image, ImageDraw
 
 base_dir = r"d:\Workspace\MosaicOS\01_SYSTEM\AgenticOS project manager\projects\degitize-riad-acacia"
@@ -31,15 +30,18 @@ draw.ellipse((0, 0, norm_size * scale, norm_size * scale), fill=255)
 mask = mask_hi.resize((norm_size, norm_size), Image.LANCZOS)
 medallion_1024.putalpha(mask)
 
-# Save master 512x512 logo.png with 6px margin (500x500 on 512x512)
+# Save master 512x512 logo.png with 6px margin (500x500 on 512x512, transparent background for header & hero)
 logo_512 = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
 resized_500 = medallion_1024.resize((500, 500), Image.LANCZOS)
 logo_512.paste(resized_500, (6, 6), resized_500)
 logo_512.save(logo_dest, "PNG")
 print("Saved 100% clean circular master logo.png to:", logo_dest)
 
-# Helper function to generate clean square icons
-def make_icon(size, padding_ratio=1.0):
+# Luxury Riad Atlas Acacia Obsidian Charcoal: #1C1917 -> RGB(28, 25, 23)
+THEME_BG = (28, 25, 23, 255)
+
+# Helper function to generate transparent web favicons
+def make_web_favicon(size, padding_ratio=1.0):
     target_dim = max(1, int(size * padding_ratio))
     resized = medallion_1024.resize((target_dim, target_dim), Image.LANCZOS)
     canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
@@ -47,26 +49,47 @@ def make_icon(size, padding_ratio=1.0):
     canvas.paste(resized, paste_pos, resized)
     return canvas
 
-# 1. Multi-size favicon.ico (16, 32, 48)
-ico_16 = make_icon(16)
-ico_32 = make_icon(32)
-ico_48 = make_icon(48)
+# Helper function to generate solid luxury mobile app icons (100% opaque, 0 transparent pixels)
+def make_mobile_app_icon(size, padding_ratio=0.82):
+    target_dim = max(1, int(size * padding_ratio))
+    resized = medallion_1024.resize((target_dim, target_dim), Image.LANCZOS)
+    
+    # 100% opaque solid background canvas
+    base_canvas = Image.new("RGBA", (size, size), THEME_BG)
+    overlay = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    paste_pos = ((size - target_dim) // 2, (size - target_dim) // 2)
+    overlay.paste(resized, paste_pos, resized)
+    
+    # Proper alpha composite so no alpha degradation occurs
+    solid_icon = Image.alpha_composite(base_canvas, overlay)
+    return solid_icon
+
+# 1. Multi-size favicon.ico (16, 32, 48) - Transparent for browser tab
+ico_16 = make_web_favicon(16)
+ico_32 = make_web_favicon(32)
+ico_48 = make_web_favicon(48)
 ico_48.save(
     os.path.join(pub_dir, "favicon.ico"),
     format="ICO",
     sizes=[(16, 16), (32, 32), (48, 48)]
 )
 
-# 2. Standard favicon and touch icon PNGs
-make_icon(16).save(os.path.join(pub_dir, "favicon-16x16.png"), "PNG")
-make_icon(32).save(os.path.join(pub_dir, "favicon-32x32.png"), "PNG")
-make_icon(64).save(os.path.join(pub_dir, "favicon.png"), "PNG")
-make_icon(180, 0.96).save(os.path.join(pub_dir, "apple-touch-icon.png"), "PNG")
-make_icon(192, 0.96).save(os.path.join(pub_dir, "icon-192.png"), "PNG")
-make_icon(512, 0.96).save(os.path.join(pub_dir, "icon-512.png"), "PNG")
+# 2. Standard Web Favicons (Transparent for browser tab)
+make_web_favicon(16).save(os.path.join(pub_dir, "favicon-16x16.png"), "PNG")
+make_web_favicon(32).save(os.path.join(pub_dir, "favicon-32x32.png"), "PNG")
+make_web_favicon(64).save(os.path.join(pub_dir, "favicon.png"), "PNG")
 
-# 3. Maskable PWA icon (with Android safe area ~75% margin)
-make_icon(512, 0.75).save(os.path.join(pub_dir, "icon-maskable-512.png"), "PNG")
+# 3. Mobile Home Screen Icons (iOS & Android PWA): Solid 100% Opaque #1C1917 Luxury Background
+# Apple Touch Icon: 180x180 solid opaque PNG
+apple_icon = make_mobile_app_icon(180, 0.82).convert("RGB")
+apple_icon.save(os.path.join(pub_dir, "apple-touch-icon.png"), "PNG")
+
+# Android PWA Standard Icons (Solid #1C1917)
+make_mobile_app_icon(192, 0.82).save(os.path.join(pub_dir, "icon-192.png"), "PNG")
+make_mobile_app_icon(512, 0.82).save(os.path.join(pub_dir, "icon-512.png"), "PNG")
+
+# Android PWA Maskable Icon: within 74% safe area on solid #1C1917 for Android Adaptive Launchers
+make_mobile_app_icon(512, 0.74).save(os.path.join(pub_dir, "icon-maskable-512.png"), "PNG")
 
 # 4. Base64 embedded favicon.svg
 with open(os.path.join(pub_dir, "favicon-32x32.png"), "rb") as f:
@@ -79,4 +102,5 @@ svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" wi
 with open(os.path.join(pub_dir, "favicon.svg"), "w", encoding="utf-8") as f:
     f.write(svg_content)
 
-print("Generated all icons with zero outer black fringe!")
+print("SUCCESS: Mobile app icons generated with solid #1C1917 luxury background!")
+print("Browser tab favicons and in-app logo remain transparent!")

@@ -331,14 +331,6 @@ async function generate() {
       height: 190px;
       display: block;
     }
-    .target-url-text {
-      font-size: 10px;
-      color: #9B482B;
-      font-family: monospace;
-      margin-bottom: 14px;
-      word-break: break-all;
-      max-width: 280px;
-    }
     .instructions-fr {
       font-size: 13px;
       font-weight: 600;
@@ -439,8 +431,6 @@ async function generate() {
         <div class="qr-container">
           <img id="qr-img-${item.id}" class="qr-img" src="/qr-placards/${item.filename}.png" alt="${item.title} QR Code" />
         </div>
-
-        <div class="target-url-text" id="url-text-${item.id}">${BASE_URL}${item.path}</div>
 
         <div class="instructions-fr">Scannez pour accéder au Guide & Room Service</div>
         <div class="instructions-en">Scan to access your Guest Guide & In-Room Service</div>

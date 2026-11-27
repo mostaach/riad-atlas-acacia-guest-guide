@@ -1,44 +1,37 @@
 import base64
 import os
-import shutil
 from PIL import Image, ImageDraw
 
 base_dir = r"d:\Workspace\MosaicOS\01_SYSTEM\AgenticOS project manager\projects\degitize-riad-acacia"
-user_img_path = r"C:/Users/mehdi/.gemini/antigravity/brain/c1475805-ff09-48db-b36f-e8cc56d5edea/.user_uploaded/media_1795791964787_e716268d.jpg"
+user_img_path = r"C:/Users/mehdi/.gemini/antigravity/brain/c1475805-ff09-48db-b36f-e8cc56d5edea/.user_uploaded/media_1795796031409_a72b1f8f.jpg"
 logo_dest = os.path.join(base_dir, "client", "public", "riad-atlas-acacia", "logo.png")
 pub_dir = os.path.join(base_dir, "client", "public")
 
-# 1. Load user upscaled image
+# 1. Load newly uploaded refined logo
 raw_img = Image.open(user_img_path).convert("RGBA")
 
-# Center & Radius of the golden circular medallion
-cx, cy = 502, 458
-radius = 434
+# Crop to the outer golden ring bounds
+cropped = raw_img.crop((33, 28, 982, 943))
 
-# Crop square around the circular medallion
-box = (cx - radius, cy - radius, cx + radius, cy + radius)
-cropped = raw_img.crop(box)
+# Resize to 512x512 with 4px margin (504x504 medallion on 512x512 canvas)
+medallion = cropped.resize((504, 504), Image.LANCZOS)
 
-# Super-sampled antialiased circular mask for silky smooth outer edge
-scale = 4
-mask_size = (cropped.width * scale, cropped.height * scale)
-mask = Image.new("L", mask_size, 0)
-draw = ImageDraw.Draw(mask)
-draw.ellipse((0, 0, mask_size[0], mask_size[1]), fill=255)
-mask = mask.resize(cropped.size, Image.LANCZOS)
-cropped.putalpha(mask)
+# 4x supersampled circular mask for clean antialiasing
+mask_hi = Image.new("L", (2016, 2016), 0)
+draw = ImageDraw.Draw(mask_hi)
+draw.ellipse((0, 0, 2016, 2016), fill=255)
+mask = mask_hi.resize((504, 504), Image.LANCZOS)
+medallion.putalpha(mask)
 
-# Save master 512x512 logo.png
 logo_512 = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
-resized_504 = cropped.resize((504, 504), Image.LANCZOS)
-logo_512.paste(resized_504, (4, 4), resized_504)
+logo_512.paste(medallion, (4, 4), medallion)
 logo_512.save(logo_dest, "PNG")
-print("Saved master logo.png to:", logo_dest)
+print("Saved refined master logo.png to:", logo_dest)
 
 # Helper function to generate square icons
 def make_icon(size, padding_ratio=1.0):
     target_dim = max(1, int(size * padding_ratio))
-    resized = cropped.resize((target_dim, target_dim), Image.LANCZOS)
+    resized = medallion.resize((target_dim, target_dim), Image.LANCZOS)
     canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     paste_pos = ((size - target_dim) // 2, (size - target_dim) // 2)
     canvas.paste(resized, paste_pos, resized)
@@ -58,11 +51,11 @@ ico_48.save(
 make_icon(16).save(os.path.join(pub_dir, "favicon-16x16.png"), "PNG")
 make_icon(32).save(os.path.join(pub_dir, "favicon-32x32.png"), "PNG")
 make_icon(64).save(os.path.join(pub_dir, "favicon.png"), "PNG")
-make_icon(180, 0.95).save(os.path.join(pub_dir, "apple-touch-icon.png"), "PNG")
-make_icon(192, 0.95).save(os.path.join(pub_dir, "icon-192.png"), "PNG")
-make_icon(512, 0.95).save(os.path.join(pub_dir, "icon-512.png"), "PNG")
+make_icon(180, 0.96).save(os.path.join(pub_dir, "apple-touch-icon.png"), "PNG")
+make_icon(192, 0.96).save(os.path.join(pub_dir, "icon-192.png"), "PNG")
+make_icon(512, 0.96).save(os.path.join(pub_dir, "icon-512.png"), "PNG")
 
-# 4. Maskable PWA icon (with Android ~75% safe area margin)
+# 4. Maskable PWA icon (with Android safe area ~75% margin)
 make_icon(512, 0.75).save(os.path.join(pub_dir, "icon-maskable-512.png"), "PNG")
 
 # 5. Base64 embedded favicon.svg
@@ -76,4 +69,4 @@ svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" wi
 with open(os.path.join(pub_dir, "favicon.svg"), "w", encoding="utf-8") as f:
     f.write(svg_content)
 
-print("Generated all updated icons from user's upscaled medallion!")
+print("All icons successfully generated from new refined logo!")

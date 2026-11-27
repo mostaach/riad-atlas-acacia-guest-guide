@@ -11,7 +11,7 @@ try {
     document.head.appendChild(favicon);
   }
   favicon.type = "image/png";
-  favicon.href = `/favicon-32x32.png?v=5`;
+  favicon.href = `/favicon-32x32.png?v=6`;
 } catch {
   // Ignore in non-browser env
 }

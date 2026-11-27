@@ -266,9 +266,8 @@ async function generate() {
       width: 58px;
       height: 58px;
       border-radius: 50%;
-      border: 1px solid #D4AF37;
       margin-bottom: 12px;
-      object-fit: cover;
+      object-fit: contain;
     }
     .brand-kicker {
       font-size: 10px;
